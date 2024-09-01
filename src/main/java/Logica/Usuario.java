@@ -2,12 +2,12 @@ package Logica;
 
 import java.io.Serializable;
 import java.util.Collection;
-//import javax.persistence.Entity;
-//import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Usuario implements Serializable{
-    //@Id 
+    @Id 
     protected String nickname;
     protected String nombre;
     protected String apellido;
