@@ -7,8 +7,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Usuario implements Serializable{
-    @Id 
-    protected String nickname;
+    @Id protected String nickname; //carlos
     protected String nombre;
     protected String apellido;
     protected String email;
