@@ -3,6 +3,7 @@ import Logica.*;
 import Presentacion.AltaAlbum;
 import java.util.ArrayList;
 import Presentacion.AltaUsuario;
+import Presentacion.Alta_Genero;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ public class LaboratorioPA {
     private IControllerMusica ctrlM;
     private AltaUsuario AltUsr;
     private AltaAlbum AltAlb;
+    private Alta_Genero AltGen;
        
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -35,13 +37,17 @@ public class LaboratorioPA {
     public  LaboratorioPA(){
     iniciar();       
     Fabrica fabrica = Fabrica.getInstance();
-    ctrlU = fabrica.getIControllerUsuario();   
+    ctrlU = fabrica.getIControllerUsuario(); 
+    ctrlM = fabrica.getIController();
     //instancio menus y los sete invisible.
     AltUsr = new Presentacion.AltaUsuario(ctrlU,principal);
     AltUsr.setVisible(false);
     
     AltAlb = new Presentacion.AltaAlbum(ctrlM,principal);
     AltAlb.setVisible(false);
+    
+    AltGen = new Presentacion.Alta_Genero(ctrlM,principal);
+    AltGen.setVisible(false);
     //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
     
@@ -94,5 +100,21 @@ public class LaboratorioPA {
             }
         });
         menuAlbum.add(menuItemRegistrarAlbum);
-    }    
+        
+        
+        
+        //Opcion submenu Genero
+        JMenu MenuGen = new JMenu("Generos");
+        menuBar.add(MenuGen);
+        JMenuItem menuItemRegistrarGenero = new JMenuItem("Registrar Genero");
+        menuItemRegistrarGenero.addActionListener (new ActionListener() {
+        public void actionPerformed(ActionEvent e){
+            //muestro le iternalframe para registrar genero
+            principal.setVisible(false);
+            AltGen.setVisible(true);
+        }
+    
+    }); 
+    MenuGen.add(menuItemRegistrarGenero);
+}
 }
