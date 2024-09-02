@@ -16,7 +16,7 @@ public class ControllerUsuario implements IControllerUsuario {
         if (mu.obtenerUsuario(nickname) != null){
         throw new UsuarioYaExisteException("El usuario "+nickname+" ya existe."); 
         }else{
-        mu.addUsuario(mu.AltaCliente(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores));
+        mu.AltaCliente(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores);
         }
     }
     
@@ -26,7 +26,7 @@ public class ControllerUsuario implements IControllerUsuario {
         if (mu.obtenerUsuario(nickname) != null){
         throw new UsuarioYaExisteException("El usuario "+nickname+" ya existe."); 
         }else{
-        mu.addUsuario(mu.AltaArtista(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores, biografia,website));
+        mu.AltaArtista(nickname, nombre, apellido, imagen, fechaNac, Email, siguiendo, seguidores, biografia, website);
         }
     }
 

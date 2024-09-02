@@ -4,13 +4,24 @@ import Logica.Usuario;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 public class ManejadorUsuario {  
     private Map<String, Usuario> usuarioNick; 
     private static ManejadorUsuario instancia = null;
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    private EntityTransaction t;
+    
 
     private ManejadorUsuario() {
-        usuarioNick = new HashMap<String, Usuario>();
+        usuarioNick = new HashMap<String, Usuario>(); //Lista de usuarios por pk nicj
+        emf = Persistence.createEntityManagerFactory("EspotifyBD");
+        em = emf.createEntityManager();
+        t = em.getTransaction(); //se usa para las consultas y commits/rollbacks
     }
 
     public static ManejadorUsuario getinstance() {
@@ -52,13 +63,27 @@ public class ManejadorUsuario {
             }
         }
     
-    public  Usuario AltaCliente(String nickname, String nombre, String apellido, String email,String imagen,String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores){
-    Usuario u = new Usuario(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores);
-    return u;
+    public void AltaCliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
+        Cliente u = new Cliente(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores);
+        try {
+            t.begin();
+            em.persist(u);
+            t.commit();
+        } catch (Exception e) {
+            //si sale mal rollback
+            t.rollback();
+        }
     }
     
-    public  Artista AltaArtista(String nickname, String nombre, String apellido,String imagen,String fechaNac, String email, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website){
+    public  void AltaArtista(String nickname, String nombre, String apellido,String imagen,String fechaNac, String email, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website){
     Artista a = new Artista(nickname,nombre,apellido, imagen, fechaNac, email, siguiendo, seguidores, biografia,website);
-    return a;   
+      try {
+            t.begin();
+            em.persist(a);
+            t.commit();
+        } catch (Exception e) {
+            //si sale mal rollback
+            t.rollback();
+        }
     }   
 }

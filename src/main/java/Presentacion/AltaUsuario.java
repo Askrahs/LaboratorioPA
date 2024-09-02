@@ -388,7 +388,6 @@ public class AltaUsuario extends javax.swing.JFrame {
             Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
             JLImagen.setIcon(new ImageIcon(image));
             String ruta = selectedFile.getAbsolutePath();
-
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -420,8 +419,6 @@ public class AltaUsuario extends javax.swing.JFrame {
         //Cerrar ventana 
         setVisible(false);
         principal.setVisible(true);
-        
-        
     }//GEN-LAST:event_formWindowClosing
 
    

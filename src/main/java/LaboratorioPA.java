@@ -1,5 +1,6 @@
 import java.util.List;
 import Logica.*;
+import Presentacion.SeguirUsuario;
 import Presentacion.AltaAlbum;
 import java.util.ArrayList;
 import Presentacion.AltaUsuario;
@@ -17,6 +18,7 @@ public class LaboratorioPA {
     private IControllerUsuario ctrlU;
     private IControllerMusica ctrlM;
     private AltaUsuario AltUsr;
+    private SeguirUsuario SegUsr;
     private AltaAlbum AltAlb;
        
     public static void main(String[] args) {
@@ -39,6 +41,10 @@ public class LaboratorioPA {
     //instancio menus y los sete invisible.
     AltUsr = new Presentacion.AltaUsuario(ctrlU,principal);
     AltUsr.setVisible(false);
+    
+    //seguir Usuario
+    SegUsr = new Presentacion.SeguirUsuario(ctrlU,principal);
+    SegUsr.setVisible(false);
     
     AltAlb = new Presentacion.AltaAlbum(ctrlM,principal);
     AltAlb.setVisible(false);
@@ -81,6 +87,16 @@ public class LaboratorioPA {
             }
         });
         menuUsuarios.add(menuItemRegistrarUsr);
+        
+        JMenuItem menuItemSeguirUsr = new JMenuItem("Seguir Usuario");
+        menuItemSeguirUsr.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Muestro el InternalFrame para registrar un usuario
+                principal.setVisible(false);
+                SegUsr.setVisible(true);
+            }
+        });
+        menuUsuarios.add(menuItemSeguirUsr);
         
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");
