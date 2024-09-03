@@ -10,7 +10,7 @@ public class Fabrica {
         return instancia;
     }
     
-    public IControllerMusica getIController() {
+    public IControllerMusica getIControllerMusica() {
         return new ControllerMusica();
     }
     

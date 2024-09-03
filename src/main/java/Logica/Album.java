@@ -1,17 +1,18 @@
 package Logica;
-
 import java.util.List;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class Album {
-    //Atributos
+@Entity
+public class Album implements Serializable{
     private Artista artista;
-    private String titulo;
+    @Id private String titulo;
     private List<Genero> generos;
     private int anio;
     private List<Tema> temas;
     private String rutaImagen;
     
-    //Constructor
     public Album(Artista artista, String nombre, List<Genero> generos, int anio, List<Tema> temas, String rutaImagen) {
         this.artista = artista;
         this.titulo = nombre;
