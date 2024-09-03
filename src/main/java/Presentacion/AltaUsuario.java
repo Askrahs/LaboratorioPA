@@ -23,6 +23,7 @@ import java.awt.event.WindowEvent;
 import java.util.Collection;
 
 public class AltaUsuario extends javax.swing.JFrame {
+
     //referencia a la ventana principal:
     private JFrame principal;
     private IControllerUsuario ctrlU;
@@ -38,7 +39,7 @@ public class AltaUsuario extends javax.swing.JFrame {
     private AltaUsuario() {
         initComponents();
         controlNumerico();
-    }       
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -314,46 +315,51 @@ public class AltaUsuario extends javax.swing.JFrame {
 
         //AGREGAR USUARIO BOTON
         String nick = txtNickname.getText();
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String email = txtEmail.getText();
-
-        String dia = txtDia.getText();
-        String mes = txtMes.getText();
-        String año = txtAño.getText();
-        
-        //Al ingresar un usuario la lista de seguidores y siguiendo estara vacia.
-        Collection<Usuario> siguiendo = null;
-        Collection<Usuario> seguidores = null;
-        
-        String fecha = "";
-        fecha = fecha.concat(dia + "/" + mes + "/" + año);
-        String imagen = "";
-
-        if (selectedFile != null) { //SI EL USUARIO AGREGO IMAGEN
-            imagen = selectedFile.getAbsolutePath();
-        }
-
-        if (cbArtista.isSelected()) {
-            String bio = txtBiografia.getText();
-            String web = txtWebsite.getText();
+        //nickname vacio.
+        if (nick.isEmpty()) {
             limpiar();
-            try {
-                ctrlU.registrarArtista(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores, bio, web);
-                JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista",JOptionPane.INFORMATION_MESSAGE);
-            } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(this, "El campo Nickname no puede estar vacio. ", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
         } else {
-            limpiar();
-            try {
-                ctrlU.registrarCliente(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores);
-                JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente",JOptionPane.INFORMATION_MESSAGE);
-            } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+            String nombre = txtNombre.getText();
+            String apellido = txtApellido.getText();
+            String email = txtEmail.getText();
+
+            String dia = txtDia.getText();
+            String mes = txtMes.getText();
+            String año = txtAño.getText();
+
+            //Al ingresar un usuario la lista de seguidores y siguiendo estara vacia.
+            Collection<Usuario> siguiendo = null;
+            Collection<Usuario> seguidores = null;
+
+            String fecha = "";
+            fecha = fecha.concat(dia + "/" + mes + "/" + año);
+            String imagen = "";
+
+            if (selectedFile != null) { //SI EL USUARIO AGREGO IMAGEN
+                imagen = selectedFile.getAbsolutePath();
+            }
+
+            if (cbArtista.isSelected()) {
+                String bio = txtBiografia.getText();
+                String web = txtWebsite.getText();
+                limpiar();
+                try {
+                    ctrlU.registrarArtista(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores, bio, web);
+                    JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista", JOptionPane.INFORMATION_MESSAGE);
+                } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                limpiar();
+                try {
+                    ctrlU.registrarCliente(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores);
+                    JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente", JOptionPane.INFORMATION_MESSAGE);
+                } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
-        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void cbArtistaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbArtistaMousePressed
@@ -388,7 +394,6 @@ public class AltaUsuario extends javax.swing.JFrame {
             Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
             JLImagen.setIcon(new ImageIcon(image));
             String ruta = selectedFile.getAbsolutePath();
-
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -420,15 +425,8 @@ public class AltaUsuario extends javax.swing.JFrame {
         //Cerrar ventana 
         setVisible(false);
         principal.setVisible(true);
-        
-        
     }//GEN-LAST:event_formWindowClosing
 
-   
-    
-    
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -463,9 +461,9 @@ public class AltaUsuario extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void controlNumerico() { //para que no ingrese valores no numeros a la fecha nacimiento.
-        
+
         KeyAdapter n = new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -478,7 +476,7 @@ public class AltaUsuario extends javax.swing.JFrame {
         txtDia.addKeyListener(n);
         txtMes.addKeyListener(n);
         txtAño.addKeyListener(n);
-        
+
         txtDia.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -487,7 +485,7 @@ public class AltaUsuario extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         txtMes.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -496,7 +494,7 @@ public class AltaUsuario extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         txtAño.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -507,14 +505,14 @@ public class AltaUsuario extends javax.swing.JFrame {
         });
     }
 
-    private void limpiar(){
+    private void limpiar() {
         txtNickname.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
         txtEmail.setText("");
-        txtDia.setText("dd");
-        txtMes.setText("mm");
-        txtAño.setText("aaaa");
+        txtDia.setText("");
+        txtMes.setText("");
+        txtAño.setText("");
         txtBiografia.setText("");
         txtWebsite.setText("");
         //IMAGEN
@@ -522,12 +520,9 @@ public class AltaUsuario extends javax.swing.JFrame {
         JLImagen.setIcon(null);
         JLImagen.setText("");
     }
-    
+
     //cerrar ventana para que simplemente la oculte.
-    
-    
-    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLImagen;
     private javax.swing.JButton btnAgregar;
