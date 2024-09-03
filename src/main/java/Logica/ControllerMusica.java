@@ -1,4 +1,4 @@
-package Logica;
+ package Logica;
 import Excepciones.*;
 import java.util.List;
 import Excepciones.GenroYaExiste;
@@ -41,19 +41,23 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public DefaultMutableTreeNode DameTodoslosgeneros(){
     ManejadordeGenero mg = ManejadordeGenero.getInstance();
+   if(mg.obtengoarbolbasedatos()!=null){
+        
+    }
     return mg.ObtengoNodoRaiz();
     }
    
     @Override
-    public void EliminoGenero(String nombregen){
+    public void EliminoGenero(String nombregen, String refe){
         ManejadordeGenero mg= ManejadordeGenero.getInstance();
         if(mg.EncuentroGenerobool(nombregen)!=true){
-            mg.remuevoGenero(nombregen);
-        }
+            mg.remuevoGenero(nombregen, refe);
+        }else{
         try {
             throw new GenroYaExiste("El Genero " + nombregen + " no esta registrado");
         } catch (GenroYaExiste ex) {
             Logger.getLogger(ControllerMusica.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }
     
@@ -64,6 +68,7 @@ public class ControllerMusica implements IControllerMusica {
         ManejadordeGenero mg= ManejadordeGenero.getInstance();
         
         if(mg.EncuentroGenerobool(nombregen)==true){//chequeo si el genero existe
+           // JOptionPane.showMessageDialog(null,"llegue1");
            if(nombrepadre.isEmpty()){
                DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
                 mg.AñadoGenero(refe, nombregen,Generoall);
@@ -80,7 +85,10 @@ public class ControllerMusica implements IControllerMusica {
             JOptionPane.showMessageDialog(null, "Se Creo el genero Correctamente"); 
            }
         }else{
+            if(nombrepadre == null){
+            //JOptionPane.showMessageDialog(null,"llegue2");
             if(mg.EncuentroGenerobool(nombrepadre)==true){//Verifico si el genero padre existe
+                //JOptionPane.showMessageDialog(null,"llegue3");
                  DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
                 mg.AñadoGenero(refe, nombregen,Generoall);//Creo el genero padre
            DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
@@ -90,6 +98,7 @@ public class ControllerMusica implements IControllerMusica {
             JOptionPane.showConfirmDialog(null, "Se Añado al padre Correctamente");           
         }     
     }else{
+                //JOptionPane.showMessageDialog(null,"llegue4");
                  DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
            DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
            if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
@@ -100,6 +109,8 @@ public class ControllerMusica implements IControllerMusica {
            }
            
             }
+            }
+            throw new GenroYaExiste("El genero ya existe");
                
 }
     } 
@@ -130,4 +141,17 @@ public class ControllerMusica implements IControllerMusica {
 //            System.out.println("El tema ya existe: " + nombre);
 //        }
 //    }
+
+     
+
+
+     
+     
+     
+     
+
+
+
+
+
 }

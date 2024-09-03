@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import Excepciones.*;
 import Logica.ManejadorUsuario;
 import java.util.Collection;
+import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
 
@@ -44,7 +45,62 @@ public class ControllerUsuario implements IControllerUsuario {
     public void ModificarUsuario(String nickname) throws UsuarioNoExisteException {
         throw new UsuarioNoExisteException("El usuario "+nickname+" no existe"); 
     }  
-}
+    
+    
+    @Override
+    public List<Lista> Listaspordefecto() throws NoHayListasenSistema{
+       //JOptionPane.showMessageDialog(null,"llegue2");
+        ManejadordeListas manli = ManejadordeListas.getInstance();
+         List<Lista> listasdefecto = manli.Listasdefault();
+          if(listasdefecto!=null){
+              //JOptionPane.showMessageDialog(null,"llegue3");
+              return  listasdefecto;
+          }else{
+              throw new NoHayListasenSistema("No hay Listas en el sistema"); 
+              
+          }
+    }
+    
+    
+    public void Agregar_Tema_Lista(String nombreusuario, String nombretema, String nombrelista){
+         ManejadorUsuario usr = ManejadorUsuario.getinstance();
+         if(nombreusuario==null){//Lista del Administrador por defecto
+             ManejadordeListas listman = ManejadordeListas.getInstance();
+             ManejadordeTema mantem = ManejadordeTema.getinstance();
+             Tema  tem = mantem.obtenerTema(nombretema);
+             if(tem!=null){
+                 Lista list = (Lista) listman.Obtengolista(nombrelista);
+                  if(list!=null){
+                 listman.pongotema(list,tem);
+             }
+             }
+         }else{//Lista personal de cliente
+         Cliente usercli = usr.obtenerCliente(nombreusuario);
+         if(usercli!=null){
+             ManejadordeListas listman = ManejadordeListas.getInstance();
+             Lista list = (Lista) listman.Obtengolista(nombrelista);
+             if(listman.esdueño(usercli, list)==true){
+                 ManejadordeTema mantem = ManejadordeTema.getinstance();
+             Tema  tem = mantem.obtenerTema(nombretema);
+                 if(listman.espublica(list)==true){
+                     listman.pongotema(list, tem);
+                 }
+             }
+         }
+         }
+         //Falta implementar album 
+        // List <Lista> listas = usr.Obtengolista();
+       //  for(int i=0; i<listas.size();i++){
+        //     Lista list = listas.get(i);
+        //     if(list.getNombre().equalsIgnoreCase(nombrelista)){
+        //         if(list.isPublica()==true){
+        //             usr.añadotema(nombretema);
+        //         }
+       //      }
+       //  }
+     }
+    }
+
     
     
 

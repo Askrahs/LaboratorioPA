@@ -1,6 +1,8 @@
 package Logica;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,7 +20,7 @@ public class ManejadordeGenero {
     
     private final DefaultMutableTreeNode ArbolGenero;
     private static ManejadordeGenero instancia = null;
-    List<Genero> Todosgeneros;
+    private List <Genero> Todosgeneros;
     
     private ManejadordeGenero(){
         this.Todosgeneros = new ArrayList<>();
@@ -31,6 +33,18 @@ public class ManejadordeGenero {
         }       
     return instancia;
     }
+    
+    //Me devulve el genero de la lista de todos los generos del sistema
+    public Genero Obtengogenero(String nombregen){
+        for(int i = 0; i<Todosgeneros.size();i++){
+            Genero g = Todosgeneros.get(i);
+            if(g.getNombre().equalsIgnoreCase(nombregen)){
+                return g;
+            }
+        }
+    return null;
+    }
+    
     
    
     public DefaultMutableTreeNode ObtengoNodoRaiz(){
@@ -81,37 +95,62 @@ public boolean esvacio(){
 }
 
 
-public void remuevoGenero(String GeneroElimino){
-    DefaultMutableTreeNode nodoelimin = EncuentroGenero(GeneroElimino);
-   nodoelimin.removeFromParent();
+public DefaultMutableTreeNode obtengoarbolbasedatos(){
+    List<Genero> generos = man.createQuery("select g from Genero g", Genero.class).getResultList();
+    if(generos==null){
+        return this.ArbolGenero;
+    }else{
+        this.construirArbol(generos);
+        return this.ArbolGenero;
+    }
 }
 
-public void AñadoGenerobasedatos(Genero ge){
+
+
+public void remuevoGenero(String GeneroElimino, String refe){
+    DefaultMutableTreeNode nodoelimin = EncuentroGenero(GeneroElimino);
+   nodoelimin.removeFromParent();
+   this.remuevoGenerobasesdatos(refe);
+}
+public void remuevoGenerobasesdatos(String refe){
+    man.getTransaction().begin();
+       String cuestion = ("DELETE from Genero where Ref = '"+refe+"'");
+       Query consulta = man.createQuery(cuestion);
+       int total = consulta.executeUpdate();
+       
+       
+    man.getTransaction().commit();
+    System.out.println("Rengoles actualizados" + total);
+}
+public boolean AñadoGenerobasedatos(Genero ge){
     
-    JOptionPane.showMessageDialog(null, "llegue1");
+    //JOptionPane.showMessageDialog(null, "llegue1");
           try{
                   man.getTransaction().begin();
                   
                   man.persist(ge);
                   
                   man.getTransaction().commit();
-            }catch(Exception e){}
+                  
+            }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Uno de los campos que quiere añadir ya estan ingresados en la base de datos","Error", JOptionPane.ERROR_MESSAGE);
+            return false;        
+            }
           Seteopadrenull();
+          return true;
 }
  
 public void AñadoGenero(String refe, String nombreGenero, DefaultMutableTreeNode nodopadre){
     
     String namepapa = (String)nodopadre.getUserObject();
     Genero g = new Genero(refe, nombreGenero, namepapa);
-   
     
-        AñadoGenerobasedatos(g);
-    
-    Todosgeneros.add(g);
-    
+       boolean persistencia = AñadoGenerobasedatos(g);
+       if(persistencia == true){
     DefaultMutableTreeNode NuevoNodo = new DefaultMutableTreeNode(g.getNombre());
     nodopadre.add(NuevoNodo);
-    
+        Todosgeneros.add(g);
+       }
     
     
     
@@ -132,49 +171,41 @@ public void lepongopadre(DefaultMutableTreeNode nodohijo, DefaultMutableTreeNode
      
 }
 
-public boolean Existegenerolistabool(String refe, String nombre, String nombrepapa){
-    Genero gen;
-    for( int i=0; i<Todosgeneros.size();i++){
-        gen=Todosgeneros.get(i);
-        if(gen.getNombre().equals(nombre)){
-            if(gen.getpadre().equals(nombrepapa)){
-                if(gen.getref().equals(refe)){
-                return true;
-                }
-            }
-        }
-    }
+//public boolean Existegenerolistabool(String refe, String nombre, String nombrepapa){
+//    Genero gen;
+//   for( int i=0; i<Todosgeneros.size();i++){
+//        gen=Todosgeneros.get(i);
+//        if(gen.getNombre().equals(nombre)){
+//            if(gen.getpadre().equals(nombrepapa)){
+//                if(gen.getref().equals(refe)){
+//                return true;
+//                }
+//            }
+//        }
+//    }
 
 
-    return false;
-}
+//    return false;
+//}
 
-public Genero Existegenerolista(String refe, String nombre, String nombrepapa){
-    Genero gen;
-    for( int i=0; i<Todosgeneros.size();i++){
-        gen=Todosgeneros.get(i);
-        if(gen.getNombre().equals(nombre)){
-            if(gen.getpadre().equals(nombrepapa)){
-                if(gen.getref().equals(refe)){
-                return gen;
-                }
-            }
-        }
-    }
-    return null;
-}
+//public Genero Existegenerolista(String refe, String nombre, String nombrepapa){
+//    Genero gen;
+//    for( int i=0; i<Todosgeneros.size();i++){
+//        gen=Todosgeneros.get(i);
+//        if(gen.getNombre().equals(nombre)){
+//            if(gen.getpadre().equals(nombrepapa)){
+//                if(gen.getref().equals(refe)){
+//                return gen;
+//                }
+//            }
+//        }
+//    }
+//    return null;
+//}
   
 
 
-public boolean Existegenbasedatos(String refe){
 
-    Genero gus = (Genero) man.find(Genero.class, refe);
-    if(gus!=null){
-                return true;
-        }
-    
-    return false;
-}
 
 public void Seteopadrenull(){
    
@@ -186,7 +217,42 @@ public void Seteopadrenull(){
 }
 
 
+//Metodo para construir un arbol a partir de una lista de generos
+public void construirArbol(List<Genero> generos){
+    Map<String, DefaultMutableTreeNode> TodosNodos = new HashMap<>();
+    
+    for (int i = 0; i< generos.size();i++){//Genero todos los generos como nodo de arbol y despues los que no tienen padre les asigro como padre el nodo Generos
+        Genero genero = generos.get(i);
+        DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(genero.getNombre());
+        TodosNodos.put(genero.getNombre(), nodo);
+        Todosgeneros.add(genero);
+        if(genero.getNombrepapa()==null){
+            if(EncuentroGenerobool(genero.getNombre())==true){
+            this.ArbolGenero.add(nodo);
+            }else{
+                nodo=null;
+            }
+        }
+    }
+ 
+    for(int i = 0;i<generos.size();i++){//Conecto todos los generos con sus respectivos padres
+        Genero genero = generos.get(i);
+        DefaultMutableTreeNode nodo = TodosNodos.get(genero.getNombre());
+        String nombrePadre = genero.getNombrepapa();
+        
+        if(nombrePadre !=null){
+            DefaultMutableTreeNode nodopadre = TodosNodos.get(nombrePadre);
+            if(nodopadre!=null){
+                nodopadre.add(nodo);
+            }
+        }
+        
+        
+    }
+    
+}
 
+        
 }
 
 

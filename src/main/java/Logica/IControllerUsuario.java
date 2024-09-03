@@ -1,6 +1,7 @@
 package Logica;
 import Excepciones.*;
 import java.util.Collection;
+import java.util.List;
 
 public interface IControllerUsuario {
     public abstract void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) throws UsuarioYaExisteException; // 
@@ -8,4 +9,5 @@ public interface IControllerUsuario {
     public abstract void ListarUsuarios(String nickname) throws NoHayUsuariosEnElSistemaException; //DataUsuario ???
     public abstract void EliminarUsuario(String nickname) throws UsuarioNoExisteException; 
     public abstract void ModificarUsuario(String nickname) throws UsuarioNoExisteException; 
+    public List<Lista> Listaspordefecto()throws NoHayListasenSistema;
 }

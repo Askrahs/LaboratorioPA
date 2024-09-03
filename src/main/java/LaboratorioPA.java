@@ -1,5 +1,6 @@
 import java.util.List;
 import Logica.*;
+import Presentacion.Agregar_Tema_Lista;
 import Presentacion.AltaAlbum;
 import java.util.ArrayList;
 import Presentacion.AltaUsuario;
@@ -20,6 +21,7 @@ public class LaboratorioPA {
     private AltaUsuario AltUsr;
     private AltaAlbum AltAlb;
     private Alta_Genero AltGen;
+    private Agregar_Tema_Lista AgreTemList;
        
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -48,6 +50,9 @@ public class LaboratorioPA {
     
     AltGen = new Presentacion.Alta_Genero(ctrlM,principal);
     AltGen.setVisible(false);
+    
+    AgreTemList = new Presentacion.Agregar_Tema_Lista(ctrlU, principal);
+    AgreTemList.setVisible(false);
     //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
     
@@ -116,5 +121,21 @@ public class LaboratorioPA {
     
     }); 
     MenuGen.add(menuItemRegistrarGenero);
-}
+
+        //Opcion Agregar Tema a Lista
+         JMenu MenuAgreTemList = new JMenu("Agrego Temas a Lista");
+        menuBar.add(MenuAgreTemList);
+        JMenuItem menuItemRegistrarTemaLista = new JMenuItem("Registrar Tema a Lista");
+        menuItemRegistrarTemaLista.addActionListener (new ActionListener() {
+        public void actionPerformed(ActionEvent e){
+            //muestro le iternalframe para registrar genero
+            principal.setVisible(false);
+            AgreTemList.setVisible(true);
+        }
+    
+    }); 
+    MenuAgreTemList.add(menuItemRegistrarTemaLista);
+    
+    
+    }
 }

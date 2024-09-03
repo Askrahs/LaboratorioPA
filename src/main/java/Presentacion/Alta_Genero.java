@@ -350,6 +350,7 @@ public class Alta_Genero extends javax.swing.JFrame {
 
     private void btnCargodatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargodatosMouseClicked
         modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros());
+       
         if(modelo==null){
             JOptionPane.showMessageDialog(null,"No existe ningun genero, porfavor cree alguno");
         }else{
@@ -367,27 +368,29 @@ public class Alta_Genero extends javax.swing.JFrame {
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         String nodoaEliminar = this.txtNodoSeleccionado.getText();
-        if(nodoaEliminar.isEmpty()){
-        JOptionPane.showMessageDialog(null,"No Selecciono ningun genero, Seleccione uno en el arbol a la derecha porfavor");
+        String refe = this.txtReferencia.getText();
+        if(nodoaEliminar.isEmpty()|| refe.isEmpty()){
+       if(nodoaEliminar.isEmpty()){
+                JOptionPane.showMessageDialog(null,"No Selecciono ningun genero, Seleccione uno en el arbol a la derecha porfavor");
         }
-        controlMus.EliminoGenero(nodoaEliminar);
+            if(refe.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Ingrese una Referencia para eliminar un genero","Error", JOptionPane.ERROR_MESSAGE);
+        }
+        }
+        controlMus.EliminoGenero(nodoaEliminar, refe);
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
 
-        String nombrepadre = this.txtNodoSeleccionado.getText();
-        if(nombrepadre.isEmpty()){
-                 JOptionPane.showMessageDialog(null,"No Selecciono ningun genero, Seleccione uno en el arbol a la derecha porfavor");
+      //  String nombrepadre = this.txtNodoSeleccionado.getText();
+       // if(nombrepadre.isEmpty()){
+       //          JOptionPane.showMessageDialog(null,"No Selecciono ningun genero, Seleccione uno en el arbol a la derecha porfavor");
    
-        }else{
-          
-            
-            
-            
-        ModifGenero mod = new ModifGenero(this.controlMus,principal);
-        mod.setVisible(true);
-        mod.setDato(nombrepadre);
-        }
+       // }else{
+       // ModifGenero mod = new ModifGenero(this.controlMus,principal);
+       // mod.setVisible(true);
+       // mod.setDato(nombrepadre);
+       // }
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked

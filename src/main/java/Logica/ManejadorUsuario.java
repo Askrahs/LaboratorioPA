@@ -52,6 +52,16 @@ public class ManejadorUsuario {
             }
         }
     
+     public Cliente obtenerCliente(String nickname){
+         Usuario usr = obtenerUsuario(nickname);
+         if(usr instanceof Cliente){
+             Cliente cli = (Cliente) usr;
+             return cli;
+         }else{
+             return null;
+         }
+     }
+    
     public  Usuario AltaCliente(String nickname, String nombre, String apellido, String email,String imagen,String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores){
     Usuario u = new Usuario(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores);
     return u;
@@ -61,4 +71,7 @@ public class ManejadorUsuario {
     Artista a = new Artista(nickname,nombre,apellido, imagen, fechaNac, email, siguiendo, seguidores, biografia,website);
     return a;   
     }   
+    
+    
+    
 }

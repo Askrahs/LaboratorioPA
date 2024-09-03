@@ -9,5 +9,5 @@ public interface IControllerMusica {
     public void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste;
     public  void ModificoPadre(String nombrenodo, String nombrepadrenuevo);
     public DefaultMutableTreeNode DameTodoslosgeneros();
-    public void EliminoGenero(String nombregen);
+   public void EliminoGenero(String nombregen, String refe);
 }

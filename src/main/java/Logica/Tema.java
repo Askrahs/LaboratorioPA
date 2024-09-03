@@ -1,7 +1,18 @@
 package Logica;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+
+
+@Entity
 public class Tema {
+    @Id
+    @Column (unique = true,name="Nombre")
     private String nombre;
+    @Column (name="Duracion")
     private int duracion;
     
     public Tema(String nombre, int duracion){
