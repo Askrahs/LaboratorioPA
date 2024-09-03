@@ -1,40 +1,27 @@
 package Logica;
-import java.util.List;
 
-public class Genero {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Genero")
+public class Genero implements Serializable{
+    @Id
+    @Column(name="Ref")
+    private String Ref;
+    @Column(unique = true, name="Nombre")
     private String nombre;
-    List <Genero> GeneroPapa;
+    @Column(name="Padre")
+    private String nombrepapa;
+
     public Genero(){}
     
-     public Genero(String nombree){
-        this.nombre=nombree;      
+     public Genero(String refer,String nombree, String nompadre){
+        this.Ref = refer;
+        this.nombre=nombree;
+        this.nombrepapa=nompadre;
     }
-    
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public List<Genero> getGeneroPapa() {
-        return GeneroPapa;
-    }
-
-    public void setGeneroPapa(List<Genero> GeneroPapa) {
-        this.GeneroPapa = GeneroPapa;
-    }
-    public void añadopapa(Genero g){
-        GeneroPapa.add(g);
-    }
-    
-   public boolean Existpapa(List<Genero> genpap,String nombre){
-        for (Genero g : genpap){
-            if(g.getNombre().equalsIgnoreCase(nombre)){
-                return true;
-            }
-        }
-        return false;
-    }  
 }
