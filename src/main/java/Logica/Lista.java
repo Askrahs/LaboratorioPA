@@ -1,5 +1,8 @@
 package Logica;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Lista {
     private String nombre;
     private String rutaImagen;
@@ -8,6 +11,7 @@ public class Lista {
     private Genero genero;
     //Solo si es privada
     private Usuario duenio;
+    private List<Tema> temas;
 
     public Lista( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio) {
         this.nombre = nombre;
@@ -15,29 +19,14 @@ public class Lista {
         this.esPrivada = estado;
         this.genero = genero;
         this.duenio = duenio;
-    } 
-    
-    public String getNombre() {
-        return nombre;
+        this.temas = new ArrayList<>();
+    }      
+
+    public void addTema(Tema tema) {
+        temas.add(tema);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getRutaImagen() {
-        return rutaImagen;
-    }
-
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
-    }
-
-    public Boolean getPrivada() {
-        return esPrivada;
-    }
-
-    public void setPrivada(Boolean privada) {
-        this.esPrivada = privada;
+    public void removeTema(Tema tema) {
+        temas.remove(tema);
     }
 }

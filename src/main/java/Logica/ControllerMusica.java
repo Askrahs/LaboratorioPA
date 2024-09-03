@@ -79,5 +79,37 @@ public class ControllerMusica implements IControllerMusica {
         Genero g = mgen.ObtenerGenero(genero);
         List<Album> albums = malb.obtenerAlbumsGenero(genero);
         return null;
+
+     @Override
+    public void ingresarTema(String nombre, int duracion) throws temaYaexiste {
+    ManejadordeTema te = ManejadordeTema.getinstance();
+        if (te.obtenerTema(nombre) == null) {
+            te.addTema(te.AltaTema(nombre, duracion));
+            System.out.println("Tema agregado: " + nombre);
+        } else {
+            throw new temaYaexiste("El tema ya existe: " + nombre);
+        }
+    }
+    
+    @Override
+    public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException {
+        // Obtener el usuario
+        ManejadorUsuario manejadorU = ManejadorUsuario.getinstance();
+        Cliente cliU = (Cliente) manejadorU.obtenerUsuario(nombreUsuario);
+        
+        if (cliU == null) {
+            throw new UsuarioNoExisteException("El usuario " + nombreUsuario + " no existe.");
+        }
+
+        // Obtener la lista de reproducción
+        Lista lista = cliU.buscarListaPorNombre(nombreLista);
+        if (lista == null) {
+            throw new ListaNoexisteException("La lista " + nombreLista + " no existe.");
+        }
+        
+        // Hacer la lista pública
+        lista.setPublica(false);
+        //Manejar con exception
+        System.out.println("La lista " + nombreLista + " ha sido publicada.");
     }
 }
