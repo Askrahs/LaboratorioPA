@@ -5,18 +5,18 @@ import Logica.IControllerUsuario;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class SeguirUsuario extends javax.swing.JFrame {
+public class DejarDeSeguirUsuario extends javax.swing.JFrame {
 
     private JFrame principal;
     private IControllerUsuario ctrlU;
 
-    public SeguirUsuario(IControllerUsuario Control, JFrame principal) {
+    public DejarDeSeguirUsuario(IControllerUsuario Control, JFrame principal) {
         this.ctrlU = Control;
         this.principal = principal;
         initComponents();
     }
 
-    public SeguirUsuario() {
+    public DejarDeSeguirUsuario() {
         initComponents();
     }
 
@@ -28,8 +28,8 @@ public class SeguirUsuario extends javax.swing.JFrame {
         btnConfirmar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtSeguir = new javax.swing.JTextField();
-        txtASeguir = new javax.swing.JTextField();
+        txtSeguidor = new javax.swing.JTextField();
+        txtASiguiendo = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -39,7 +39,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Seguir Usuario"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dejar de seguir Usuario"));
 
         btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -48,9 +48,9 @@ public class SeguirUsuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Ingrese el nickname del usuario el cual desea realizar el seguimiento:");
+        jLabel1.setText("Ingrese el nickname del usuario el cual desea cancelar el seguimiento:");
 
-        jLabel2.setText("Ingrese el nickname del usuario que desea seguir:");
+        jLabel2.setText("Ingrese el nickname del usuario que desea dejar de seguir:");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -69,13 +69,13 @@ public class SeguirUsuario extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtSeguir)
-                        .addComponent(txtASeguir))
+                        .addComponent(txtSeguidor)
+                        .addComponent(txtASiguiendo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnConfirmar)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelar)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,16 +83,16 @@ public class SeguirUsuario extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSeguir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSeguidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(txtASeguir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
+                .addComponent(txtASiguiendo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -101,50 +101,37 @@ public class SeguirUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
-        setVisible(false);
-        principal.setVisible(true);
-    }//GEN-LAST:event_formWindowClosing
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        setVisible(false);
-        principal.setVisible(true);
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
 
     
     
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
         //BOTON CONFIRMAR
-        String nickname1 = txtSeguir.getText();
-        String nickname2 = txtASeguir.getText();
+        String nickname1 = txtSeguidor.getText();
+        String nickname2 = txtASiguiendo.getText();
         Limpiar();
         if (nickname1.isEmpty() || nickname2.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Los campos no pueden estar vacios. ", "Seguir Usuario", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Los campos no pueden estar vacios . ", "Dejar de seguir Usuario", JOptionPane.ERROR_MESSAGE);
         } else {
             //Verificar que existan
             try {
-                ctrlU.SeguirUsuario(nickname1, nickname2);
-                JOptionPane.showMessageDialog(this, "Seguido con exito!", "Seguir Usuario", JOptionPane.INFORMATION_MESSAGE);
+                ctrlU.DejarDeSeguirUsuario(nickname1, nickname2);
+                JOptionPane.showMessageDialog(this, "Se dejo de seguir con exito!", "Dejar de seguir Usuario", JOptionPane.INFORMATION_MESSAGE);
             } catch (UsuariosNoExisten ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Seguir Usuario", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Dejar de seguir Usuario", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
@@ -153,10 +140,19 @@ public class SeguirUsuario extends javax.swing.JFrame {
     
     
     
-    
-    /**
-     * @param args the command line arguments
-     */
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        principal.setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        //CERRAR VENTANA
+        setVisible(false);
+        principal.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -171,27 +167,27 @@ public class SeguirUsuario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DejarDeSeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DejarDeSeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DejarDeSeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DejarDeSeguirUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SeguirUsuario().setVisible(true);
+                new DejarDeSeguirUsuario().setVisible(true);
             }
         });
     }
 
     public void Limpiar() {
-        txtSeguir.setText("");
-        txtASeguir.setText("");
+        txtSeguidor.setText("");
+        txtASiguiendo.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -200,7 +196,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtASeguir;
-    private javax.swing.JTextField txtSeguir;
+    private javax.swing.JTextField txtASiguiendo;
+    private javax.swing.JTextField txtSeguidor;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -16,11 +19,18 @@ public class Usuario implements Serializable{
     protected String email;
     protected String imagen;
     protected String fechaNac;
-    protected Collection<Usuario> siguiendo; //one to many
-    protected Collection<Usuario> seguidores; //one to many 
     
-    //DTFecha fechaNacimiento;
-    //Atributo imagen
+    @ManyToMany
+    @JoinTable(
+        name = "Usuario_Siguiendo", // Nombre de la tabla relacion
+        joinColumns = @JoinColumn(name = "usuario_id"), // Columna que se relaciona con este usuario
+        inverseJoinColumns = @JoinColumn(name = "siguiendo_id") // Columna que se relaciona con el usuario que es seguido
+    )
+    protected Collection<Usuario> siguiendo; 
+    @ManyToMany(mappedBy = "siguiendo")
+    protected Collection<Usuario> seguidores; 
+    
+    
     
     public Usuario(){ }
 

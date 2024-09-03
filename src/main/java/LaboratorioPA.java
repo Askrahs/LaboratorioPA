@@ -1,6 +1,7 @@
 import java.util.List;
 import Logica.*;
 import Presentacion.SeguirUsuario;
+import Presentacion.DejarDeSeguirUsuario;
 import Presentacion.AltaAlbum;
 import java.util.ArrayList;
 import Presentacion.AltaUsuario;
@@ -19,6 +20,7 @@ public class LaboratorioPA {
     private IControllerMusica ctrlM;
     private AltaUsuario AltUsr;
     private SeguirUsuario SegUsr;
+    private DejarDeSeguirUsuario DejUsr;
     private AltaAlbum AltAlb;
        
     public static void main(String[] args) {
@@ -44,6 +46,9 @@ public class LaboratorioPA {
     
     //seguir Usuario
     SegUsr = new Presentacion.SeguirUsuario(ctrlU,principal);
+    SegUsr.setVisible(false);
+    
+    DejUsr = new Presentacion.DejarDeSeguirUsuario(ctrlU,principal);
     SegUsr.setVisible(false);
     
     AltAlb = new Presentacion.AltaAlbum(ctrlM,principal);
@@ -88,6 +93,7 @@ public class LaboratorioPA {
         });
         menuUsuarios.add(menuItemRegistrarUsr);
         
+        //SEGUIR USUARIO
         JMenuItem menuItemSeguirUsr = new JMenuItem("Seguir Usuario");
         menuItemSeguirUsr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -97,6 +103,17 @@ public class LaboratorioPA {
             }
         });
         menuUsuarios.add(menuItemSeguirUsr);
+        
+        //DEJAR DE SEGUIR USUARIO
+        JMenuItem menuItemDejarDeSeguirUsr = new JMenuItem("Dejar de seguir Usuario");
+        menuItemDejarDeSeguirUsr.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Muestro el InternalFrame para registrar un usuario
+                principal.setVisible(false);
+                DejUsr.setVisible(true);
+            }
+        });
+        menuUsuarios.add(menuItemDejarDeSeguirUsr);
         
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");
