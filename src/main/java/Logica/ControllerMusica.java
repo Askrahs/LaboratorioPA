@@ -51,15 +51,35 @@ public class ControllerMusica implements IControllerMusica {
             malb.addAlbum(alb);
         }                        
     }
+     @Override
+    public void ingresarTema(String nombre, int duracion) throws temaYaexiste {
+    ManejadordeTema te = ManejadordeTema.getinstance();
     
-//    @Override
-//    public void altaTema(String nombre,int duracion){
-//     if (!ManejadordeTema.temaExiste(nombre)) {
-//            Tema nuevoTema = new Tema(nombre, duracion);
-//            listaTemas.add(nuevoTema);
-//            System.out.println("Tema agregado: " + nombre);
-//        } else {
-//            System.out.println("El tema ya existe: " + nombre);
-//        }
-//    }
+    if (te.obtenerTema(nombre) == null) {
+        te.addTema(te.AltaTema(nombre, duracion));
+        System.out.println("Tema agregado: " + nombre);
+    } else {
+        throw new temaYaexiste("El tema ya existe: " + nombre);
+    }
+    }
+    @Override
+    public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException {
+        // Obtener el usuario
+        ManejadorUsuario manejadorU = ManejadorUsuario.getinstance();
+        Cliente cliU = (Cliente) manejadorU.obtenerUsuario(nombreUsuario);
+        
+        if (cliU == null) {
+            throw new UsuarioNoExisteException("El usuario " + nombreUsuario + " no existe.");
+        }
+
+        // Obtener la lista de reproducción
+        Lista lista = cliU.buscarListaPorNombre(nombreLista);
+        if (lista == null) {
+            throw new ListaNoexisteException("La lista " + nombreLista + " no existe.");
+        }
+        
+        // Hacer la lista pública
+        lista.setPublica(false);
+        System.out.println("La lista " + nombreLista + " ha sido publicada.");
+    }
 }
