@@ -24,4 +24,29 @@ public class Genero implements Serializable{
         this.nombre=nombree;
         this.nombrepapa=nompadre;
     }
+
+    public String getRef() {
+        return Ref;
+    }
+
+    public void setRef(String Ref) {
+        this.Ref = Ref;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombrepapa() {
+        return nombrepapa;
+    }
+
+    public void setNombrepapa(String nombrepapa) {
+        this.nombrepapa = nombrepapa;
+    }
+     
 }

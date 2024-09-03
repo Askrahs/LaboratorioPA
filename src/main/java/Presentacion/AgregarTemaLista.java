@@ -1,34 +1,30 @@
-
 package Presentacion;
 
-
-import Excepciones.NoHayListasenSistema;
 import Logica.IControllerUsuario;
 import Logica.Lista;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+public class AgregarTemaLista extends javax.swing.JFrame {
 
-public class Agregar_Tema_Lista extends javax.swing.JFrame {
-private JFrame principal;
- private IControllerUsuario ctrlU;
-    
-    public Agregar_Tema_Lista() {
+    private JFrame principal;
+    private IControllerUsuario ctrlU;
+
+    public AgregarTemaLista() {
         initComponents();
     }
 
-    public Agregar_Tema_Lista(IControllerUsuario conusr, JFrame princi){
-        
+    public AgregarTemaLista(IControllerUsuario conusr, JFrame princi) {
+
         this.ctrlU = conusr;
-     
-        principal = princi;       
-        
+
+        principal = princi;
+
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -238,13 +234,15 @@ private JFrame principal;
 
 
     private void btnCargarListasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarListasMouseClicked
-       String nombreusr = this.txtNombreUsuario.getText();
+        /*
+        String nombreusr = this.txtNombreUsuario.getText();
         DefaultListModel modelo;
          modelo = new DefaultListModel();
         this.Lista_Listas.setModel(modelo);
         modelo.removeAllElements();
        if(nombreusr.isEmpty()){
            //JOptionPane.showMessageDialog(null,"llegue1");
+
            try {
               List <Lista> listadefaul = ctrlU.Listaspordefecto();
               if(!listadefaul.isEmpty()){
@@ -258,15 +256,11 @@ private JFrame principal;
           
 //Logger.getLogger(Agregar_Tema_Lista.class.getName()).log(Level.SEVERE, null, ex);
            }
-       }
-        
-      
-       //modelo.addElement(listas);
+       } 
+         */
+        //modelo.addElement(listas);
     }//GEN-LAST:event_btnCargarListasMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -281,20 +275,21 @@ private JFrame principal;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Agregar_Tema_Lista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemaLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Agregar_Tema_Lista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemaLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Agregar_Tema_Lista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemaLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Agregar_Tema_Lista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarTemaLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Agregar_Tema_Lista().setVisible(true);
+                new AgregarTemaLista().setVisible(true);
             }
         });
     }
