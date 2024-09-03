@@ -1,16 +1,15 @@
 package Logica;
 import Excepciones.*;
 import java.util.List;
-import Excepciones.GenroYaExiste;
+import LogicaDTO.DTOAlbum;
 
 public class ControllerMusica implements IControllerMusica {
     public ControllerMusica() {}
     
    @Override
     public void AltaGenero (String nombregen, String nombrepadre) throws GenroYaExiste{
-        ManejadordeGenero mg= ManejadordeGenero.getInstance();
+        ManejadorGenero mg= ManejadorGenero.getInstance();
         if(mg.Existegenero(nombregen)!=true){//chequeo si el genero existe
-        
             mg.AltaGenero(nombregen, nombrepadre);
             Genero geg = mg.ObtenerGenero(nombregen);
             Genero G2 = mg.ObtenerGenero(nombrepadre);//pido la ubicacion del genero del padre
@@ -51,15 +50,34 @@ public class ControllerMusica implements IControllerMusica {
             malb.addAlbum(alb);
         }                        
     }
+     
+     @Override
+     //A la espera de la otra parte del codigo
+    public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta) throws ListaYaExisteException{
+        ManejadorLista ml = ManejadorLista.getInstance();
+        //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
+        if(genero == null){
+            //Es privada
+            //Cliente client = obtenerCliente(duenio);
+            //Lista listaNueva = new Lista(nombre,ruta, false, null, user);
+        }else{ 
+            //Es publica
+            //Genero genre = obtenerGenero(genero);
+           // Lista listaNueva = new Lista(nombre,ruta, true, genre, null);
+        }
+        //ml.addLista(listaNueva);
+    }
     
-//    @Override
-//    public void altaTema(String nombre,int duracion){
-//     if (!ManejadordeTema.temaExiste(nombre)) {
-//            Tema nuevoTema = new Tema(nombre, duracion);
-//            listaTemas.add(nuevoTema);
-//            System.out.println("Tema agregado: " + nombre);
-//        } else {
-//            System.out.println("El tema ya existe: " + nombre);
-//        }
-//    }
+    public List<DTOAlbum> cargarSegunArtista(String nickname){
+        ManejadorAlbum malb = ManejadorAlbum.getInstance();
+        List<Album> albums = malb.obtenerAlbumsArtista(nickname);
+        return null;
+    }
+    public List<DTOAlbum> cargarSegunGenero(String genero){
+        ManejadorAlbum malb = ManejadorAlbum.getInstance();
+        ManejadorGenero mgen = ManejadorGenero.getInstance();
+        Genero g = mgen.ObtenerGenero(genero);
+        List<Album> albums = malb.obtenerAlbumsGenero(genero);
+        return null;
+    }
 }

@@ -1,8 +1,10 @@
 import java.util.List;
 import Logica.*;
 import Presentacion.AltaAlbum;
+import Presentacion.AltaListaReproduccion;
 import java.util.ArrayList;
 import Presentacion.AltaUsuario;
+import Presentacion.ConsultaAlbum;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,8 @@ public class LaboratorioPA {
     private IControllerMusica ctrlM;
     private AltaUsuario AltUsr;
     private AltaAlbum AltAlb;
+    private ConsultaAlbum ConAlb;
+    private AltaListaReproduccion AltLis;
        
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -40,8 +44,14 @@ public class LaboratorioPA {
     AltUsr = new Presentacion.AltaUsuario(ctrlU,principal);
     AltUsr.setVisible(false);
     
+    ctrlM = fabrica.getIControllerMusica();   
     AltAlb = new Presentacion.AltaAlbum(ctrlM,principal);
     AltAlb.setVisible(false);
+    ConAlb = new Presentacion.ConsultaAlbum(ctrlM,principal);
+    ConAlb.setVisible(false);
+    AltLis = new Presentacion.AltaListaReproduccion(ctrlM,principal);
+    AltLis.setVisible(false);
+    
     //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
     
@@ -86,6 +96,7 @@ public class LaboratorioPA {
         JMenu menuAlbum = new JMenu("Albums");
         menuBar.add(menuAlbum);
         JMenuItem menuItemRegistrarAlbum = new JMenuItem("Registrar Album");
+         JMenuItem menuItemConsultaAlbum = new JMenuItem("Consulta Album");
         menuItemRegistrarAlbum.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Muestro el InternalFrame para registrar un usuario
@@ -93,6 +104,27 @@ public class LaboratorioPA {
                 AltAlb.setVisible(true);
             }
         });
+        menuItemConsultaAlbum.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Muestro el InternalFrame para registrar un usuario
+                principal.setVisible(false);
+                ConAlb.setVisible(true);
+            }
+        });
         menuAlbum.add(menuItemRegistrarAlbum);
+        menuAlbum.add(menuItemConsultaAlbum);
+        
+        //Opcion submenu Lista
+        JMenu menuLista = new JMenu("Listas de Reproduccion");
+        menuBar.add(menuLista);
+        JMenuItem menuItemRegistrarLista = new JMenuItem("Crear Lista");
+        menuItemRegistrarLista.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Muestro el InternalFrame para registrar un usuario
+                principal.setVisible(false);
+                AltLis.setVisible(true);
+            }
+        });
+        menuLista.add(menuItemRegistrarLista);
     }    
 }
