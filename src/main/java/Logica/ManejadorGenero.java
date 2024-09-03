@@ -2,17 +2,17 @@ package Logica;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManejadordeGenero {
+public class ManejadorGenero {
     List <Genero> TodoslosGeneros;
-    private static ManejadordeGenero instancia = null;  
+    private static ManejadorGenero instancia = null;  
     
-    private ManejadordeGenero(){
+    private ManejadorGenero(){
         TodoslosGeneros = new ArrayList<>();
     }
     
-    public static ManejadordeGenero getInstance(){
+    public static ManejadorGenero getInstance(){
         if(instancia == null){
-            instancia = new ManejadordeGenero();
+            instancia = new ManejadorGenero();
         }       
     return instancia;
     }

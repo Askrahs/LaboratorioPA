@@ -8,9 +8,8 @@ public class ControllerMusica implements IControllerMusica {
     
    @Override
     public void AltaGenero (String nombregen, String nombrepadre) throws GenroYaExiste{
-        ManejadordeGenero mg= ManejadordeGenero.getInstance();
+        ManejadorGenero mg= ManejadorGenero.getInstance();
         if(mg.Existegenero(nombregen)!=true){//chequeo si el genero existe
-        
             mg.AltaGenero(nombregen, nombrepadre);
             Genero geg = mg.ObtenerGenero(nombregen);
             Genero G2 = mg.ObtenerGenero(nombrepadre);//pido la ubicacion del genero del padre
@@ -59,7 +58,7 @@ public class ControllerMusica implements IControllerMusica {
         //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
         if(genero == null){
             //Es privada
-            //Usuario user = obtenerUsuario(duenio);
+            //Cliente client = obtenerCliente(duenio);
             //Lista listaNueva = new Lista(nombre,ruta, false, null, user);
         }else{ 
             //Es publica
@@ -69,14 +68,16 @@ public class ControllerMusica implements IControllerMusica {
         //ml.addLista(listaNueva);
     }
     
-    public List<DTOAlbum> cargarSegunArtista(){
+    public List<DTOAlbum> cargarSegunArtista(String nickname){
         ManejadorAlbum malb = ManejadorAlbum.getInstance();
-        List<Album> albums = malb.obtenerAlbums();
+        List<Album> albums = malb.obtenerAlbumsArtista(nickname);
         return null;
     }
-    public List<DTOAlbum> cargarSegunGenero(){
+    public List<DTOAlbum> cargarSegunGenero(String genero){
         ManejadorAlbum malb = ManejadorAlbum.getInstance();
-        List<Album> albums = malb.obtenerAlbums();
+        ManejadorGenero mgen = ManejadorGenero.getInstance();
+        Genero g = mgen.ObtenerGenero(genero);
+        List<Album> albums = malb.obtenerAlbumsGenero(genero);
         return null;
     }
 }

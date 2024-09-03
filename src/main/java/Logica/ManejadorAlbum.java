@@ -48,8 +48,12 @@ public class ManejadorAlbum {
         return titulos != null && titulos.contains(titulo);
     }
 
-    public List<Album> obtenerAlbums() {
+    public List<Album> obtenerAlbumsArtista(String nickname) {
         
         return null;
+    }
+
+    List<Album> obtenerAlbumsGenero(String genero) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

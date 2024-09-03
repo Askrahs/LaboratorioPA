@@ -62,6 +62,12 @@ public class ConsultaAlbum extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jListMenuAlbums.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListMenuAlbums.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListMenuAlbumsValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListMenuAlbums);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del Álbum"));
@@ -237,17 +243,22 @@ public class ConsultaAlbum extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAristaActionPerformed
-        controlMus.cargarSegunArtista();
+        //controlMus.cargarSegunArtista();
     }//GEN-LAST:event_jButtonAristaActionPerformed
 
     private void jButtonGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGeneroActionPerformed
-        controlMus.cargarSegunGenero();
+        //controlMus.cargarSegunGenero();
     }//GEN-LAST:event_jButtonGeneroActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.setVisible(false);
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void jListMenuAlbumsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListMenuAlbumsValueChanged
+        String carlos = jListMenuAlbums.getSelectedValue(); 
+        jTextFieldNombreA.setText(carlos); 
+    }//GEN-LAST:event_jListMenuAlbumsValueChanged
 
     /**
      * @param args the command line arguments
