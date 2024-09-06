@@ -30,6 +30,16 @@ public class ManejadorAlbum {
         return instancia;
     }
     
+    
+    public void AddTema (Album b, Tema tem){
+        b.setTemas(tem);
+         try{
+                t.begin();
+               em.merge(b);
+                t.commit();
+         }catch(Exception e){}
+    }   
+    
     //computeIfAbsent es para que si el artista ya esta en el mapa se usa la existente o si no se crea una nueva
     public void addAlbum(Album alb) {
         albumsArtista.computeIfAbsent(alb.getArtista(), k -> new ArrayList<>()).add(alb.getTitulo());
@@ -55,5 +65,13 @@ public class ManejadorAlbum {
 
     List<Album> obtenerAlbumsGenero(String genero) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+    public Album AlbumBaseDatos(String nombreAlbum){
+            t.begin();
+            Album al = em.find(Album.class,nombreAlbum);
+            t.commit();
+            return al;
     }
 }

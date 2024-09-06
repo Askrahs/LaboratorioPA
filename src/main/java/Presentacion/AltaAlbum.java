@@ -51,6 +51,8 @@ public class AltaAlbum extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabelImagen = new javax.swing.JLabel();
         jButtonImagen = new javax.swing.JButton();
+        txtTema = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Alta Album");
@@ -105,6 +107,8 @@ public class AltaAlbum extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Referencia tema");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -115,7 +119,7 @@ public class AltaAlbum extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabelGenerosAlbum, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                .addComponent(jLabelGenerosAlbum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(34, 34, 34))
@@ -140,8 +144,14 @@ public class AltaAlbum extends javax.swing.JFrame {
                                 .addGap(34, 34, 34)
                                 .addComponent(jButtonImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonEnviar)))))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(0, 16, Short.MAX_VALUE)
+                                        .addComponent(jButtonEnviar))
+                                    .addComponent(txtTema))))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -174,9 +184,13 @@ public class AltaAlbum extends javax.swing.JFrame {
                         .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonImagen)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonEnviar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,15 +199,15 @@ public class AltaAlbum extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -202,6 +216,7 @@ public class AltaAlbum extends javax.swing.JFrame {
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
         String nicknameArtista = this.jTextFieldNombreArtista.getText();
         String titulo = this.jTextFieldNombreAlbum.getText();
+        String refetema = this.txtTema.getText();
         int anio = 0;
         try {
             anio = Integer.parseInt(jTextFieldAnio.getText());
@@ -214,7 +229,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         //AGREGAR IMAGEN
         if (checkFormulario()) {
             try{
-                controlMus.altaAlbum(nicknameArtista, titulo, generos, anio , temas, ruta);
+                controlMus.altaAlbum(nicknameArtista, titulo, generos, anio , refetema, ruta);
                 JOptionPane.showMessageDialog(this, "El Album se ha creado exitosamente","Alta Album",JOptionPane.INFORMATION_MESSAGE);
             }catch(AlbumYaExisteException e){
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Album", JOptionPane.ERROR_MESSAGE);
@@ -283,6 +298,7 @@ public class AltaAlbum extends javax.swing.JFrame {
     private javax.swing.JButton jButtonImagen;
     private javax.swing.JList<String> jGenerosSeleccionados;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelAnioAlbum;
     private javax.swing.JLabel jLabelArtista;
     private javax.swing.JLabel jLabelGenerosAlbum;
@@ -295,6 +311,7 @@ public class AltaAlbum extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldAnio;
     private javax.swing.JTextField jTextFieldNombreAlbum;
     private javax.swing.JTextField jTextFieldNombreArtista;
+    private javax.swing.JTextField txtTema;
     // End of variables declaration//GEN-END:variables
 
     public static void main(String args[]) {

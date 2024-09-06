@@ -1,10 +1,11 @@
 package Logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="Genero")

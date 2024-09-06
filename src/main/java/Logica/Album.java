@@ -3,6 +3,10 @@ import java.util.List;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Album implements Serializable{
@@ -10,10 +14,26 @@ public class Album implements Serializable{
     @Id private String titulo;
     private List<Genero> generos;
     private int anio;
-    private List<Tema> temas;
+    @OneToOne
+   @JoinTable(
+        name = "Album_Tema", // Nombre de la tabla relacion
+        joinColumns = @JoinColumn(name = "album_id"), // Columna que se relaciona con este album
+        inverseJoinColumns = @JoinColumn(name = "tema_id") // Columna que se relaciona con el tema
+    )
+    private Tema temas;
     private String rutaImagen;
+
+    public Album() {
+    }
+
+    public void setTemas(Tema temas) {
+        this.temas = temas;
+    }
     
-    public Album(Artista artista, String nombre, List<Genero> generos, int anio, List<Tema> temas, String rutaImagen) {
+    
+    
+    
+    public Album(Artista artista, String nombre, List<Genero> generos, int anio, Tema tema, String rutaImagen) {
         this.artista = artista;
         this.titulo = nombre;
         this.generos = generos;
@@ -35,10 +55,11 @@ public class Album implements Serializable{
     public int getAnio(){
         return this.anio;
     }
-    public List<Tema> getTemas(){
+    public Tema getTemas(){
         return this.temas;
     }
     public String getRutaImagen(){
         return this.rutaImagen;
     }
+    
 }

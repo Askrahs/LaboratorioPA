@@ -7,6 +7,7 @@ import Presentacion.AltaListaReproduccion;
 import Presentacion.AltaUsuario;
 import Presentacion.ConsultaAlbum;
 import Presentacion.AltaGenero;
+import Presentacion.AltaTema;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,7 @@ public class LaboratorioPA {
     private AltaListaReproduccion AltLis;
     private AltaGenero AltGen;
     private AgregarTemaLista AgreTemList;
+    private AltaTema AltTema;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -64,8 +66,10 @@ public class LaboratorioPA {
         AltLis.setVisible(false);
         AltGen = new Presentacion.AltaGenero(ctrlM, principal);
         AltGen.setVisible(false);
-        AgreTemList = new Presentacion.AgregarTemaLista(ctrlU, principal);
+        AgreTemList = new Presentacion.AgregarTemaLista(ctrlM, principal);
         AgreTemList.setVisible(false);
+        AltTema = new Presentacion.AltaTema(ctrlM, principal);
+        AltTema.setVisible(false);
         //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
 
@@ -156,7 +160,7 @@ public class LaboratorioPA {
         menuItemRegistrarLista.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Muestro el InternalFrame para registrar un usuario
-                principal.setVisible(false);
+             principal.setVisible(false);
                 AltLis.setVisible(true);
             }
         });
@@ -175,6 +179,21 @@ public class LaboratorioPA {
         });
         menuGen.add(menuItemRegistrarGenero);
 
+        
+        //Opcion agregar Lista
+        JMenu MenuAgreList = new JMenu("Agrego Tema");
+        menuBar.add(MenuAgreList);
+        JMenuItem menuAgreLista = new JMenuItem("Registrar Tema ");
+        menuAgreLista.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //muestro le iternalframe para registrar Listas
+                principal.setVisible(false);
+                AltTema.setVisible(true);
+            }
+        });
+        MenuAgreList.add(menuAgreLista);
+        
+        
         //Opcion Agregar Tema a Lista
         JMenu MenuAgreTemList = new JMenu("Agrego Temas a Lista");
         menuBar.add(MenuAgreTemList);
@@ -188,4 +207,5 @@ public class LaboratorioPA {
         });
         MenuAgreTemList.add(menuItemRegistrarTemaLista);
     }
+    
 }

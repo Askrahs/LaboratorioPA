@@ -10,16 +10,17 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 public class ManejadorGenero {
     EntityManagerFactory em = Persistence.createEntityManagerFactory("EspotifyBD");
     private final EntityManager man = em.createEntityManager();
     private final DefaultMutableTreeNode ArbolGenero;
     private static ManejadorGenero instancia = null;
-    private List<Genero> Todosgeneros;
+   // private List<Genero> Todosgeneros;
 
     private ManejadorGenero() {
-        this.Todosgeneros = new ArrayList<>();
+  //      this.Todosgeneros = new ArrayList<>();
         ArbolGenero = new DefaultMutableTreeNode("Generos");
     }
 
@@ -31,15 +32,15 @@ public class ManejadorGenero {
     }
 
     //Me devulve el genero de la lista de todos los generos del sistema
-    public Genero Obtengogenero(String nombregen) {
-        for (int i = 0; i < Todosgeneros.size(); i++) {
-            Genero g = Todosgeneros.get(i);
-            if (g.getNombre().equalsIgnoreCase(nombregen)) {
-                return g;
-            }
-        }
-        return null;
-    }
+   // public Genero Obtengogenero(String nombregen) {
+    //    for (int i = 0; i < Todosgeneros.size(); i++) {
+    //        Genero g = Todosgeneros.get(i);
+    //        if (g.getNombre().equalsIgnoreCase(nombregen)) {
+    //            return g;
+    //        }
+    //    }
+    //    return null;
+    //}
 
     public DefaultMutableTreeNode ObtengoNodoRaiz() {
         return ArbolGenero;
@@ -77,6 +78,12 @@ public class ManejadorGenero {
         }
         return true;
     }
+    
+    
+     public List<Genero> obtengoListaGenero() {
+        List<Genero> generos = man.createQuery("select g from Genero g", Genero.class).getResultList();
+        return generos;
+    }
 
     public DefaultMutableTreeNode obtengoarbolbasedatos() {
         List<Genero> generos = man.createQuery("select g from Genero g", Genero.class).getResultList();
@@ -88,16 +95,43 @@ public class ManejadorGenero {
         }
     }
 
+    
+    public Genero Existegenbasedatoss(String nombre){
+        
+        Genero Gen = man.find(Genero.class, nombre);
+        
+            return Gen;
+        
+    }
+    
+    public void eliminopornombrepadre(String Generoelimino){
+        
+        man.getTransaction().begin();
+        String referenciaMayus = Generoelimino.toUpperCase();
+        String pregun = ("DELETE FROM Genero g WHERE UPPER(g.nombrepapa) = :nombrepadre");
+        
+        Query consu = man.createQuery(pregun);
+        consu.setParameter("nombrepadre", referenciaMayus);
+        int total = consu.executeUpdate();
+        man.getTransaction().commit();
+        System.out.println("Rengoles actualizados" + total);
+    }
     public void remuevoGenero(String GeneroElimino, String refe) {
+        
+        this.remuevoGenerobasesdatos(refe);
+        this.eliminopornombrepadre(GeneroElimino);
         DefaultMutableTreeNode nodoelimin = EncuentroGenero(GeneroElimino);
         nodoelimin.removeFromParent();
-        this.remuevoGenerobasesdatos(refe);
+        
     }
 
     public void remuevoGenerobasesdatos(String refe) {
         man.getTransaction().begin();
-        String cuestion = ("DELETE from Genero where Ref = '" + refe + "'");
+        String referenciaMayus = refe.toUpperCase();
+        
+        String cuestion = ("DELETE FROM Genero g WHERE UPPER(g.Ref) = :ref");
         Query consulta = man.createQuery(cuestion);
+        consulta.setParameter("ref",referenciaMayus);
         int total = consulta.executeUpdate();
         man.getTransaction().commit();
         System.out.println("Rengoles actualizados" + total);
@@ -124,7 +158,7 @@ public class ManejadorGenero {
         if (persistencia == true) {
             DefaultMutableTreeNode NuevoNodo = new DefaultMutableTreeNode(g.getNombre());
             nodopadre.add(NuevoNodo);
-            Todosgeneros.add(g);
+     //       Todosgeneros.add(g);
         }
     }
 
@@ -141,6 +175,14 @@ public class ManejadorGenero {
         nodopapa.add(nodohijo);
     }
 
+    public void pongopadre(String nompapa, String nombre){
+        man.getTransaction().begin();
+        String cuestion = ("Update Genero g set g.nombrepapa ='"+nompapa+"' where g.nombre ='"+nombre+"'");
+         int total = man.createQuery(cuestion).executeUpdate();
+        System.out.println("Rengoles actualizados" + total);
+        man.getTransaction().commit();
+    }
+    
     public void Seteopadrenull() {
         man.getTransaction().begin();
         String cuestion = ("update Genero g set g.nombrepapa=null where g.nombrepapa = 'Generos'");
@@ -156,7 +198,7 @@ public class ManejadorGenero {
             Genero genero = generos.get(i);
             DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(genero.getNombre());
             TodosNodos.put(genero.getNombre(), nodo);
-            Todosgeneros.add(genero);
+  //          Todosgeneros.add(genero);
             if (genero.getNombrepapa() == null) {
                 if (EncuentroGenerobool(genero.getNombre()) == true) {
                     this.ArbolGenero.add(nodo);
@@ -178,4 +220,10 @@ public class ManejadorGenero {
             }
         }
     }
+    
+     public List<Genero> DevuelveListaArbol() {
+        List<Genero> generos = man.createQuery("select g from Genero g", Genero.class).getResultList();
+    return generos;
+    
+}
 }

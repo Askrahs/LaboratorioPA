@@ -66,6 +66,8 @@ public class ManejadorUsuario {
         }
     }
 
+    
+    
     public void AltaCliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
         Cliente u = new Cliente(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores);
         try {

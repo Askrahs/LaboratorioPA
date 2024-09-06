@@ -2,8 +2,10 @@ package Logica;
 
 import Excepciones.*;
 import java.util.List;
-import LogicaDTO.DTOAlbum;
+import LogicaDTO.*;
 import Excepciones.GenroYaExiste;
+import LogicaDTO.DTOLista;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -12,6 +14,29 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class ControllerMusica implements IControllerMusica {
     public ControllerMusica() {}
         
+    
+    public  List <DTOGenero> Datageneros(){
+        ManejadorGenero mang = ManejadorGenero.getInstance();
+        List <Genero> gen = mang.obtengoListaGenero();
+        Genero genunoauno;
+     
+           
+            List <DTOGenero> dtogeneros = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<gen.size();i++){
+                genunoauno = gen.get(i);
+                DTOGenero dagenero = new DTOGenero(genunoauno.getRef(),genunoauno.getNombre(),genunoauno.getNombrepapa());
+                dtogeneros.add(dagenero);
+            }
+            
+            
+             return dtogeneros;   
+            
+            
+           
+    } 
+    
+    
     @Override
     public void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste{    
         ManejadorGenero mg= ManejadorGenero.getInstance();        
@@ -103,8 +128,11 @@ public class ControllerMusica implements IControllerMusica {
     }   
     
     @Override
-     public void altaAlbum(String nicknameArtista, String titulo, List<Genero> generos, int anio, List<Tema> temas, String rutaImagen) throws AlbumYaExisteException, UsuarioNoExisteException{       
+     public void altaAlbum(String nicknameArtista, String titulo, List<Genero> generos, int anio, String refetema, String rutaImagen) throws AlbumYaExisteException, UsuarioNoExisteException{       
         ManejadorUsuario mart = ManejadorUsuario.getinstance();
+        ManejadordeTema mantem = ManejadordeTema.getinstance();
+        Tema tem = mantem.obtenerTema(refetema);
+        
         Artista art = mart.obtenerArtista(nicknameArtista);
         if (art == null){
             throw new UsuarioNoExisteException("El Artista " + nicknameArtista + " no esta registrado");
@@ -113,7 +141,8 @@ public class ControllerMusica implements IControllerMusica {
         if(malb.existeAlbum(art,titulo)){
            throw new AlbumYaExisteException("El Artista " + nicknameArtista + " ya tiene un álbum con el titulo: " + titulo);
         }else{
-            Album alb = new Album(art, titulo, generos, anio, temas,rutaImagen);
+            Album alb = new Album(art, titulo, generos, anio,tem ,rutaImagen);
+            malb.AddTema(alb, tem);
             malb.addAlbum(alb);
         }                        
     }
@@ -121,18 +150,32 @@ public class ControllerMusica implements IControllerMusica {
      @Override
      //A la espera de la otra parte del codigo
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta) throws ListaYaExisteException{
+        JOptionPane.showMessageDialog(null,"llegue2");
         ManejadorLista ml = ManejadorLista.getInstance();
+        ManejadorGenero mangen =ManejadorGenero.getInstance();
+        ManejadorUsuario usrman = ManejadorUsuario.getinstance();
         //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
-        if(genero == null){
-            //Es privada
-            //Cliente client = obtenerCliente(duenio);
-            //Lista listaNueva = new Lista(nombre,ruta, false, null, user);
-        }else{ 
-            //Es publica
-            //Genero genre = obtenerGenero(genero);
-           // Lista listaNueva = new Lista(nombre,ruta, true, genre, null);
+        if(ml.ExisteLista(nombre)==null){//si existe lista
+            JOptionPane.showMessageDialog(null,"llegue3");
+            if(genero==null){
+           
+                if(usrman.obtenerUsuario(duenio)!=null){//si usuario existe
+                    JOptionPane.showMessageDialog(null,"llegue5");
+                    ml.creolista(nombre, genero, duenio);
+                //JOptionPane.showMessageDialog(null,"llegue4");
+            }
+            }else{
+                Genero gen = mangen.Existegenbasedatoss(genero);
+                 if(gen!=null){ //si es false existe
+                     JOptionPane.showMessageDialog(null,"llegue6");
+                     ml.creolista(nombre, genero, duenio);
+                 }else{
+                    JOptionPane.showMessageDialog(null,"Genero no existe"); 
+                 }
+             }
+            }else{
+        JOptionPane.showMessageDialog(null,"Lista ya existe");
         }
-        //ml.addLista(listaNueva);
     }
     
     public List<DTOAlbum> cargarSegunArtista(String nickname){
@@ -148,14 +191,15 @@ public class ControllerMusica implements IControllerMusica {
         return null;
     }
 
-     @Override
-    public void ingresarTema(String nombre, int duracion) throws temaYaexiste {
+    @Override
+    public void ingresarTema(String referencia, String nombre, String duracion) throws temaYaexiste {
     ManejadordeTema te = ManejadordeTema.getinstance();
-        if (te.obtenerTema(nombre) == null) {
-            te.addTema(te.AltaTema(nombre, duracion));
+
+        if (te.obtenerTema(referencia) == null) {
+            te.addTema(te.AltaTema(referencia, nombre, duracion));
             System.out.println("Tema agregado: " + nombre);
         } else {
-            throw new temaYaexiste("El tema ya existe: " + nombre);
+            JOptionPane.showMessageDialog(null, "El tema ya existe");
         }
     }
    
@@ -183,4 +227,86 @@ public class ControllerMusica implements IControllerMusica {
         System.out.println("La lista " + nombreLista + " ha sido publicada.");
 */
     }
-    }
+    
+    
+    
+        public void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste{
+            //Chequeo si existe el usuraio
+            ManejadorUsuario manusr =ManejadorUsuario.getinstance();
+            if(manusr.obtenerUsuario(nombreusuario)!=null){
+                //chequeo si existe la lista y si es el dueño 
+                ManejadorLista manlis = ManejadorLista.getInstance();
+                if(manlis.ExisteLista(nombrelista)!=null){
+                    if(manlis.esdueño(nombrelista, nombreusuario)==true){
+                    //Chequeo si existe el tema
+                    ManejadordeTema mantem = ManejadordeTema.getinstance();
+                    if(mantem.obtenerTema(nombretema)!=null){
+                        manlis.aniadotemalista(nombrelista, nombretema);
+                }else{
+                     throw new TemaNoExiste ("El tema que eligio no existe en el sistem");   
+                    }
+            }else{
+                     throw new NoesDueñodelaLista ("El usuario"+nombreusuario+"no es dueño de la lista");   
+                    }
+            }else{
+                throw new ListaNoexisteException("La lista " + nombrelista + " no existe en el sistema.");    
+                }
+            }else{
+                throw new UsuariosNoExisten("El Usuario:"+nombreusuario+" no existe en el sistema");
+            }
+                   
+        }
+    
+        
+        
+        
+        
+        
+    @Override
+        public List<DTOLista> Obtengolistas()throws NoExisteLista{
+            //JOptionPane.showMessageDialog(null,"llegue2");
+            ManejadorLista man= ManejadorLista.getInstance();
+            Lista losta;
+            List <Lista> lista;
+            lista = man.todaslistas();
+           
+            List <DTOLista> dtolista = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<lista.size();i++){
+                losta = lista.get(i);
+                DTOLista datolista = new DTOLista(losta.getNombre());
+                dtolista.add(datolista);
+            }
+            
+            
+             return dtolista;   
+            
+            
+            
+        }
+        
+        
+    @Override
+        public  List <DTOTema> Obtengotemas()throws TemaNoExiste{
+          ManejadordeTema mant = ManejadordeTema.getinstance();
+         
+          Tema tems;
+          List <Tema> Temas = mant.getTemas();
+          List <DTOTema> dtotemas = new ArrayList<>();
+          
+          for (int i=0; i<Temas.size();i++){
+              tems = Temas.get(i);
+              DTOTema datotemas = new DTOTema (tems.getReferencia());
+              dtotemas.add(datotemas);
+          }
+          return dtotemas;
+            
+        }
+        
+        
+        
+        
+        
+        
+}
+    

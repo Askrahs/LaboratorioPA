@@ -1,0 +1,85 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package LogicaDTO;
+
+import java.util.List;
+
+/**
+ *
+ * @author Santiago
+ */
+public class DTOLista {
+
+    private String nombre;
+ 
+    private String rutaImagen;
+  
+    private Boolean  esPrivada;
+    //Solo si es publica
+
+    private DTOGenero genero;
+    //Solo si es privada
+  
+    private DTOUsuario duenio;
+   
+    private List<DTOTema> temas;
+
+    public DTOLista(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    public Boolean getEsPrivada() {
+        return esPrivada;
+    }
+
+    public void setEsPrivada(Boolean esPrivada) {
+        this.esPrivada = esPrivada;
+    }
+
+    public DTOGenero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(DTOGenero genero) {
+        this.genero = genero;
+    }
+
+    public DTOUsuario getDuenio() {
+        return duenio;
+    }
+
+    public void setDuenio(DTOUsuario duenio) {
+        this.duenio = duenio;
+    }
+
+    public List<DTOTema> getTemas() {
+        return temas;
+    }
+
+    public void setTemas(List<DTOTema> temas) {
+        this.temas = temas;
+    }
+    
+    
+    
+    
+    
+}

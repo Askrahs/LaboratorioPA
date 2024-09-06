@@ -1,8 +1,19 @@
 package Presentacion;
 
-import Logica.IControllerUsuario;
-import Logica.Lista;
+
+import Excepciones.ListaNoexisteException;
+import Excepciones.NoExisteLista;
+import Excepciones.NoesDueñodelaLista;
+import Excepciones.TemaNoExiste;
+import Excepciones.UsuariosNoExisten;
+import Logica.IControllerMusica;
+
+
+import LogicaDTO.DTOLista;
+import LogicaDTO.DTOTema;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -10,15 +21,15 @@ import javax.swing.JOptionPane;
 public class AgregarTemaLista extends javax.swing.JFrame {
 
     private JFrame principal;
-    private IControllerUsuario ctrlU;
+    private IControllerMusica ctrlM;
 
     public AgregarTemaLista() {
         initComponents();
     }
 
-    public AgregarTemaLista(IControllerUsuario conusr, JFrame princi) {
+    public AgregarTemaLista(IControllerMusica conMUS, JFrame princi) {
 
-        this.ctrlU = conusr;
+        this.ctrlM = conMUS;
 
         principal = princi;
 
@@ -34,14 +45,14 @@ public class AgregarTemaLista extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtNombreUsuario = new javax.swing.JTextField();
+        txtNombreUser = new javax.swing.JTextField();
         txtNombreLista = new javax.swing.JTextField();
         txtNombreTema = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Lista_Listas = new javax.swing.JList<>();
+        ListaListas = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        Listas_Temas = new javax.swing.JList<>();
+        ListasTemas = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -50,7 +61,13 @@ public class AgregarTemaLista extends javax.swing.JFrame {
 
         jRadioButton1.setText("jRadioButton1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
@@ -60,9 +77,9 @@ public class AgregarTemaLista extends javax.swing.JFrame {
 
         jLabel3.setText("Nombre Tema:");
 
-        txtNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
+        txtNombreUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreUsuarioActionPerformed(evt);
+                txtNombreUserActionPerformed(evt);
             }
         });
 
@@ -76,7 +93,7 @@ public class AgregarTemaLista extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(38, 38, 38)
-                        .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNombreUser, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -93,7 +110,7 @@ public class AgregarTemaLista extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -105,23 +122,25 @@ public class AgregarTemaLista extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion"));
 
-        Lista_Listas.setBorder(javax.swing.BorderFactory.createTitledBorder("Listas"));
-        Lista_Listas.setModel(new javax.swing.AbstractListModel<String>() {
+        ListaListas.setBorder(javax.swing.BorderFactory.createTitledBorder("Listas"));
+        ListaListas.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(Lista_Listas);
+        jScrollPane1.setViewportView(ListaListas);
 
-        Listas_Temas.setBorder(javax.swing.BorderFactory.createTitledBorder("Temas"));
-        Listas_Temas.setModel(new javax.swing.AbstractListModel<String>() {
+        ListasTemas.setBorder(javax.swing.BorderFactory.createTitledBorder("Temas"));
+        ListasTemas.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(Listas_Temas);
+        jScrollPane2.setViewportView(ListasTemas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -144,9 +163,16 @@ public class AgregarTemaLista extends javax.swing.JFrame {
                 .addContainerGap(85, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(374, 6, -1, -1));
+
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarMouseClicked(evt);
+            }
+        });
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -163,6 +189,11 @@ public class AgregarTemaLista extends javax.swing.JFrame {
         });
 
         btnCargarTemas.setText("Cargar Temas");
+        btnCargarTemas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCargarTemasMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -196,30 +227,7 @@ public class AgregarTemaLista extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 176, 350, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -228,38 +236,91 @@ public class AgregarTemaLista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
+    private void txtNombreUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUserActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreUsuarioActionPerformed
+    }//GEN-LAST:event_txtNombreUserActionPerformed
 
 
     private void btnCargarListasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarListasMouseClicked
-        /*
-        String nombreusr = this.txtNombreUsuario.getText();
+        
+        String nombreusr = this.txtNombreUser.getText();
         DefaultListModel modelo;
          modelo = new DefaultListModel();
-        this.Lista_Listas.setModel(modelo);
+        this.ListaListas.setModel(modelo);
         modelo.removeAllElements();
        if(nombreusr.isEmpty()){
-           //JOptionPane.showMessageDialog(null,"llegue1");
-
-           try {
-              List <Lista> listadefaul = ctrlU.Listaspordefecto();
-              if(!listadefaul.isEmpty()){
-                  JOptionPane.showMessageDialog(null,"No hay Listas en el sistema");
-              }else{
-                  for(int i = 0;i<listadefaul.size();i++){
-                      modelo.addElement(listadefaul.get(i));
-                  }
-              }
-           } catch (NoHayListasenSistema ex) {
-          
-//Logger.getLogger(Agregar_Tema_Lista.class.getName()).log(Level.SEVERE, null, ex);
-           }
+            try {
+                
+                List <DTOLista> listadefaul = ctrlM.Obtengolistas();
+                
+                if(listadefaul.isEmpty()){
+                    JOptionPane.showMessageDialog(null,"No hay Listas en el sistema");
+                }else{
+                    for(int i = 0;i<listadefaul.size();i++){
+                        modelo.addElement(listadefaul.get(i).getNombre());
+                    }
+                }
+            } catch (NoExisteLista  ex) {
+               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+            }
        } 
-         */
+         
         //modelo.addElement(listas);
     }//GEN-LAST:event_btnCargarListasMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       setVisible(false);
+        principal.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void btnCargarTemasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarTemasMouseClicked
+      
+        DefaultListModel modelo;
+         modelo = new DefaultListModel();
+        this.ListasTemas.setModel(modelo);
+        modelo.removeAllElements();
+       
+            try {
+                
+                List <DTOTema> listatemasdefaul = ctrlM.Obtengotemas();
+                
+                if(listatemasdefaul.isEmpty()){
+                    JOptionPane.showMessageDialog(null,"No hay Temas en el sistema");
+                }else{
+                    for(int i = 0;i<listatemasdefaul.size();i++){
+                        modelo.addElement(listatemasdefaul.get(i).getNombre());
+                    }
+                }
+            } catch (TemaNoExiste  ex) {
+               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+      
+         
+        
+       
+    }//GEN-LAST:event_btnCargarTemasMouseClicked
+
+    private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
+        String nombreuser = this.txtNombreUser.getText();
+        String nombrelista = this.txtNombreLista.getText();
+        String nombretema = this.txtNombreTema.getText();
+        
+        if(nombreuser.isEmpty()||nombrelista.isEmpty()||nombretema.isEmpty()){
+            JOptionPane.showMessageDialog(null,"Uno de los campos esta vacio");
+        }else{
+            try {
+                ctrlM.AgregarTemaLista(nombreuser, nombrelista, nombretema);
+            } catch (UsuariosNoExisten ex) {
+                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ListaNoexisteException ex) {
+                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoesDueñodelaLista ex) {
+                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TemaNoExiste ex) {
+                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnAgregarMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -295,8 +356,8 @@ public class AgregarTemaLista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> Lista_Listas;
-    private javax.swing.JList<String> Listas_Temas;
+    private javax.swing.JList<String> ListaListas;
+    private javax.swing.JList<String> ListasTemas;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCargarListas;
@@ -312,6 +373,6 @@ public class AgregarTemaLista extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtNombreLista;
     private javax.swing.JTextField txtNombreTema;
-    private javax.swing.JTextField txtNombreUsuario;
+    public javax.swing.JTextField txtNombreUser;
     // End of variables declaration//GEN-END:variables
 }

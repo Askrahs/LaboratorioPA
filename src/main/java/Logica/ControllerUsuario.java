@@ -56,4 +56,10 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         mu.DejarDeSeguirUsuario(nickname1, nickname2);
     }
+    
+    
+    
+    
+
+    
 }
