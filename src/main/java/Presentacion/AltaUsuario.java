@@ -6,20 +6,16 @@ import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Collection;
 
 public class AltaUsuario extends javax.swing.JFrame {
@@ -75,6 +71,7 @@ public class AltaUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Registrar Usuario.");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -136,7 +133,6 @@ public class AltaUsuario extends javax.swing.JFrame {
         jLabel8.setText("Fecha de nacimiento: ");
 
         txtDia.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        txtDia.setText("dd");
         txtDia.setToolTipText("");
         txtDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +151,6 @@ public class AltaUsuario extends javax.swing.JFrame {
         JLImagen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         txtMes.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        txtMes.setText("mm");
         txtMes.setToolTipText("");
         txtMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +159,6 @@ public class AltaUsuario extends javax.swing.JFrame {
         });
 
         txtAño.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        txtAño.setText("aaaa");
         txtAño.setToolTipText("");
         txtAño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -334,10 +328,16 @@ public class AltaUsuario extends javax.swing.JFrame {
 
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
-            String imagen = "";
+            byte[] imagen = null;
 
             if (selectedFile != null) { //SI EL USUARIO AGREGO IMAGEN
-                imagen = selectedFile.getAbsolutePath();
+                try {
+                    // Convierte el archivo seleccionado a un arreglo de bytes
+                    imagen = Files.readAllBytes(selectedFile.toPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Error al leer la imagen: " + ex.getMessage(), "Registrar Usuario", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
 
             if (cbArtista.isSelected()) {
@@ -349,6 +349,8 @@ public class AltaUsuario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
+                } catch (EmailYaExiste ex) { //MENSAJE DE ERROR
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 limpiar();
@@ -356,6 +358,8 @@ public class AltaUsuario extends javax.swing.JFrame {
                     ctrlU.registrarCliente(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores);
                     JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                } catch (EmailYaExiste ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
                 }
             }

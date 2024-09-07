@@ -4,6 +4,7 @@ import Logica.Artista;
 import Logica.Usuario;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -42,6 +43,11 @@ public class ManejadorUsuario {
         return usuario;
     }
 
+    public Cliente obtenerCliente(String nickname) {
+        Cliente c = em.find(Cliente.class, nickname);
+        return c;
+    }
+
     public Usuario[] getUsuarios() {
         if (usuarioNick.isEmpty()) {
             return null;
@@ -56,17 +62,18 @@ public class ManejadorUsuario {
         }
     }
 
-    public Artista obtenerArtista(String nickname) {
-        Usuario usr = obtenerUsuario(nickname);
-        if (usr instanceof Artista) {
-            Artista art = (Artista) usr;
-            return art;
-        } else {
-            return null;
-        }
+    public Collection<Artista> ObtenerTodosLosArtistas() {
+        Collection<Artista> artistas = null;
+        //FOR EACH OBTENER ARTISTAS BD
+        return artistas;
     }
 
-    public void AltaCliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
+    public Artista obtenerArtista(String nickname) {
+        Artista a = em.find(Artista.class, nickname);
+        return a;
+    }
+
+    public void AltaCliente(String nickname, String nombre, String apellido, String email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
         Cliente u = new Cliente(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores);
         try {
             t.begin();
@@ -78,8 +85,8 @@ public class ManejadorUsuario {
         }
     }
 
-    public void AltaArtista(String nickname, String nombre, String apellido, String imagen, String fechaNac, String email, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) {
-        Artista a = new Artista(nickname, nombre, apellido, imagen, fechaNac, email, siguiendo, seguidores, biografia, website);
+    public void AltaArtista(String nickname, String nombre, String apellido, String email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) {
+        Artista a = new Artista(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores, biografia, website);
         try {
             t.begin();
             em.persist(a);
@@ -106,7 +113,7 @@ public class ManejadorUsuario {
             }
         }
     }
-    
+
     public void DejarDeSeguirUsuario(String nickname1, String nickname2) {
         Usuario seguidor = em.find(Usuario.class, nickname1);
         Usuario seguido = em.find(Usuario.class, nickname2);
@@ -124,7 +131,24 @@ public class ManejadorUsuario {
             }
         }
     }
-    
-    
-    
+
+    public Boolean EmailUsado(String email) {
+        Long count = null;
+
+        String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.email = :email";
+        count = (Long) em.createQuery(jpql).setParameter("email", email).getSingleResult();
+
+        String jpql2 = "SELECT COUNT(a) FROM Artista a WHERE a.email = :email";
+        count = count + (Long) em.createQuery(jpql2).setParameter("email", email).getSingleResult();
+
+        return count > 0;
+    }
+
+    public List<String> ObtenerNicknamesClientes() {
+        List<String> nicknames;
+        String jpql = "SELECT c.nickname FROM Cliente c";
+        nicknames = em.createQuery(jpql, String.class).getResultList();
+        return nicknames;
+    }
+
 }

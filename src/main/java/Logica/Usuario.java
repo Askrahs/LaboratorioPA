@@ -8,6 +8,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -17,7 +18,9 @@ public class Usuario implements Serializable{
     protected String nombre;
     protected String apellido;
     protected String email;
-    protected String imagen;
+    
+    @Lob
+    protected byte[] imagen;
     protected String fechaNac;
     
     @ManyToMany
@@ -34,7 +37,7 @@ public class Usuario implements Serializable{
     
     public Usuario(){ }
 
-    public Usuario(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
+    public Usuario(String nickname, String nombre, String apellido, String email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -93,11 +96,11 @@ public class Usuario implements Serializable{
         this.email = email;
     }
 
-    public String getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 

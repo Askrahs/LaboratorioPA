@@ -7,6 +7,7 @@ import Presentacion.AltaListaReproduccion;
 import Presentacion.AltaUsuario;
 import Presentacion.ConsultaAlbum;
 import Presentacion.AltaGenero;
+import Presentacion.ConsultaCliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,11 +24,13 @@ public class LaboratorioPA {
     private AltaUsuario AltUsr;
     private SeguirUsuario SegUsr;
     private DejarDeSeguirUsuario DejUsr;
+    private ConsultaCliente ConCli;
     private AltaAlbum AltAlb;
     private ConsultaAlbum ConAlb;
     private AltaListaReproduccion AltLis;
     private AltaGenero AltGen;
     private AgregarTemaLista AgreTemList;
+    
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -56,6 +59,9 @@ public class LaboratorioPA {
         SegUsr.setVisible(false);
         DejUsr = new Presentacion.DejarDeSeguirUsuario(ctrlU, principal);
         SegUsr.setVisible(false);
+        ConCli = new Presentacion.ConsultaCliente(ctrlU, principal);
+        ConCli.setVisible(false);
+        
         AltAlb = new Presentacion.AltaAlbum(ctrlM, principal);
         AltAlb.setVisible(false);
         ConAlb = new Presentacion.ConsultaAlbum(ctrlM, principal);
@@ -99,7 +105,7 @@ public class LaboratorioPA {
         JMenuItem menuItemRegistrarUsr = new JMenuItem("Registrar Usuario");
         menuItemRegistrarUsr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Muestro el InternalFrame para registrar un usuario
+                
                 principal.setVisible(false);
                 AltUsr.setVisible(true);
             }
@@ -110,7 +116,7 @@ public class LaboratorioPA {
         JMenuItem menuItemSeguirUsr = new JMenuItem("Seguir Usuario");
         menuItemSeguirUsr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Muestro el InternalFrame para registrar un usuario
+               
                 principal.setVisible(false);
                 SegUsr.setVisible(true);
             }
@@ -121,13 +127,25 @@ public class LaboratorioPA {
         JMenuItem menuItemDejarDeSeguirUsr = new JMenuItem("Dejar de seguir Usuario");
         menuItemDejarDeSeguirUsr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Muestro el InternalFrame para registrar un usuario
+                
                 principal.setVisible(false);
                 DejUsr.setVisible(true);
             }
         });
         menuUsuarios.add(menuItemDejarDeSeguirUsr);
 
+        //CONSULTA CLIENTE
+        JMenuItem menuItemConCli = new JMenuItem("Consulta Cliente");
+        menuItemConCli.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                ConCli.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemConCli);
+        
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");
         menuBar.add(menuAlbum);
@@ -135,14 +153,14 @@ public class LaboratorioPA {
         JMenuItem menuItemConsultaAlbum = new JMenuItem("Consulta Album");
         menuItemRegistrarAlbum.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Muestro el InternalFrame para registrar un usuario
+                
                 principal.setVisible(false);
                 AltAlb.setVisible(true);
             }
         });
         menuItemConsultaAlbum.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Muestro el InternalFrame para registrar un usuario
+                
                 principal.setVisible(false);
                 ConAlb.setVisible(true);
             }
@@ -155,7 +173,7 @@ public class LaboratorioPA {
         JMenuItem menuItemRegistrarLista = new JMenuItem("Crear Lista");
         menuItemRegistrarLista.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Muestro el InternalFrame para registrar un usuario
+               
                 principal.setVisible(false);
                 AltLis.setVisible(true);
             }
@@ -168,7 +186,7 @@ public class LaboratorioPA {
         JMenuItem menuItemRegistrarGenero = new JMenuItem("Registrar Genero");
         menuItemRegistrarGenero.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //muestro le iternalframe para registrar genero
+                
                 principal.setVisible(false);
                 AltGen.setVisible(true);
             }
@@ -181,7 +199,7 @@ public class LaboratorioPA {
         JMenuItem menuItemRegistrarTemaLista = new JMenuItem("Registrar Tema a Lista");
         menuItemRegistrarTemaLista.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //muestro le iternalframe para registrar genero
+               
                 principal.setVisible(false);
                 AgreTemList.setVisible(true);
             }
