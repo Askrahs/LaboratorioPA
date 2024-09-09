@@ -1,14 +1,11 @@
 package Presentacion;
 
-
 import Excepciones.ListaNoexisteException;
 import Excepciones.NoExisteLista;
 import Excepciones.NoesDueñodelaLista;
 import Excepciones.TemaNoExiste;
 import Excepciones.UsuariosNoExisten;
 import Logica.IControllerMusica;
-
-
 import LogicaDTO.DTOLista;
 import LogicaDTO.DTOTema;
 import java.util.List;
@@ -208,7 +205,7 @@ public class AgregarTemaLista extends javax.swing.JFrame {
                 .addComponent(btnAgregar)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,30 +239,30 @@ public class AgregarTemaLista extends javax.swing.JFrame {
 
 
     private void btnCargarListasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarListasMouseClicked
-        
-        String nombreusr = this.txtNombreUser.getText();
-        DefaultListModel modelo;
-         modelo = new DefaultListModel();
-        this.ListaListas.setModel(modelo);
-        modelo.removeAllElements();
-       if(nombreusr.isEmpty()){
-            try {
-                
-                List <DTOLista> listadefaul = ctrlM.Obtengolistas();
-                
-                if(listadefaul.isEmpty()){
-                    JOptionPane.showMessageDialog(null,"No hay Listas en el sistema");
-                }else{
-                    for(int i = 0;i<listadefaul.size();i++){
-                        modelo.addElement(listadefaul.get(i).getNombre());
-                    }
-                }
-            } catch (NoExisteLista  ex) {
-               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       } 
-         
-        //modelo.addElement(listas);
+//        
+//        String nombreusr = this.txtNombreUser.getText();
+//        DefaultListModel modelo;
+//         modelo = new DefaultListModel();
+//        this.ListaListas.setModel(modelo);
+//        modelo.removeAllElements();
+//       if(nombreusr.isEmpty()){
+//            try {
+//                
+//                List <DTOLista> listadefaul = ctrlM.Obtengolistas();
+//                
+//                if(listadefaul.isEmpty()){
+//                    JOptionPane.showMessageDialog(null,"No hay Listas en el sistema");
+//                }else{
+//                    for(int i = 0;i<listadefaul.size();i++){
+//                        modelo.addElement(listadefaul.get(i).getNombre());
+//                    }
+//                }
+//            } catch (NoExisteLista  ex) {
+//               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//       } 
+//         
+//        //modelo.addElement(listas);
     }//GEN-LAST:event_btnCargarListasMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -274,30 +271,26 @@ public class AgregarTemaLista extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnCargarTemasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarTemasMouseClicked
-      
-        DefaultListModel modelo;
-         modelo = new DefaultListModel();
-        this.ListasTemas.setModel(modelo);
-        modelo.removeAllElements();
-       
-            try {
-                
-                List <DTOTema> listatemasdefaul = ctrlM.Obtengotemas();
-                
-                if(listatemasdefaul.isEmpty()){
-                    JOptionPane.showMessageDialog(null,"No hay Temas en el sistema");
-                }else{
-                    for(int i = 0;i<listatemasdefaul.size();i++){
-                        modelo.addElement(listatemasdefaul.get(i).getNombre());
-                    }
-                }
-            } catch (TemaNoExiste  ex) {
-               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
-            }
-      
-         
-        
-       
+   
+//        DefaultListModel modelo;
+//         modelo = new DefaultListModel();
+//        this.ListasTemas.setModel(modelo);
+//        modelo.removeAllElements();
+//       
+//            try {
+//                
+//                List <DTOTema> listatemasdefaul = ctrlM.Obtengotemas();
+//                
+//                if(listatemasdefaul.isEmpty()){
+//                    JOptionPane.showMessageDialog(null,"No hay Temas en el sistema");
+//                }else{
+//                    for(int i = 0;i<listatemasdefaul.size();i++){
+//                        modelo.addElement(listatemasdefaul.get(i).getNombre());
+//                    }
+//                }
+//            } catch (TemaNoExiste  ex) {
+//               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            }
     }//GEN-LAST:event_btnCargarTemasMouseClicked
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
@@ -305,21 +298,21 @@ public class AgregarTemaLista extends javax.swing.JFrame {
         String nombrelista = this.txtNombreLista.getText();
         String nombretema = this.txtNombreTema.getText();
         
-        if(nombreuser.isEmpty()||nombrelista.isEmpty()||nombretema.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Uno de los campos esta vacio");
-        }else{
-            try {
-                ctrlM.AgregarTemaLista(nombreuser, nombrelista, nombretema);
-            } catch (UsuariosNoExisten ex) {
-                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ListaNoexisteException ex) {
-                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoesDueñodelaLista ex) {
-                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TemaNoExiste ex) {
-                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if(nombreuser.isEmpty()||nombrelista.isEmpty()||nombretema.isEmpty()){
+//            JOptionPane.showMessageDialog(null,"Uno de los campos esta vacio");
+//        }else{
+//            try {
+//                ctrlM.AgregarTemaLista(nombreuser, nombrelista, nombretema);
+//            } catch (UsuariosNoExisten ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (ListaNoexisteException ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (NoesDueñodelaLista ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (TemaNoExiste ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }//GEN-LAST:event_btnAgregarMouseClicked
 
     public static void main(String args[]) {

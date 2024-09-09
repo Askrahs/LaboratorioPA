@@ -140,6 +140,7 @@ public class ControllerUsuario implements IControllerUsuario {
             throw new NoSigueANadie("Este Cliente no sigue a ningun Usuario.");
         }
         return nickSiguiendo;
+    }
 
     @Override
     public List<String> obtenerArtistas(){

@@ -64,16 +64,16 @@ public class ManejadorLista {
             }
         }
         
-        public void aniadotemalista(String nombrelista,String nombretema){
-            ManejadordeTema mante = ManejadordeTema.getinstance();
-            Tema tem = mante.obtenerTema(nombretema);
-            Lista lis = this.ExisteLista(nombrelista);
-            lis.addTema(tem);
-            t.begin();
-            em.merge(lis);
-            t.commit();
-            JOptionPane.showMessageDialog(null,"Tema añadido con exito a la lista");
-        }
+//        public void aniadotemalista(String nombrelista,String nombretema){
+//            ManejadordeTema mante = ManejadordeTema.getinstance();
+//            Tema tem = mante.obtenerTema(nombretema);
+//            Lista lis = this.ExisteLista(nombrelista);
+//            lis.addTema(tem);
+//            t.begin();
+//            em.merge(lis);
+//            t.commit();
+//            JOptionPane.showMessageDialog(null,"Tema añadido con exito a la lista");
+//        }
      
         
         

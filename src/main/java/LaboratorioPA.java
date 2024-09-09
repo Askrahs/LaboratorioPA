@@ -7,7 +7,6 @@ import Presentacion.AltaListaReproduccion;
 import Presentacion.AltaUsuario;
 import Presentacion.ConsultaAlbum;
 import Presentacion.AltaGenero;
-import Presentacion.AltaTema;
 import Presentacion.ConsultaCliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -31,7 +30,6 @@ public class LaboratorioPA {
     private AltaListaReproduccion AltLis;
     private AltaGenero AltGen;
     private AgregarTemaLista AgreTemList;
-    private AltaTema AltTema;
     
 
     public static void main(String[] args) {
@@ -198,32 +196,31 @@ public class LaboratorioPA {
         menuGen.add(menuItemRegistrarGenero);
 
         
-        //Opcion agregar Lista
-        JMenu MenuAgreList = new JMenu("Agrego Tema");
-        menuBar.add(MenuAgreList);
-        JMenuItem menuAgreLista = new JMenuItem("Registrar Tema ");
-        menuAgreLista.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //muestro le iternalframe para registrar Listas
-                principal.setVisible(false);
-                AltTema.setVisible(true);
-            }
-        });
-        MenuAgreList.add(menuAgreLista);
-        
-        
-        //Opcion Agregar Tema a Lista
-        JMenu MenuAgreTemList = new JMenu("Agrego Temas a Lista");
-        menuBar.add(MenuAgreTemList);
-        JMenuItem menuItemRegistrarTemaLista = new JMenuItem("Registrar Tema a Lista");
-        menuItemRegistrarTemaLista.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               
-                principal.setVisible(false);
-                AgreTemList.setVisible(true);
-            }
-        });
-        MenuAgreTemList.add(menuItemRegistrarTemaLista);
+//        //Opcion agregar Lista
+//        JMenu MenuAgreList = new JMenu("Agrego Tema");
+//        menuBar.add(MenuAgreList);
+//        JMenuItem menuAgreLista = new JMenuItem("Registrar Tema ");
+//        menuAgreLista.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                //muestro le iternalframe para registrar Listas
+//                principal.setVisible(false);
+//            }
+//        });
+//        MenuAgreList.add(menuAgreLista);
+//        
+//        
+//        //Opcion Agregar Tema a Lista
+//        JMenu MenuAgreTemList = new JMenu("Agrego Temas a Lista");
+//        menuBar.add(MenuAgreTemList);
+//        JMenuItem menuItemRegistrarTemaLista = new JMenuItem("Registrar Tema a Lista");
+//        menuItemRegistrarTemaLista.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//               
+//                principal.setVisible(false);
+//                AgreTemList.setVisible(true);
+//            }
+//        });
+//        MenuAgreTemList.add(menuItemRegistrarTemaLista);
     }
     
 }
