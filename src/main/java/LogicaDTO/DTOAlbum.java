@@ -1,36 +1,46 @@
 package LogicaDTO;
 
-import java.util.List;
+import java.util.Set;
 
-public class DTOAlbum {
-    private String nombre;
-    private String anio; 
-    private List<String> generos; 
-    private String rutaImagen; 
-    private List<DTOTema> temas;
+public class DTOAlbum {   
+    private String titulo;
+    private int anio;
+    private String rutaImagen;
+    private String artista;
+    private Set<String> generos;
+    private Set<DTOTema> temas;   
 
-    public String getNombre() {
-        return nombre;
+    public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos) {
+        this.titulo = titulo;
+        this.anio = anio;
+        this.rutaImagen = rutaImagen;
+        this.artista = artista;
+        this.generos = generos;
+    }
+    
+    public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos, Set<DTOTema> temas) {
+        this.titulo = titulo;
+        this.anio = anio;
+        this.rutaImagen = rutaImagen;
+        this.artista = artista;
+        this.generos = generos;
+        this.temas = temas;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public String getAnio() {
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public int getAnio() {
         return anio;
     }
 
-    public void setAnio(String anio) {
+    public void setAnio(int anio) {
         this.anio = anio;
-    }
-
-    public List<String> getGeneros() {
-        return generos;
-    }
-
-    public void setGeneros(List<String> generos) {
-        this.generos = generos;
     }
 
     public String getRutaImagen() {
@@ -41,12 +51,29 @@ public class DTOAlbum {
         this.rutaImagen = rutaImagen;
     }
 
-    public List<DTOTema> getTemas() {
+    public String getArtista() {
+        return artista;
+    }
+
+    public void setArtista(String artista) {
+        this.artista = artista;
+    }
+
+    public Set<String> getGeneros() {
+        return generos;
+    }
+
+    public void setGeneros(Set<String> generos) {
+        this.generos = generos;
+    }
+
+    public Set<DTOTema> getTemas() {
         return temas;
     }
 
-    public void setTemas(List<DTOTema> temas) {
+    public void setTemas(Set<DTOTema> temas) {
         this.temas = temas;
     }
+    
     
 }

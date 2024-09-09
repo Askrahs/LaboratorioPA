@@ -2,10 +2,13 @@ package Logica;
 
 import Excepciones.*;
 import Logica.ManejadorUsuario;
+import Persistencia.ControllerPersistencia;
 import java.util.Collection;
+import java.util.List;
 
 public class ControllerUsuario implements IControllerUsuario {
-
+    ControllerPersistencia cPersist = new ControllerPersistencia();
+    
     @Override
     public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) throws UsuarioYaExisteException {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
@@ -55,5 +58,10 @@ public class ControllerUsuario implements IControllerUsuario {
             throw new UsuariosNoExisten("Uno de los usuarios no existe.");
         }
         mu.DejarDeSeguirUsuario(nickname1, nickname2);
+    }
+    
+    @Override
+    public List<String> obtenerArtistas(){
+            return cPersist.obtenerArtistas();
     }
 }

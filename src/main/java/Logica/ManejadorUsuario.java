@@ -57,13 +57,8 @@ public class ManejadorUsuario {
     }
 
     public Artista obtenerArtista(String nickname) {
-        Usuario usr = obtenerUsuario(nickname);
-        if (usr instanceof Artista) {
-            Artista art = (Artista) usr;
-            return art;
-        } else {
-            return null;
-        }
+        Artista a = em.find(Artista.class, nickname);
+        return a;
     }
 
     public void AltaCliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
@@ -78,8 +73,8 @@ public class ManejadorUsuario {
         }
     }
 
-    public void AltaArtista(String nickname, String nombre, String apellido, String imagen, String fechaNac, String email, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) {
-        Artista a = new Artista(nickname, nombre, apellido, imagen, fechaNac, email, siguiendo, seguidores, biografia, website);
+    public void AltaArtista(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) {
+        Artista a = new Artista(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores, biografia, website);
         try {
             t.begin();
             em.persist(a);

@@ -264,36 +264,32 @@ public class AltaGenero extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombrePadreActionPerformed
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
-        
-            String refe = this.txtReferencia.getText();
-            String nombre = this.txtNombreGen.getText();
-            String nombrepapa = this.txtNombrePadre.getText();
-            
-            if(nombre.isEmpty()||refe.isEmpty()){
-            if(refe.isEmpty()){
-                JOptionPane.showMessageDialog(null,"Ingrese una Referencia","Error", JOptionPane.ERROR_MESSAGE);
+        String refe = txtReferencia.getText();
+        String nombre = txtNombreGen.getText();
+        String nombrepapa =txtNombrePadre.getText();
+
+        if (nombre.isEmpty() || refe.isEmpty()) {
+            if (refe.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese una Referencia", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            if(nombre.isEmpty()){
-                JOptionPane.showMessageDialog(null,"Ingrese un Genero","Error", JOptionPane.ERROR_MESSAGE);
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese un Genero", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            }else{
-            
-        try {
-            
-            controlMus.AltaGenero(refe,nombre,nombrepapa);
-           
-        } catch (GenroYaExiste ex) {
-            Logger.getLogger(AltaGenero.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        this.txtReferencia.setText("");
-        this.txtNombrePadre.setText("");
-        this.txtNombreGen.setText("");
-        
-      
+        } else {
+            try {
+                controlMus.AltaGenero(refe, nombre, nombrepapa);
+                // Limpiar los campos después de agregar el género
+                txtReferencia.setText("");
+                txtNombrePadre.setText("");
+                txtNombreGen.setText("");
+            } catch (GenroYaExiste ex) {
+                Logger.getLogger(AltaGenero.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "El género ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                Logger.getLogger(AltaGenero.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error al agregar el género", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
-       
+         } 
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void ArbolValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_ArbolValueChanged
@@ -308,8 +304,7 @@ public class AltaGenero extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNodoSeleccionadoActionPerformed
 
     private void btnCargodatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargodatosMouseClicked
-        modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros());
-       
+        modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros()); 
         if(modelo==null){
             JOptionPane.showMessageDialog(null,"No existe ningun genero, porfavor cree alguno");
         }else{

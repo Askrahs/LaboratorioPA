@@ -1,9 +1,18 @@
 package Logica;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Lista {
+@Entity
+@Table (name = "Lista")
+public class Lista implements Serializable {
+    @Id
+    private Long id;
+    
     private String nombre;
     private String rutaImagen;
     private Boolean  esPrivada;
@@ -13,6 +22,7 @@ public class Lista {
     private Usuario duenio;
     private List<Tema> temas;
 
+    public Lista(){}
     public Lista( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio) {
         this.nombre = nombre;
         this.rutaImagen = rutaImagen;

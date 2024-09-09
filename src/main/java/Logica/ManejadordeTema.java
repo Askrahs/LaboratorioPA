@@ -28,11 +28,12 @@ public class ManejadordeTema {
         return ((Tema) nombreTema.get(nomTema));
     }
      
-    public  Tema AltaTema(String nombre, int Duracion){
-    Tema t = new Tema(nombre,Duracion);
-    return t;
-    
-    }
+    //ADAPTAR EL CODIGO ADECUADAMENTE
+//    public  Tema AltaTema(String nombre, int Duracion){
+//    Tema t = new Tema(nombre,Duracion);
+//    return t;
+//    
+//    }
     
      public Tema[] getTemas() {
         if (nombreTema.isEmpty())
