@@ -15,4 +15,5 @@ public interface IControllerUsuario {
     public abstract Cliente ObtenerCliente(String nickname) throws UsuarioNoExisteException;
     public abstract List<String> ObtenerSeguidoresCliente(String nickname) throws SinSeguidores;
     public abstract List<String> ObtenerSiguiendoCliente(String nickname) throws NoSigueANadie;
+    public abstract List<String> obtenerArtistas();
 }

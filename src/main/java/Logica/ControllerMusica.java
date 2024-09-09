@@ -1,41 +1,29 @@
+
 package Logica;
 
 import Excepciones.*;
 import java.util.List;
 import LogicaDTO.*;
 import Excepciones.GenroYaExiste;
-import LogicaDTO.DTOLista;
+import Logica.Album;
+import Logica.Genero;
+import Logica.ManejadorUsuario;
+import Logica.Tema;
 import java.util.ArrayList;
+import Persistencia.ControllerPersistencia;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+
 public class ControllerMusica implements IControllerMusica {
-    public ControllerMusica() {}
-        
+    ControllerPersistencia cPersist = new ControllerPersistencia();
+    public ControllerMusica() {}       
     
-    public  List <DTOGenero> Datageneros(){
-        ManejadorGenero mang = ManejadorGenero.getInstance();
-        List <Genero> gen = mang.obtengoListaGenero();
-        Genero genunoauno;
-     
-           
-            List <DTOGenero> dtogeneros = new ArrayList<>();
-            //JOptionPane.showMessageDialog(null,"llegue4");
-            for (int i = 0; i<gen.size();i++){
-                genunoauno = gen.get(i);
-                DTOGenero dagenero = new DTOGenero(genunoauno.getRef(),genunoauno.getNombre(),genunoauno.getNombrepapa());
-                dtogeneros.add(dagenero);
-            }
-            
-            
-             return dtogeneros;   
-            
-            
-           
-    } 
-    
+
     
     @Override
     public void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste{    
@@ -62,28 +50,27 @@ public class ControllerMusica implements IControllerMusica {
                 //JOptionPane.showMessageDialog(null,"llegue3");
                  DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
                 mg.AñadoGenero(refe, nombregen,Generoall);//Creo el genero padre
-           DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
-           DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
-           if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
-           mg.lepongopadre(Generoexis,Generopapa);
-            JOptionPane.showConfirmDialog(null, "Se Añado al padre Correctamente");           
-        }     
-    }else{
-                //JOptionPane.showMessageDialog(null,"llegue4");
-                 DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
-           DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
-           if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
-           mg.lepongopadre(Generoexis,Generopapa);
-            JOptionPane.showConfirmDialog(null, "Se Añado al padre Correctamente");
+                DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
+                DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
+                if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
+                mg.lepongopadre(Generoexis,Generopapa);
+                 JOptionPane.showConfirmDialog(null, "Se Añado al padre Correctamente");           
+                }     
             }else{
-            JOptionPane.showConfirmDialog(null, "Este nodo ya es hijo");   
-           }
-           
+                //JOptionPane.showMessageDialog(null,"llegue4");
+                DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
+                DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
+                if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
+                mg.lepongopadre(Generoexis,Generopapa);
+                JOptionPane.showConfirmDialog(null, "Se Añado al padre Correctamente");
+                }else{
+                    JOptionPane.showConfirmDialog(null, "Este nodo ya es hijo");   
+                }
             }
             }
-            throw new GenroYaExiste("El genero ya existe");              
-    }
-    } 
+            throw new GenroYaExiste("El genero ya existe");
+        }
+}
     
     @Override
        public  void ModificoPadre(String nombrenodo, String nombrepadrenuevo){
@@ -128,25 +115,30 @@ public class ControllerMusica implements IControllerMusica {
     }   
     
     @Override
-     public void altaAlbum(String nicknameArtista, String titulo, List<Genero> generos, int anio, String refetema, String rutaImagen) throws AlbumYaExisteException, UsuarioNoExisteException{       
+    
+    @Override
+     public void altaAlbum(DTOAlbum albumDTO, Set<DTOTema> temas) throws AlbumYaExisteException, UsuarioNoExisteException{       
         ManejadorUsuario mart = ManejadorUsuario.getinstance();
-        ManejadordeTema mantem = ManejadordeTema.getinstance();
-        Tema tem = mantem.obtenerTema(refetema);
-        
-        Artista art = mart.obtenerArtista(nicknameArtista);
+        Artista art = mart.obtenerArtista(albumDTO.getArtista());
+        Set<Genero> generosAlb;
+        generosAlb = cargarSetGeneros(albumDTO.getGeneros());
         if (art == null){
-            throw new UsuarioNoExisteException("El Artista " + nicknameArtista + " no esta registrado");
+            throw new UsuarioNoExisteException("El Artista " + albumDTO.getArtista() + " no esta registrado");
+        } 
+        Set<Tema> temasAlb = new HashSet<>();
+        Album alb = new Album(art, albumDTO.getTitulo(), generosAlb, albumDTO.getAnio(), null, albumDTO.getRutaImagen());
+        for(DTOTema dtoTema : temas){
+            Tema nuevoTema = new Tema(dtoTema.getNombre(), dtoTema.getDuracion(), dtoTema.getEnlace(), dtoTema.getPosicion(), alb);
+            temasAlb.add(nuevoTema);
         }
-        ManejadorAlbum malb = ManejadorAlbum.getInstance();
-        if(malb.existeAlbum(art,titulo)){
-           throw new AlbumYaExisteException("El Artista " + nicknameArtista + " ya tiene un álbum con el titulo: " + titulo);
-        }else{
-            Album alb = new Album(art, titulo, generos, anio,tem ,rutaImagen);
-            malb.AddTema(alb, tem);
-            malb.addAlbum(alb);
-        }                        
-    }
-     
+        alb.setTemas(temasAlb);
+        try {
+            cPersist.altaAlbum(alb);
+        } catch (Exception ex) {
+            Logger.getLogger(Logica.ControllerMusica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }         
+    
      @Override
      //A la espera de la otra parte del codigo
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta) throws ListaYaExisteException{
@@ -176,33 +168,7 @@ public class ControllerMusica implements IControllerMusica {
             }else{
         JOptionPane.showMessageDialog(null,"Lista ya existe");
         }
-    }
-    
-    public List<DTOAlbum> cargarSegunArtista(String nickname){
-        ManejadorAlbum malb = ManejadorAlbum.getInstance();
-        List<Album> albums = malb.obtenerAlbumsArtista(nickname);
-        return null;
-    }
-    public List<DTOAlbum> cargarSegunGenero(String genero){
-        ManejadorAlbum malb = ManejadorAlbum.getInstance();
-        ManejadorGenero mgen = ManejadorGenero.getInstance();
-        //Genero g = mgen.ObtenerGenero(genero);
-        List<Album> albums = malb.obtenerAlbumsGenero(genero);
-        return null;
-    }
-
-    @Override
-    public void ingresarTema(String referencia, String nombre, String duracion) throws temaYaexiste {
-    ManejadordeTema te = ManejadordeTema.getinstance();
-
-        if (te.obtenerTema(referencia) == null) {
-            te.addTema(te.AltaTema(referencia, nombre, duracion));
-            System.out.println("Tema agregado: " + nombre);
-        } else {
-            JOptionPane.showMessageDialog(null, "El tema ya existe");
-        }
-    }
-   
+    } 
 
     @Override
     public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException {
@@ -226,8 +192,19 @@ public class ControllerMusica implements IControllerMusica {
         //Manejar con exception
         System.out.println("La lista " + nombreLista + " ha sido publicada.");
 */
-    }
-    
+    } 
+
+    public Set<Genero> cargarSetGeneros(Set<String> generos) {
+        ManejadorGenero mg = ManejadorGenero.getInstance();  
+        Set<Genero> setGeneros = new HashSet<>();
+       for(String nombreGenero : generos){
+           Genero genero = mg.obtenerGeneroPorNombre(nombreGenero);
+           if(genero != null){
+               setGeneros.add(genero);
+           }
+       }
+       return setGeneros; 
+    } 
     
     
         public void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste{
@@ -256,40 +233,28 @@ public class ControllerMusica implements IControllerMusica {
             }
                    
         }
-    
-        
-        
-        
-        
-        
+     
     @Override
         public List<DTOLista> Obtengolistas()throws NoExisteLista{
             //JOptionPane.showMessageDialog(null,"llegue2");
             ManejadorLista man= ManejadorLista.getInstance();
             Lista losta;
             List <Lista> lista;
-            lista = man.todaslistas();
-           
+            lista = man.todaslistas();          
             List <DTOLista> dtolista = new ArrayList<>();
             //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<lista.size();i++){
                 losta = lista.get(i);
                 DTOLista datolista = new DTOLista(losta.getNombre());
                 dtolista.add(datolista);
-            }
-            
-            
-             return dtolista;   
-            
-            
-            
+            }     
+             return dtolista;          
         }
         
         
-    @Override
+        @Override
         public  List <DTOTema> Obtengotemas()throws TemaNoExiste{
-          ManejadordeTema mant = ManejadordeTema.getinstance();
-         
+          ManejadordeTema mant = ManejadordeTema.getinstance();     
           Tema tems;
           List <Tema> Temas = mant.getTemas();
           List <DTOTema> dtotemas = new ArrayList<>();
@@ -299,14 +264,45 @@ public class ControllerMusica implements IControllerMusica {
               DTOTema datotemas = new DTOTema (tems.getReferencia());
               dtotemas.add(datotemas);
           }
-          return dtotemas;
-            
-        }
-        
-        
-        
-        
-        
-        
-}
+          return dtotemas;            
+        }    
+    }
+   
+    public List<String> obtenerAlbumsPorGenero(String generoSeleccionado){
+        return cPersist.obtenerAlbumsPorGenero(generoSeleccionado);
+    }   
+
+    public List<String> obtenerAlbumsPorArtista(String artistaSeleccionado){   
+        return cPersist.obtenerAlbumsPorArtista(artistaSeleccionado);
+    }
     
+    public  DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado){
+        Album a = cPersist.consultaAlbumPorTitulo(albumSeleccionado);
+        Set<String> generosString = new HashSet<>();
+        Set<DTOTema> tDTO = new HashSet<>();
+        for(Genero gen : a.getGeneros()){
+            generosString.add(gen.getNombre());
+        }
+        for(Tema tem : a.getTemas()){
+            //DTOTema(String nombre, String duracion, String enlace, int posicion)
+            DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+            tDTO.add(nuevoTDTO);
+        }       
+        DTOAlbum aDTO = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(), generosString, tDTO);
+        return aDTO;
+    }
+
+    public  List <DTOGenero> Datageneros(){
+        ManejadorGenero mang = ManejadorGenero.getInstance();
+        List <Genero> gen = mang.obtengoListaGenero();
+        Genero genunoauno;
+            List <DTOGenero> dtogeneros = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<gen.size();i++){
+                genunoauno = gen.get(i);
+                DTOGenero dagenero = new DTOGenero(genunoauno.getRef(),genunoauno.getNombre(),genunoauno.getNombrepapa());
+                dtogeneros.add(dagenero);
+            }
+             return dtogeneros;   
+    } 
+}

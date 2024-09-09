@@ -39,11 +39,8 @@ public class Lista implements Serializable {
     @JoinColumn(name="Temas")
     private List<Tema> temas;
 
-    public Lista() {
-    }
+    public Lista(){}
 
-    
-    
     public Lista( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio) {
         this.nombre = nombre;
         this.rutaImagen = rutaImagen;

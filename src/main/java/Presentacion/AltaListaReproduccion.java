@@ -80,7 +80,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
 
         jTextFieldDuenio.setEnabled(false);
 
-        jButtonAniadirImagen.setText("Anadir Imagen");
+        jButtonAniadirImagen.setText("Añadir Imagen");
         jButtonAniadirImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAniadirImagenActionPerformed(evt);
@@ -193,7 +193,6 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
             } 
             
         limpiarFormulario();
-        setVisible(false);
         }
     }//GEN-LAST:event_jToggleButtonAceptarActionPerformed
 

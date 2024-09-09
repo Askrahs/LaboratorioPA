@@ -66,7 +66,7 @@ public class LaboratorioPA {
         
         AltAlb = new Presentacion.AltaAlbum(ctrlM, principal);
         AltAlb.setVisible(false);
-        ConAlb = new Presentacion.ConsultaAlbum(ctrlM, principal);
+        ConAlb = new Presentacion.ConsultaAlbum(ctrlU, ctrlM, principal);
         ConAlb.setVisible(false);
         AltLis = new Presentacion.AltaListaReproduccion(ctrlM, principal);
         AltLis.setVisible(false);
@@ -157,6 +157,7 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
+                AltAlb.setBounds(100,100,800,500);
                 AltAlb.setVisible(true);
             }
         });
@@ -168,6 +169,7 @@ public class LaboratorioPA {
             }
         });
         menuAlbum.add(menuItemRegistrarAlbum);
+        menuAlbum.add(menuItemConsultaAlbum);
 
         //Opcion submenu Lista
         JMenu menuLista = new JMenu("Listas de Reproduccion");

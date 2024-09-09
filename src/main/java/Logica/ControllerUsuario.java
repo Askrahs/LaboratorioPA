@@ -3,11 +3,13 @@ package Logica;
 import Excepciones.*;
 import Logica.ManejadorUsuario;
 import java.util.ArrayList;
+import Persistencia.ControllerPersistencia;
 import java.util.Collection;
 import java.util.List;
 
 public class ControllerUsuario implements IControllerUsuario {
-
+    ControllerPersistencia cPersist = new ControllerPersistencia();
+    
     @Override
     public void registrarCliente(String nickname, String nombre, String apellido, String Email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
@@ -139,5 +141,8 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         return nickSiguiendo;
 
+    @Override
+    public List<String> obtenerArtistas(){
+            return cPersist.obtenerArtistas();
     }
 }

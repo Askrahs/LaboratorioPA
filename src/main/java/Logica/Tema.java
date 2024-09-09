@@ -1,67 +1,83 @@
 package Logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
- 
+
 @Entity
-@Table(name="Tema")
-public class Tema implements Serializable {
+public class Tema implements Serializable{
     @Id
-    @Column(name ="Referencia")
-    private String Referencia;
-    @Column(name ="Nombre")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //ID autoincremental
+    private int id;
+    
+    @Basic
     private String nombre;
-    @Column(name ="Duracion")
     private String duracion;
+    private String enlace;
+    private int posicion;
     
+    @ManyToOne
+    private Album album;
 
-   
-    
-    public Tema() {
-    }
+    public Tema(){}
 
-
-   
-    
-    
-    
- 
-
-    public Tema(String Referencia, String nombre, String duracion) {
-        this.Referencia = Referencia;
+    public Tema(String nombre, String duracion, String enlace, int posicion, Album a) {
         this.nombre = nombre;
         this.duracion = duracion;
+        this.posicion = posicion;
+        this.enlace = enlace;
+        this.album = a;
     }
     
-     public String getReferencia() {
-        return Referencia;
+    public int getId() {
+        return id;
     }
 
-    public void setReferencia(String Referencia) {
-        this.Referencia = Referencia;
+    public void setId(int id) {
+        this.id = id;
     }
-    public String getNombre(){
+
+    public String getNombre() {
         return nombre;
     }
-    
-    public String getDuracion(){
-        return duracion;
-    }
-    
-    public void setNombre(){
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    public void setDuracion(){
-        this.duracion = duracion;
+
+    public String getDuracion() {
+        return duracion;
     }
 
-    void begin() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
+    }
+    
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+    
+    public String getEnlace() {
+        return enlace;
+    }
+
+    public void setEnlace(String enlace) {
+        this.enlace = enlace;
     }
 }

@@ -1,11 +1,12 @@
 package Logica;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
@@ -116,19 +117,16 @@ public class ManejadorGenero {
         man.getTransaction().commit();
         System.out.println("Rengoles actualizados" + total);
     }
-    public void remuevoGenero(String GeneroElimino, String refe) {
-        
+    public void remuevoGenero(String GeneroElimino, String refe) {   
         this.remuevoGenerobasesdatos(refe);
         this.eliminopornombrepadre(GeneroElimino);
         DefaultMutableTreeNode nodoelimin = EncuentroGenero(GeneroElimino);
-        nodoelimin.removeFromParent();
-        
+        nodoelimin.removeFromParent();     
     }
 
-    public void remuevoGenerobasesdatos(String refe) {
+public void remuevoGenerobasesdatos(String refe) {
         man.getTransaction().begin();
         String referenciaMayus = refe.toUpperCase();
-        
         String cuestion = ("DELETE FROM Genero g WHERE UPPER(g.Ref) = :ref");
         Query consulta = man.createQuery(cuestion);
         consulta.setParameter("ref",referenciaMayus);
@@ -223,7 +221,17 @@ public class ManejadorGenero {
     
      public List<Genero> DevuelveListaArbol() {
         List<Genero> generos = man.createQuery("select g from Genero g", Genero.class).getResultList();
-    return generos;
+        return generos;
+    }
     
-}
+    public Genero obtenerGeneroPorNombre(String nombre) {
+        try {
+            String consulta = "select g from Genero g where g.nombre = :nombre";
+            Query query = man.createQuery(consulta);
+            query.setParameter("nombre", nombre);
+            return (Genero) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

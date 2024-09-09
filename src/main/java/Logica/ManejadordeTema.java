@@ -36,6 +36,33 @@ public class ManejadordeTema {
         } catch (Exception e) {
             //si sale mal rollback
             t.rollback();
+        String nomTema = T.getNombre();
+        nombreTema.put(nomTema, T);
+    }
+    
+//    public Tema obtenerTema(String nomTema) {
+//        return ((Tema) nombreTema.get(nomTema));
+//    }
+     
+    //ADAPTAR EL CODIGO ADECUADAMENTE
+//    public  Tema AltaTema(String nombre, int Duracion){
+//    Tema t = new Tema(nombre,Duracion);
+//    return t;
+//    
+//    }
+    
+     public Tema[] getTemas() {
+        if (nombreTema.isEmpty())
+            return null;
+        else {
+            Collection<Tema> tem = nombreTema.values();
+            Object[] o = tem.toArray();
+            Tema[] temas = new Tema[o.length];
+            for (int i = 0; i < o.length; i++) {
+                temas[i] = (Tema) o[i];
+            }
+
+            return temas;
         }
     }
     
