@@ -8,6 +8,7 @@ import Presentacion.AltaUsuario;
 import Presentacion.ConsultaAlbum;
 import Presentacion.AltaGenero;
 import Presentacion.ConsultaCliente;
+import Presentacion.ConsultaArtista;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +31,7 @@ public class LaboratorioPA {
     private AltaListaReproduccion AltLis;
     private AltaGenero AltGen;
     private AgregarTemaLista AgreTemList;
-    
+    private ConsultaArtista ConArt;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -72,6 +73,10 @@ public class LaboratorioPA {
         AltGen.setVisible(false);
         AgreTemList = new Presentacion.AgregarTemaLista(ctrlM, principal);
         AgreTemList.setVisible(false);
+        ConArt = new Presentacion.ConsultaArtista(ctrlU,principal);
+        ConArt.setVisible(false);
+        
+        
         //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
 
@@ -140,11 +145,26 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
+                
                 ConCli.setVisible(true);
+                
+                
                 
             }
         });
         menuUsuarios.add(menuItemConCli);
+        
+        //CONSULTA ARTISTA
+        JMenuItem menuItemConArt = new JMenuItem("Consulta Artista");
+        menuItemConArt.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                ConArt.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemConArt);
         
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");

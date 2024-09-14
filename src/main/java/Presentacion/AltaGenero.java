@@ -233,6 +233,11 @@ public class AltaGenero extends javax.swing.JFrame {
                 btnCancelarMouseClicked(evt);
             }
         });
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -395,6 +400,12 @@ public class AltaGenero extends javax.swing.JFrame {
         setVisible(false);
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        principal.setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
