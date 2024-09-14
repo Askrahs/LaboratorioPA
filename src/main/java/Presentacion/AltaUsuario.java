@@ -16,7 +16,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AltaUsuario extends javax.swing.JFrame {
 
@@ -24,6 +27,7 @@ public class AltaUsuario extends javax.swing.JFrame {
     private JFrame principal;
     private IControllerUsuario ctrlU;
     private File selectedFile = null;
+    private String rutaDestino = "";
 
     public AltaUsuario(IControllerUsuario Control, JFrame principal) {
         this.ctrlU = Control;
@@ -328,24 +332,14 @@ public class AltaUsuario extends javax.swing.JFrame {
 
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
-            byte[] imagen = null;
 
-            if (selectedFile != null) { //SI EL USUARIO AGREGO IMAGEN
-                try {
-                    // Convierte el archivo seleccionado a un arreglo de bytes
-                    imagen = Files.readAllBytes(selectedFile.toPath());
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Error al leer la imagen: " + ex.getMessage(), "Registrar Usuario", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
 
             if (cbArtista.isSelected()) {
                 String bio = txtBiografia.getText();
                 String web = txtWebsite.getText();
                 limpiar();
                 try {
-                    ctrlU.registrarArtista(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores, bio, web);
+                    ctrlU.registrarArtista(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores, bio, web);
                     JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
@@ -355,7 +349,7 @@ public class AltaUsuario extends javax.swing.JFrame {
             } else {
                 limpiar();
                 try {
-                    ctrlU.registrarCliente(nick, nombre, apellido, email, imagen, fecha, siguiendo, seguidores);
+                    ctrlU.registrarCliente(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores);
                     JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
@@ -386,18 +380,26 @@ public class AltaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_cbArtistaMousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        //BOTON AÑADIR IMAGEN y guardar ruta
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccionar Imagen");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
         fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+        int seleccion = fileChooser.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
+            File destino = new File(ruta);
+            try{
+            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
+            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
             Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
             JLImagen.setIcon(new ImageIcon(image));
-            String ruta = selectedFile.getAbsolutePath();
+            rutaDestino = destino.getAbsolutePath();
+            } catch (IOException ex) {
+                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

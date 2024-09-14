@@ -39,4 +39,8 @@ public class ControllerPersistencia {
         return albJpa.findAlbumPorTitulo(albumSeleccionado);
     }
 
+    public boolean existeAlbum(String nicknameArtista, String titulo) {
+        return albJpa.artistaYaTieneAlbum(nicknameArtista, titulo);
+    }
+
 }

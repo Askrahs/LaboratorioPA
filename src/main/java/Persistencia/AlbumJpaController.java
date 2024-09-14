@@ -133,4 +133,19 @@ public class AlbumJpaController {
                 em.close();
             }
     }
+
+    public boolean artistaYaTieneAlbum(String nicknameArtista, String titulo) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(a) FROM Album a WHERE a.titulo = :titulo AND a.artista.nickname = :nickname", Long.class);
+            query.setParameter("titulo", titulo);
+            query.setParameter("nickname", nicknameArtista);
+
+            Long count = query.getSingleResult();
+            return count > 0; //Si es > 0 significa que existe un album con ese titulo de ese artista
+        } finally {
+            em.close();
+        }
+    }
 }

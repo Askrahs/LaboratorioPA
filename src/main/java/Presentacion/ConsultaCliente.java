@@ -252,21 +252,21 @@ public class ConsultaCliente extends javax.swing.JFrame {
                 txtEmail.setText(c.getEmail());
                 txtFecha.setText(c.getFechaNac());
 
-                //IMAGEN
-                byte[] imagenBytes = c.getImagen(); // Asegúrate de que el método getImagen() retorne el byte[]
-                if (imagenBytes != null) {
-                    // Convertir los bytes en una imagen
-                    InputStream is = new ByteArrayInputStream(imagenBytes);
-                    BufferedImage bufferedImage = ImageIO.read(is);
-
-                    // Escalar la imagen para ajustarse al tamaño del JLabel
-                    Image scaledImage = bufferedImage.getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
-
-                    // Establecer la imagen en el JLabel
-                    JLImagen.setIcon(new ImageIcon(scaledImage));
-                } else {
-                    JLImagen.setIcon(null); // Si no hay imagen, limpia el JLabel
-                }
+//                //IMAGEN
+//                byte[] imagenBytes = c.getRutaImagen(); // Asegúrate de que el método getImagen() retorne el byte[]
+//                if (imagenBytes != null) {
+//                    // Convertir los bytes en una imagen
+//                    InputStream is = new ByteArrayInputStream(imagenBytes);
+//                    BufferedImage bufferedImage = ImageIO.read(is);
+//
+//                    // Escalar la imagen para ajustarse al tamaño del JLabel
+//                    Image scaledImage = bufferedImage.getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
+//
+//                    // Establecer la imagen en el JLabel
+//                    JLImagen.setIcon(new ImageIcon(scaledImage));
+//                } else {
+//                    JLImagen.setIcon(null); // Si no hay imagen, limpia el JLabel
+//                }
                 
                 //SEGUIDORES
                 try {

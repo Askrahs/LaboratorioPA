@@ -20,7 +20,7 @@ public class Usuario implements Serializable{
     protected String email;
     
     @Lob
-    protected byte[] imagen;
+    protected String rutaImagen;
     protected String fechaNac;
     
     @ManyToMany
@@ -37,12 +37,12 @@ public class Usuario implements Serializable{
     
     public Usuario(){ }
 
-    public Usuario(String nickname, String nombre, String apellido, String email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
+    public Usuario(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.imagen = imagen;
+        this.rutaImagen = imagen;
         this.fechaNac = fechaNac;
         this.siguiendo = siguiendo;
         this.seguidores = seguidores;
@@ -96,12 +96,12 @@ public class Usuario implements Serializable{
         this.email = email;
     }
 
-    public byte[] getImagen() {
-        return imagen;
+    public String getRutaImagen() {
+        return rutaImagen;
     }
 
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public String getFechaNac() {

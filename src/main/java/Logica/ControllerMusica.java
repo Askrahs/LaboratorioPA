@@ -302,20 +302,10 @@ public class ControllerMusica implements IControllerMusica {
             }
              return dtogeneros;   
     } 
-
     
-//
-//    @Override
-//    public void AgregarTemaLista(String nombreusuario, String nombrelista, String nombretema) throws UsuariosNoExisten, ListaNoexisteException, NoesDueñodelaLista, TemaNoExiste {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//    }
-//
-//    
-//
-//    @Override
-//    public List<DTOLista> Obtengolistas() throws NoExisteLista {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//    }
-//
-//    
+    @Override
+    //Usado para control de AltaAlbum
+    public boolean existeAlbum(String nicknameArtista, String titulo){      
+        return cPersist.existeAlbum(nicknameArtista, titulo);
+    }
 }

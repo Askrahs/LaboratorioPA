@@ -10,13 +10,13 @@ public interface IControllerMusica {
     public abstract void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste;
     public abstract void altaListaReproduccion(String nombre, String genero, String duenio, String ruta) throws ListaYaExisteException;
     public abstract void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException;
-    //public abstract void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste;
     public abstract void ModificoPadre(String nombrenodo, String nombrepadrenuevo);
     public abstract DefaultMutableTreeNode DameTodoslosgeneros();
     public abstract void EliminoGenero(String nombregen, String refe);
     public abstract List<String> obtenerAlbumsPorGenero(String generoSeleccionado);
     public abstract List<String> obtenerAlbumsPorArtista(String artistaSeleccionado);
     public abstract DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado);
+    public abstract boolean existeAlbum(String nicknameArtista, String titulo);
     public  abstract List <DTOGenero> Datageneros();
-    //public abstract List<DTOLista> Obtengolistas()throws NoExisteLista;
+
 }

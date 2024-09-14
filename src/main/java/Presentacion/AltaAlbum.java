@@ -6,8 +6,13 @@ import LogicaDTO.DTOAlbum;
 import LogicaDTO.DTOTema;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -22,7 +27,7 @@ public class AltaAlbum extends javax.swing.JFrame {
     private JFrame principal;
     private IControllerMusica controlMus;
     private File selectedFile = null;
-    private String ruta = null;
+    private String rutaDestino = null;
     private int ubicacion = 1;
     private Set<DTOTema> temasDTO = new HashSet<>();
     private DefaultTreeModel modelo;
@@ -321,7 +326,8 @@ public class AltaAlbum extends javax.swing.JFrame {
         try {
             anio = Integer.parseInt(jTextFieldAnio.getText());
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error: El texto no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El texto no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         Set<String> generos = new HashSet();
@@ -331,8 +337,13 @@ public class AltaAlbum extends javax.swing.JFrame {
         }
         
         if (checkFormulario()) {
-            albumDTO = new DTOAlbum(titulo,anio, ruta, nicknameArtista, generos);     
+            if(!controlMus.existeAlbum(nicknameArtista,titulo)){
+                            albumDTO = new DTOAlbum(titulo,anio, rutaDestino, nicknameArtista, generos);     
             habilitarFormTemas();
+            }else{
+                JOptionPane.showMessageDialog(this, "El artista ya tiene un album con ese titulo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }//GEN-LAST:event_jButtonEnviarActionPerformed
 
@@ -342,17 +353,26 @@ public class AltaAlbum extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jButtonImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImagenActionPerformed
-        //BOTON AÑADIR IMAGEN y guardar ruta
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccionar Imagen");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
         fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+        int seleccion = fileChooser.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
+            File destino = new File(ruta);
+            try{
+            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
+            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
             Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
             jLabelImagen.setIcon(new ImageIcon(image));
-            ruta = selectedFile.getAbsolutePath();
+            rutaDestino = destino.getAbsolutePath();
+            } catch (IOException ex) {
+                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_jButtonImagenActionPerformed
 
@@ -375,18 +395,26 @@ public class AltaAlbum extends javax.swing.JFrame {
         if(checkFormularioTema()){
             //DTOTema(String nombre, String duracion, String enlace, int posicion)
             DTOTema nuevoTema = new DTOTema(nombre,duracion,enlace,ubicacion);
-            //controlMus.altaTema(nombre, duracion, enlace, ubicacion,local); //Manejo persistencia
-            temasDTO.add(nuevoTema);
-            ubicacion++;
-            modeloLT.addElement(nuevoTema.getNombre());
-            limpiarFormTemas();
-            jButtonFinalizar.setEnabled(true);
+            boolean existe = false;
+            for(DTOTema tema : temasDTO){
+                if(tema.getNombre().equalsIgnoreCase(nombre)){
+                    existe = true;
+                    break;
+                }
+            }
+            if(!existe){
+                temasDTO.add(nuevoTema);
+                ubicacion++;
+                modeloLT.addElement(nuevoTema.getNombre());
+                limpiarFormTemas();
+                jButtonFinalizar.setEnabled(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "Ya existe un tema con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jButtonAddTemaActionPerformed
 
     private void jButtonFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFinalizarActionPerformed
-       // local.setTemas(temasLocal);
-        //controlMus.editarAlbum(local);
          try{
                 controlMus.altaAlbum(albumDTO, temasDTO);
                 JOptionPane.showMessageDialog(this, "El Album se ha creado exitosamente","Alta Album",JOptionPane.INFORMATION_MESSAGE);
@@ -398,6 +426,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Transaccion realizada exitosamente","Alta Album",JOptionPane.INFORMATION_MESSAGE);
         limpiarFormulario();
         limpiarFormTemas();
+        deshabilitarFormTemas();
     }//GEN-LAST:event_jButtonFinalizarActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
@@ -408,13 +437,11 @@ public class AltaAlbum extends javax.swing.JFrame {
         String artista = this.jTextFieldNombreArtista.getText();
         String album = this.jTextFieldNombreAlbum.getText();
         String anio = this.jTextFieldAnio.getText();
-
         if (artista.isEmpty() || album.isEmpty() || anio.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No puede haber campos vacíos", "Alta Album",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
-
         try {
             int anioInt =  Integer.parseInt(anio);
             if(anioInt < 1900 || anioInt > java.time.Year.now().getValue()){
@@ -428,18 +455,26 @@ public class AltaAlbum extends javax.swing.JFrame {
         return true;
     }
     
-        private boolean checkFormularioTema() {
+    private boolean checkFormularioTema() {
         String nombre = this.jTextFieldNombreT.getText();
         String duracion = this.jTextFieldDuracionT.getText();
         String enlace = this.jTextFieldLinkT.getText();
 
         if (nombre.isEmpty() || duracion.isEmpty() || enlace.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No puede haber campos vacíos", "Alta Tema",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No puede haber campos vacíos", "Alta Tema", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+//        if(!checkLink(enlace)){
+//            JOptionPane.showMessageDialog(this, "Enlace no valido", "Alta Tema", JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
         return true;
     }
+    
+//    private boolean checkLink(String enlace) {
+//        String formato = "^(https?|ftp)?://[^\\s/$.?#]+\\.[^\\s/$.?#]+.*[^\\s]*$";
+//        return enlace.matches(formato);
+//    }
 
     private void limpiarFormulario() {
         jTextFieldNombreArtista.setText("");
@@ -449,10 +484,78 @@ public class AltaAlbum extends javax.swing.JFrame {
         jTextFieldDuracionT.setText("");
         jTextFieldLinkT.setText("");
     }
+    
     private void limpiarFormTemas() {
         jTextFieldNombreT.setText("");
         jTextFieldDuracionT.setText("");
         jTextFieldLinkT.setText("");
+    }
+    
+    private void cargarArbol(){
+        modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros());       
+        if(modelo==null){
+            JOptionPane.showMessageDialog(null,"No existe ningun genero, porfavor cree alguno");
+        }else{
+            jTreeGeneros.setModel(modelo);
+        }
+    }
+    
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AltaAlbum().setVisible(true);
+            }
+        });
+    }
+    
+    private void habilitarFormTemas() {
+        jButtonAddTema.setEnabled(true); 
+        jLabelDuracionT.setEnabled(true); 
+        jLabelEnlaceT.setEnabled(true); 
+        jLabelNombreTema.setEnabled(true); 
+        jListTemas.setEnabled(true);  
+        jTextFieldDuracionT.setEnabled(true); 
+        jTextFieldLinkT.setEnabled(true); 
+        jTextFieldNombreT.setEnabled(true);        
+        jButtonEnviar.setEnabled(false);
+        jButtonImagen.setEnabled(false);
+        jGenerosSeleccionados.setEnabled(false);
+        jLabelAnioAlbum.setEnabled(false);
+        jLabelArtista.setEnabled(false);
+        jLabelImagen.setEnabled(false);
+        jLabelNombreAlbum.setEnabled(false);
+        jTextFieldAnio.setEnabled(false);
+        jTextFieldNombreAlbum.setEnabled(false);
+        jTextFieldNombreArtista.setEnabled(false);
+        jTreeGeneros.setEnabled(false);
+        jButtonUpdate.setEnabled(false); 
+    }
+    
+    private void deshabilitarFormTemas() {
+        jButtonAddTema.setEnabled(false); 
+        jLabelDuracionT.setEnabled(false); 
+        jLabelEnlaceT.setEnabled(false); 
+        jLabelNombreTema.setEnabled(false); 
+        jListTemas.setEnabled(false);  
+        jTextFieldDuracionT.setEnabled(false); 
+        jTextFieldLinkT.setEnabled(false); 
+        jTextFieldNombreT.setEnabled(false);        
+        jButtonEnviar.setEnabled(true);
+        jButtonImagen.setEnabled(true);
+        jGenerosSeleccionados.setEnabled(true);
+        jLabelAnioAlbum.setEnabled(true);
+        jLabelArtista.setEnabled(true);
+        jLabelImagen.setEnabled(true);
+        jLabelNombreAlbum.setEnabled(true);
+        jTextFieldAnio.setEnabled(true);
+        jTextFieldNombreAlbum.setEnabled(true);
+        jTextFieldNombreArtista.setEnabled(true);
+        jTreeGeneros.setEnabled(true);
+        jButtonUpdate.setEnabled(true); 
+        jButtonFinalizar.setEnabled(false);
+        jLabelImagen.setIcon(null);
+        DefaultListModel<String> listModel = (DefaultListModel<String>) jListTemas.getModel();
+        listModel.clear();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -483,43 +586,4 @@ public class AltaAlbum extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNombreT;
     private javax.swing.JTree jTreeGeneros;
     // End of variables declaration//GEN-END:variables
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AltaAlbum().setVisible(true);
-            }
-        });
-    }
-    private void cargarArbol(){
-        modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros());       
-        if(modelo==null){
-            JOptionPane.showMessageDialog(null,"No existe ningun genero, porfavor cree alguno");
-        }else{
-            jTreeGeneros.setModel(modelo);
-        }
-    }
-
-    private void habilitarFormTemas() {
-        jButtonAddTema.setEnabled(true); 
-        jLabelDuracionT.setEnabled(true); 
-        jLabelEnlaceT.setEnabled(true); 
-        jLabelNombreTema.setEnabled(true); 
-        jListTemas.setEnabled(true);  
-        jTextFieldDuracionT.setEnabled(true); 
-        jTextFieldLinkT.setEnabled(true); 
-        jTextFieldNombreT.setEnabled(true);        
-        jButtonEnviar.setEnabled(false);
-        jButtonImagen.setEnabled(false);
-        jGenerosSeleccionados.setEnabled(false);
-        jLabelAnioAlbum.setEnabled(false);
-        jLabelArtista.setEnabled(false);
-        jLabelImagen.setEnabled(false);
-        jLabelNombreAlbum.setEnabled(false);
-        jTextFieldAnio.setEnabled(false);
-        jTextFieldNombreAlbum.setEnabled(false);
-        jTextFieldNombreArtista.setEnabled(false);
-        jTreeGeneros.setEnabled(false);
-        jButtonUpdate.setEnabled(false); 
-    }
 }

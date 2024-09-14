@@ -1,7 +1,6 @@
 package Logica;
 
 import Excepciones.*;
-import Logica.ManejadorUsuario;
 import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
@@ -11,9 +10,8 @@ public class ControllerUsuario implements IControllerUsuario {
     ControllerPersistencia cPersist = new ControllerPersistencia();
     
     @Override
-    public void registrarCliente(String nickname, String nombre, String apellido, String Email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) throws UsuarioYaExisteException, EmailYaExiste {
+    public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
-
         //Controles
         Usuario u = mu.obtenerUsuario(nickname);
         if (u == null) {
@@ -29,9 +27,8 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     @Override
-    public void registrarArtista(String nickname, String nombre, String apellido, String Email, byte[] imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) throws UsuarioYaExisteException, EmailYaExiste {
+    public void registrarArtista(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
-
         //Controles
         Usuario u = mu.obtenerUsuario(nickname);
         if (u == null) {
@@ -146,4 +143,5 @@ public class ControllerUsuario implements IControllerUsuario {
     public List<String> obtenerArtistas(){
             return cPersist.obtenerArtistas();
     }
+
 }
