@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
 
 public class AlbumJpaController {
 
@@ -126,11 +127,37 @@ public class AlbumJpaController {
                 TypedQuery<Album> query = em.createQuery(
                     "SELECT a FROM Album a WHERE a.titulo = :titulo", Album.class);
                 query.setParameter("titulo", albumSeleccionado);
+                JOptionPane.showMessageDialog(null,"llegue pa no dio null");
                 return query.getSingleResult();
+                
             } catch (NoResultException e) {
+                JOptionPane.showMessageDialog(null,"llegue pa a lnull");
                 return null;
+                
             } finally {
                 em.close();
             }
+    }
+    
+    public Album BuscoAlbumParaTemaLista(String nombreAlbum){
+        EntityManager em = getEntityManager();
+        TypedQuery<Album> query = em.createQuery( "SELECT a from Album a where a.titulo = :titulo", Album.class);
+            
+            query.setParameter("titulo", nombreAlbum);
+            Album alb = null;
+            try{        
+            alb = query.getSingleResult();
+            }catch(Exception e){
+                 //System.out.println("No se encontró ninguna lista con el nombre proporcionado.");
+            }
+              
+                    return alb;
+    }
+    
+    
+    public List<Album> todosLosAlbums(){
+         EntityManager em = getEntityManager();
+         List<Album> Albums = em.createQuery("select a from Album a", Album.class).getResultList();
+         return Albums;
     }
 }

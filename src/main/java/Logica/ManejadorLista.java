@@ -1,10 +1,13 @@
 package Logica;
 
+import Persistencia.ControllerPersistencia;
+import Persistencia.TemaJpaController;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 public class ManejadorLista {
@@ -36,12 +39,22 @@ public class ManejadorLista {
     }
 
         public Lista ExisteLista(String nombrelista){
-            t.begin();
-            Lista lis = em.find(Lista.class,nombrelista);
-            t.commit();
-            return lis;
-                
+
+            TypedQuery<Lista> query = em.createQuery("SELECT l from Lista l where l.nombre = :nombre", Lista.class);
+            
+            query.setParameter("nombre", nombrelista);
+            Lista lis = null;
+            try{        
+            lis = query.getSingleResult();
+            }catch(Exception e){
+                 //System.out.println("No se encontró ninguna lista con el nombre proporcionado.");
+            }
+
+           // JOptionPane.showMessageDialog(null,"El nobre de la lista es: "+lis.getNombre());
+                    return lis;
         }
+        
+        
         public boolean esdueño(String nombrelista, String nombreusuario){
           
             Lista lis;
@@ -64,16 +77,14 @@ public class ManejadorLista {
             }
         }
         
-//        public void aniadotemalista(String nombrelista,String nombretema){
-//            ManejadordeTema mante = ManejadordeTema.getinstance();
-//            Tema tem = mante.obtenerTema(nombretema);
-//            Lista lis = this.ExisteLista(nombrelista);
-//            lis.addTema(tem);
-//            t.begin();
-//            em.merge(lis);
-//            t.commit();
-//            JOptionPane.showMessageDialog(null,"Tema añadido con exito a la lista");
-//        }
+        public void aniadotemalista(String nombrelista,Tema tem){
+            Lista lis = this.ExisteLista(nombrelista);
+            lis.addTema(tem);
+            t.begin();
+            em.merge(lis);
+            t.commit();
+            JOptionPane.showMessageDialog(null,"Tema añadido con exito a la lista");
+         }
      
         
         
@@ -84,15 +95,45 @@ public class ManejadorLista {
             return listas;
             
         }
-
         
-        public void creolista (String nombre, String genero, String duenio){
-            JOptionPane.showMessageDialog(null,"llegue1");
+        public List<Lista> todaslistassinduenio(){
+            List<Lista> listas = em.createQuery("select l from Lista l where l.duenio = null", Lista.class).getResultList();
+            return listas;
+        }
+        
+        public List<Lista> todaslistasconduenio(){
+            List<Lista> listas = em.createQuery("select l from Lista l where l.duenio is not null", Lista.class).getResultList();
+            return listas;
+        }
+        
+
+        //(nombre, genero, duenio,ruta,privada)
+        public void creolista (String nombre, String genero, String duenio,String ruta,boolean privada){
+            //JOptionPane.showMessageDialog(null,"llegue1");
             ManejadorGenero mang = ManejadorGenero.getInstance();
             ManejadorUsuario manu = ManejadorUsuario.getinstance();
             Genero g = mang.Existegenbasedatoss(genero);
             Usuario u = manu.obtenerUsuario(duenio);
-            Lista L = new Lista(nombre, null, true,g,u);
+            Lista L = new Lista(nombre, ruta, privada,g,u);
             addLista(L);
+        }
+        
+        
+        public List<Tema> temasdelalista(String nombrelista){
+            Lista lis = this.ExisteLista(nombrelista);
+            List<Tema> temos = lis.getTemas();
+            return temos;
+        }
+        
+        public void Eliminotemalista(String nombreLista, Tema tem){
+        Tema temardo = em.find(Tema.class, tem.getId());  // Pido el tema buscandolo por ID
+    if (temardo != null) {
+        Lista lis = this.ExisteLista(nombreLista);
+        lis.removeTema(temardo);  // Remover el tema de la lista
+        t.begin();
+        em.merge(lis);  // Actualizar la lista
+        t.commit();
+    }
+            JOptionPane.showMessageDialog(null,"Tema Removido con exito a la lista");
         }
 }

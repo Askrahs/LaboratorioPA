@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,7 +22,7 @@ public class Lista implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @Column(name="Nombre")
+    @Column(name="Nombre",unique = true)
     private String nombre;
     @Column(name="rutaImagen")
     private String rutaImagen;
@@ -36,7 +37,8 @@ public class Lista implements Serializable {
     @JoinColumn(name="Duenio")
     private Usuario duenio;
     @OneToMany
-    @JoinColumn(name="Temas")
+   
+    @JoinTable(name = "Lista_Temas",joinColumns = @JoinColumn(name = "Lista_id"),inverseJoinColumns = @JoinColumn(name = "Tema_Id"))
     private List<Tema> temas;
 
     public Lista(){}

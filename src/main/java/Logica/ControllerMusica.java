@@ -13,7 +13,9 @@ import Logica.ManejadorUsuario;
 import Logica.Tema;
 import java.util.ArrayList;
 import Persistencia.*;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,26 +140,30 @@ public class ControllerMusica implements IControllerMusica {
     
      @Override
      //A la espera de la otra parte del codigo
-    public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta) throws ListaYaExisteException{
-        JOptionPane.showMessageDialog(null,"llegue2");
+    public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada) throws ListaYaExisteException{
+       //JOptionPane.showMessageDialog(null,"llegue2");
         ManejadorLista ml = ManejadorLista.getInstance();
         ManejadorGenero mangen =ManejadorGenero.getInstance();
         ManejadorUsuario usrman = ManejadorUsuario.getinstance();
         //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
-        if(ml.ExisteLista(nombre)==null){//si existe lista
-            JOptionPane.showMessageDialog(null,"llegue3");
-            if(genero==null){
+        //JOptionPane.showMessageDialog(null,"llegue097");
+       // JOptionPane.showMessageDialog(null,"Nombre ingresado: "+nombre);
+        Lista los = ml.ExisteLista(nombre);
+       // JOptionPane.showMessageDialog(null,"llegue323");
+        if(los==null){//si existe lista
+           // JOptionPane.showMessageDialog(null,"llegue3");
+            if(genero.isEmpty()){
            
                 if(usrman.obtenerUsuario(duenio)!=null){//si usuario existe
-                    JOptionPane.showMessageDialog(null,"llegue5");
-                    ml.creolista(nombre, genero, duenio);
-                //JOptionPane.showMessageDialog(null,"llegue4");
+                   //JOptionPane.showMessageDialog(null,"llegue5");
+                    ml.creolista(nombre, genero, duenio,ruta,privada);
+               // JOptionPane.showMessageDialog(null,"llegue4");
             }
             }else{
                 Genero gen = mangen.Existegenbasedatoss(genero);
                  if(gen!=null){ //si es false existe
-                     JOptionPane.showMessageDialog(null,"llegue6");
-                     ml.creolista(nombre, genero, duenio);
+                 //   JOptionPane.showMessageDialog(null,"llegue6");
+                     ml.creolista(nombre, genero, duenio,ruta, privada);
                  }else{
                     JOptionPane.showMessageDialog(null,"Genero no existe"); 
                  }
@@ -203,8 +209,7 @@ public class ControllerMusica implements IControllerMusica {
        return setGeneros; 
     } 
     
-    
-//        public void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste{
+            public void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste{
 //            //Chequeo si existe el usuraio
 //            ManejadorUsuario manusr =ManejadorUsuario.getinstance();
 //            if(manusr.obtenerUsuario(nombreusuario)!=null){
@@ -248,7 +253,7 @@ public class ControllerMusica implements IControllerMusica {
 //             return dtolista;          
 //        }
         
-        
+       
 //        @Override
 //        public  List <DTOTema> Obtengotemas()throws TemaNoExiste{
 //          ManejadordeTema mant = ManejadordeTema.getinstance();     
@@ -265,14 +270,22 @@ public class ControllerMusica implements IControllerMusica {
 //        }    
 //    }
    
+            
+  //  public ObtengoTemanombre(String nombreTema){
+        
+   // }
+}
+    @Override
     public List<String> obtenerAlbumsPorGenero(String generoSeleccionado){
         return cPersist.obtenerAlbumsPorGenero(generoSeleccionado);
     }   
 
+    @Override
     public List<String> obtenerAlbumsPorArtista(String artistaSeleccionado){   
         return cPersist.obtenerAlbumsPorArtista(artistaSeleccionado);
     }
     
+    @Override
     public  DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado){
         Album a = cPersist.consultaAlbumPorTitulo(albumSeleccionado);
         Set<String> generosString = new HashSet<>();
@@ -289,6 +302,7 @@ public class ControllerMusica implements IControllerMusica {
         return aDTO;
     }
 
+    @Override
     public  List <DTOGenero> Datageneros(){
         ManejadorGenero mang = ManejadorGenero.getInstance();
         List <Genero> gen = mang.obtengoListaGenero();
@@ -303,6 +317,342 @@ public class ControllerMusica implements IControllerMusica {
              return dtogeneros;   
     } 
 
+    @Override
+    public void AñadotemalistaAlbum(String nombreAlbum, String nombreLista, String nombreTema, String nombreUsuario){
+         Album a = cPersist.consultaAlbumPorTitulo(nombreAlbum);
+         ManejadorUsuario usr = ManejadorUsuario.getinstance();
+         
+        ManejadorLista L = ManejadorLista.getInstance();
+        Lista lo =L.ExisteLista(nombreLista);
+        Cliente C = usr.obtenerCliente(nombreUsuario);
+        Usuario U = lo.getDuenio();
+        if(C instanceof Cliente){
+            if(C == U){
+        if(lo==null){
+            JOptionPane.showMessageDialog(null,"Lista no existe");
+            return;
+        }
+        Tema iteratema;
+        Lista lis = L.ExisteLista(nombreLista);
+        List<Tema> temaslista = lis.getTemas();
+        Set<Tema> lostemas = a.getTemas();
+        Iterator <Tema> iterador = lostemas.iterator();
+        
+       
+        Tema t;
+        while(iterador.hasNext()){
+            
+            t = iterador.next();
+            if(t.getNombre().equalsIgnoreCase(nombreTema)){//cheque el nombre tema en el album
+               // JOptionPane.showMessageDialog(null,"ENTRE AL if");
+               if(temaslista.isEmpty()){
+                   L.aniadotemalista(nombreLista, t);
+                   return;
+                 }else{
+                   for (int i = 0;i<temaslista.size();i++){//Me fijo tema por tema dentro de los temas de la lista
+                       iteratema = temaslista.get(i);
+                       if(iteratema.getNombre().equalsIgnoreCase(nombreTema)){
+                           //retorna que ya existe
+                            JOptionPane.showMessageDialog(null,"Tema ya existe");
+                            return;
+                       }
+                   }
+                   L.aniadotemalista(nombreLista, t);
+                   JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
+            }
+        }
+    }        
+            }else{
+                JOptionPane.showMessageDialog(null,"el nombre usuario que paso no es el dueño de la lista");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"El usuario no es cliente");
+        }
+        
+    }
+    
+             @Override
+            public List<DTOLista> Obtengolistasconduenio()throws NoExisteLista{
+           //JOptionPane.showMessageDialog(null,"llegue2");
+            ManejadorLista man= ManejadorLista.getInstance();
+            Lista losta;
+            List <Lista> lista;
+            lista = man.todaslistasconduenio();          
+            List <DTOLista> dtolista = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<lista.size();i++){
+                losta = lista.get(i);
+                DTOLista datolista = new DTOLista(losta.getNombre());
+                dtolista.add(datolista);
+            }     
+             return dtolista;          
+        }
+            
+            
+            @Override
+            public List<DTOLista> Obtengolistassinduenio()throws NoExisteLista{
+           //JOptionPane.showMessageDialog(null,"llegue2");
+            ManejadorLista man= ManejadorLista.getInstance();
+            Lista losta;
+            List <Lista> lista;
+            lista = man.todaslistassinduenio();          
+            List <DTOLista> dtolista = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<lista.size();i++){
+                losta = lista.get(i);
+                DTOLista datolista = new DTOLista(losta.getNombre());
+                dtolista.add(datolista);
+            }     
+             return dtolista;          
+        }
+           
+        
+           @Override
+            public List<DTOLista> Obtengolistas()throws NoExisteLista{
+           //JOptionPane.showMessageDialog(null,"llegue2");
+            ManejadorLista man= ManejadorLista.getInstance();
+            Lista losta;
+            List <Lista> lista;
+            lista = man.todaslistas();          
+            List <DTOLista> dtolista = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<lista.size();i++){
+                losta = lista.get(i);
+                DTOLista datolista = new DTOLista(losta.getNombre());
+                dtolista.add(datolista);
+            }     
+             return dtolista;          
+        }
+    
+    
+    public void aniadoTemaListaPublica(String nombreLista, String nombreTema){
+        JOptionPane.showMessageDialog(null,"llegue1");
+        Tema tem = cPersist.findTemaPorNombre(nombreTema);
+        Tema iteratem;
+        ManejadorLista manlis = ManejadorLista.getInstance();
+        Lista lis = manlis.ExisteLista(nombreLista);
+        List <Tema> temos = lis.getTemas();
+        if(lis!=null){
+            if(lis.getDuenio()==null){
+            if(lis.getEsPrivada()!=true){
+                // JOptionPane.showMessageDialog(null,"llegue2");
+                if(temos.isEmpty()){
+                    // JOptionPane.showMessageDialog(null,"llegue3");
+                    manlis.aniadotemalista(nombreLista, tem);
+                    JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
+                }else{
+                    for(int i = 0; i<temos.size();i++){
+                       iteratem = temos.get(i);
+                       if(iteratem.getNombre().equalsIgnoreCase(nombreTema)){
+                           //retorna que ya existe
+                            JOptionPane.showMessageDialog(null,"Tema ya existe");
+                            return;
+                       }
+                    }
+                    manlis.aniadotemalista(nombreLista, tem);
+                    JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
+                    return;
+                }
+            }else{
+            JOptionPane.showMessageDialog(null,"Lista no es publica");
+            return;
+            }
+            }else{
+                JOptionPane.showMessageDialog(null,"La lista no es por defecto tiene dueño");
+            }
+        }else{
+         JOptionPane.showMessageDialog(null,"Lista no existe");
+        }
+    }
+    
+    public void EliminotemaLista(String nombreLista, String nombreTema){
+        JOptionPane.showMessageDialog(null,"llegue1");
+        Tema tem = cPersist.findTemaPorNombre(nombreTema);
+        Tema iteratem;
+        ManejadorLista manlis = ManejadorLista.getInstance();
+        Lista lis = manlis.ExisteLista(nombreLista);
+        List <Tema> temos = lis.getTemas();
+        if(lis!=null){
+            if(lis.getDuenio()==null){
+            if(lis.getEsPrivada()!=true){
+                // JOptionPane.showMessageDialog(null,"llegue2");
+                if(temos.isEmpty()){
+                    // JOptionPane.showMessageDialog(null,"llegue3");
+                    JOptionPane.showMessageDialog(null,"No hay Temas en la lista");
+                    return;
+                }else{
+                    for(int i = 0; i<temos.size();i++){
+                       iteratem = temos.get(i);
+                       if(iteratem.getNombre().equalsIgnoreCase(nombreTema)){
+                           //retorna que ya existe
+                            manlis.Eliminotemalista(nombreLista, tem);
+                            return;
+                       }
+                    }
+                    
+                    JOptionPane.showMessageDialog(null,"No existe el tema");
+                    return;
+                }
+            }else{
+            JOptionPane.showMessageDialog(null,"Lista no es publica");
+            return;
+            }
+            }else{
+                JOptionPane.showMessageDialog(null,"La lista no es por defecto tiene dueño");
+            }
+        }else{
+         JOptionPane.showMessageDialog(null,"Lista no existe");
+        }
+    }
+    
+     public void EliminoTemaListaConduenio(String nombreUsuario,String nombreLista,String nombreTema){
+         Tema tem = cPersist.findTemaPorNombre(nombreTema);
+        Tema iteratem;
+        ManejadorLista manlis = ManejadorLista.getInstance();
+        Lista lis = manlis.ExisteLista(nombreLista);
+        List <Tema> temos = lis.getTemas();
+        ManejadorUsuario USR = ManejadorUsuario.getinstance();
+        Cliente Cli = USR.obtenerCliente(nombreUsuario);
+        if(tem!=null){
+        if(Cli!=null){
+        if(lis!=null){
+            if(lis.getDuenio().getNombre().equalsIgnoreCase(Cli.getNombre())){
+                if(lis.getEsPrivada()!=true){
+                    // JOptionPane.showMessageDialog(null,"llegue2");
+                    if(temos.isEmpty()){
+                        // JOptionPane.showMessageDialog(null,"llegue3");
+                        JOptionPane.showMessageDialog(null,"la lista esta vacia");
+                    }else{
+                        for(int i = 0; i<temos.size();i++){
+                            iteratem = temos.get(i);
+                            if(iteratem.getNombre().equalsIgnoreCase(nombreTema)){
+                                manlis.Eliminotemalista(nombreLista, tem);
+                                JOptionPane.showMessageDialog(null,"Tema eliminado con exito");
+                                return;
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null,"No se encontro el tema");
+                        return;
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Lista no es publica");
+                    return;
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Ese no es el dueñio de la lista");
+            }
+        }else{
+         JOptionPane.showMessageDialog(null,"Lista no existe");
+        }
+        }else{
+             JOptionPane.showMessageDialog(null,"El suaurio ingresado no es un cliente");
+        }
+        }else{
+          JOptionPane.showMessageDialog(null,"El tema no existe");  
+    }
+     }
+    public void aniadoTemaListaConduenio(String nombreUsuario,String nombreLista,String nombreTema){
+       //JOptionPane.showMessageDialog(null,"llegue1");
+        Tema tem = cPersist.findTemaPorNombre(nombreTema);
+        Tema iteratem;
+        ManejadorLista manlis = ManejadorLista.getInstance();
+        Lista lis = manlis.ExisteLista(nombreLista);
+        List <Tema> temos = lis.getTemas();
+        ManejadorUsuario USR = ManejadorUsuario.getinstance();
+        Cliente Cli = USR.obtenerCliente(nombreUsuario);
+        if(tem!=null){
+        if(Cli!=null){
+        if(lis!=null){
+            if(lis.getDuenio().getNombre().equalsIgnoreCase(Cli.getNombre())){
+                if(lis.getEsPrivada()!=true){
+                    // JOptionPane.showMessageDialog(null,"llegue2");
+                    if(temos.isEmpty()){
+                        // JOptionPane.showMessageDialog(null,"llegue3");
+                        manlis.aniadotemalista(nombreLista, tem);
+                        JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
+                    }else{
+                        for(int i = 0; i<temos.size();i++){
+                            iteratem = temos.get(i);
+                            if(iteratem.getNombre().equalsIgnoreCase(nombreTema)){
+                                //retorna que ya existe
+                                JOptionPane.showMessageDialog(null,"Tema ya existe");
+                                return;
+                            }
+                        }
+                        manlis.aniadotemalista(nombreLista, tem);
+                        JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
+                        return;
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Lista no es publica");
+                    return;
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Ese no es el dueñio de la lista");
+            }
+        }else{
+         JOptionPane.showMessageDialog(null,"Lista no existe");
+        }
+        }else{
+             JOptionPane.showMessageDialog(null,"El suaurio ingresado no es un cliente");
+        }
+        }else{
+          JOptionPane.showMessageDialog(null,"El tema no existe");  
+    }
+    }
+   
+    
+    @Override
+    public List <DTOTema> TemasdeListas(String nombrelista){
+        //JOptionPane.showMessageDialog(null,"ENTRE 1");
+        ManejadorLista manlis = ManejadorLista.getInstance();
+        List <Tema> temos = manlis.temasdelalista(nombrelista);
+         //  JOptionPane.showMessageDialog(null,"ENTRE 2");
+            
+            Tema tem;
+            List <DTOTema> dtotema = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<temos.size();i++){
+                tem = temos.get(i);
+                DTOTema datotemo = new DTOTema(tem.getNombre(),tem.getDuracion(),tem.getEnlace(),tem.getPosicion());
+                dtotema.add(datotemo);
+            }     
+             return dtotema;          
+        }
+    
+    
+    @Override
+    public  List<DTOAlbum> ObtengoAlbums(){
+        List <Album> Albumes = cPersist.Todoslosalbums();
+        
+        Album alb;
+            List <DTOAlbum> dtoalbum = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<Albumes.size();i++){
+                alb = Albumes.get(i);
+                DTOAlbum datoalbu = new DTOAlbum (alb.getTitulo(),alb.getAnio());
+                dtoalbum.add(datoalbu);
+            }     
+             return dtoalbum;   
+    }
+    
+    
+    @Override
+    public  List<DTOTema> ObtengoTemasdeAlbum(String nombreAlbum){
+       //JOptionPane.showMessageDialog(null,"LLEGUE 1");
+        List <Tema> temos = cPersist.ObtengotemaPorAlbum(nombreAlbum);
+         Tema tem;
+            List <DTOTema> dtotema = new ArrayList<>();
+            //JOptionPane.showMessageDialog(null,"llegue4");
+            for (int i = 0; i<temos.size();i++){
+                tem = temos.get(i);
+                DTOTema datotemo = new DTOTema(tem.getNombre(),tem.getDuracion(),tem.getEnlace(),tem.getPosicion());
+                dtotema.add(datotemo);
+            }     
+             return dtotema;          
+        }
+    }
+    
     
 //
 //    @Override
@@ -318,4 +668,4 @@ public class ControllerMusica implements IControllerMusica {
 //    }
 //
 //    
-}
+

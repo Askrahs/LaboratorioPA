@@ -52,6 +52,7 @@ public class AltaGenero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnModificar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -71,7 +72,18 @@ public class AltaGenero extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
+
+        btnModificar.setText("MODIFICAR");
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModificarMouseClicked(evt);
+            }
+        });
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -246,29 +258,16 @@ public class AltaGenero extends javax.swing.JFrame {
             }
         });
 
-        btnModificar.setText("MODIFICAR");
-        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnModificarMouseClicked(evt);
-            }
-        });
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(44, 44, 44)
                 .addComponent(btnEliminar)
-                .addGap(18, 18, 18)
-                .addComponent(btnModificar)
-                .addGap(29, 29, 29))
+                .addGap(75, 75, 75))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,8 +275,7 @@ public class AltaGenero extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnModificar))
+                    .addComponent(btnCancelar))
                 .addGap(24, 24, 24))
         );
 

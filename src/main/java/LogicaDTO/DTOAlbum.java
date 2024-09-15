@@ -10,6 +10,14 @@ public class DTOAlbum {
     private Set<String> generos;
     private Set<DTOTema> temas;   
 
+    
+    public DTOAlbum(String titulo, int anio) {
+        this.titulo = titulo;
+        this.anio = anio;
+     
+    }
+    
+    
     public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos) {
         this.titulo = titulo;
         this.anio = anio;

@@ -1,13 +1,16 @@
+import Excepciones.NoExisteLista;
 import Logica.*;
+import Presentacion.AgregarTemaListaPublica;
 import Presentacion.SeguirUsuario;
 import Presentacion.DejarDeSeguirUsuario;
-import Presentacion.AgregarTemaLista;
+
 import Presentacion.AltaAlbum;
 import Presentacion.AltaListaReproduccion;
 import Presentacion.AltaUsuario;
 import Presentacion.ConsultaAlbum;
 import Presentacion.AltaGenero;
 import Presentacion.ConsultaCliente;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +32,7 @@ public class LaboratorioPA {
     private ConsultaAlbum ConAlb;
     private AltaListaReproduccion AltLis;
     private AltaGenero AltGen;
-    private AgregarTemaLista AgreTemList;
+    private AgregarTemaListaPublica TiposAniaTemList;
     
 
     public static void main(String[] args) {
@@ -45,7 +48,7 @@ public class LaboratorioPA {
         });
     }
 
-    public LaboratorioPA() {
+    public LaboratorioPA() throws NoExisteLista {
         iniciar();
         Fabrica fabrica = Fabrica.getInstance();
         ctrlU = fabrica.getIControllerUsuario();
@@ -70,8 +73,9 @@ public class LaboratorioPA {
         AltLis.setVisible(false);
         AltGen = new Presentacion.AltaGenero(ctrlM, principal);
         AltGen.setVisible(false);
-        AgreTemList = new Presentacion.AgregarTemaLista(ctrlM, principal);
-        AgreTemList.setVisible(false);
+        TiposAniaTemList = new Presentacion.AgregarTemaListaPublica(ctrlM, principal);
+        TiposAniaTemList.setVisible(false);
+        
         //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
 
@@ -181,6 +185,19 @@ public class LaboratorioPA {
             }
         });
         menuLista.add(menuItemRegistrarLista);
+        
+        //Añado tema a lista
+        JMenuItem MenuItemaniadotem = new JMenuItem("Añado Tema a Lista");
+        MenuItemaniadotem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                TiposAniaTemList.setVisible(true);
+            }
+        });
+        menuLista.add(MenuItemaniadotem);
+        
+        
 
         //Opcion submenu Genero
         JMenu menuGen = new JMenu("Generos");
