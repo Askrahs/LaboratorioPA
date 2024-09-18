@@ -1,7 +1,8 @@
+import Excepciones.NoExisteLista;
 import Logica.*;
+import Presentacion.AgregarTemaListaPublica;
 import Presentacion.SeguirUsuario;
 import Presentacion.DejarDeSeguirUsuario;
-import Presentacion.AgregarTemaLista;
 import Presentacion.AltaAlbum;
 import Presentacion.AltaListaReproduccion;
 import Presentacion.AltaUsuario;
@@ -32,6 +33,7 @@ public class LaboratorioPA {
     private AltaGenero AltGen;
     private AgregarTemaLista AgreTemList;
     private ConsultaArtista ConArt;
+    private AgregarTemaListaPublica TiposAniaTemList;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -46,7 +48,7 @@ public class LaboratorioPA {
         });
     }
 
-    public LaboratorioPA() {
+    public LaboratorioPA() throws NoExisteLista {
         iniciar();
         Fabrica fabrica = Fabrica.getInstance();
         ctrlU = fabrica.getIControllerUsuario();
@@ -75,7 +77,8 @@ public class LaboratorioPA {
         AgreTemList.setVisible(false);
         ConArt = new Presentacion.ConsultaArtista(ctrlU,principal);
         ConArt.setVisible(false);
-        
+        TiposAniaTemList = new Presentacion.AgregarTemaListaPublica(ctrlM, principal);
+        TiposAniaTemList.setVisible(false);
         
         //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
     }
@@ -201,6 +204,19 @@ public class LaboratorioPA {
             }
         });
         menuLista.add(menuItemRegistrarLista);
+        
+        //Añado tema a lista
+        JMenuItem MenuItemaniadotem = new JMenuItem("Añado Tema a Lista");
+        MenuItemaniadotem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                TiposAniaTemList.setVisible(true);
+            }
+        });
+        menuLista.add(MenuItemaniadotem);
+        
+        
 
         //Opcion submenu Genero
         JMenu menuGen = new JMenu("Generos");

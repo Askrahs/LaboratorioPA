@@ -1,5 +1,6 @@
 package Persistencia;
 
+import Logica.Album;
 import Logica.Tema;
 import Persistencia.exceptions.*;
 import javax.persistence.EntityManager;
@@ -8,6 +9,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 public class TemaJpaController {
 
@@ -121,4 +124,24 @@ public class TemaJpaController {
             em.close();
         }
     }
+    
+    
+     public Tema findTemaPorNombre(String nombreTema) {
+        EntityManager em = getEntityManager();
+            try {
+                TypedQuery<Tema> query = em.createQuery(
+                    "SELECT t FROM Tema t WHERE t.nombre = :nombre", Tema.class);
+                query.setParameter("nombre", nombreTema);
+                return query.getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            } finally {
+                em.close();
+            }
+    }
+     public List<Tema> obtenerTemaPorNombredeAlbum(String nombreAlbum){
+        EntityManager em = getEntityManager();
+        List <Tema> temas = em.createQuery("SELECT t from Tema t where t.album.titulo = :nombreAlbum",Tema.class).setParameter("nombreAlbum",nombreAlbum).getResultList();
+        return temas;
+     }
 }
