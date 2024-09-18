@@ -138,6 +138,56 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         return nickSiguiendo;
     }
+    
+    @Override
+    public Artista ObtenerArtista(String nickname) throws UsuarioNoExisteException {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Artista a = null;
+        a = mu.obtenerArtista(nickname);
+        if (a == null) {
+            throw new UsuarioNoExisteException("El Artista seleccionado no existe...");
+        }
+        return a;
+    }
+    
+    @Override
+    public List<String> ObtenerSeguidoresArtista(String nickname) throws SinSeguidores {
+        List<String> nickSeguidores = new ArrayList<>();
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Artista artista = mu.obtenerArtista(nickname);
+        Collection<Usuario> seguidores = artista.getSeguidores();
+        for (Usuario u : seguidores) {
+            nickSeguidores.add(u.getNickname());
+        }
+        if (nickSeguidores == null) {
+            throw new SinSeguidores("Artista sin seguidores");
+        }
+        return nickSeguidores;
+    }
+
+    @Override
+    public List<String> ObtenerAlbumsArtista(String nickname) throws ArtistaSinAlbums {
+        List<String> titulos = new ArrayList<>();
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Artista artista = mu.obtenerArtista(nickname);
+        Collection<Album> albums = artista.getPublicados();
+        for (Album a : albums) {
+            titulos.add(a.getTitulo());
+        }
+        if (titulos == null) {
+            throw new ArtistaSinAlbums("Artista sin Albums");
+        }
+          return titulos;
+          
+    }
+
+    @Override
+    public Long ObtenerCuentaSeguidores(String nickname) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.ObtenerCuentaSeguidores(nickname);
+    }
+    
+    
 
     @Override
     public List<String> obtenerArtistas(){

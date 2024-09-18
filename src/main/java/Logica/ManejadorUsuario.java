@@ -151,5 +151,14 @@ public class ManejadorUsuario {
         nicknames = em.createQuery(jpql, String.class).getResultList();
         return nicknames;
     }
+    
+    public Long ObtenerCuentaSeguidores(String nickname) {
+        Artista artista = em.find(Artista.class, nickname);
+        if (artista != null) {
+            return (long) artista.getSeguidores().size();
+        } else {
+            return 0L;
+        }
+    }
 
 }

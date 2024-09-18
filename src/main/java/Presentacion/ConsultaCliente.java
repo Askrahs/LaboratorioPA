@@ -61,11 +61,17 @@ public class ConsultaCliente extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consulta Cliente");
         setBounds(new java.awt.Rectangle(0, 0, 600, 600));
         setResizable(false);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -147,15 +153,17 @@ public class ConsultaCliente extends javax.swing.JFrame {
         jPanel1.add(jLabel10);
         jLabel10.setBounds(290, 250, 190, 16);
 
+        listaSiguiendo.setEnabled(false);
         jScrollPane2.setViewportView(listaSiguiendo);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(290, 270, 190, 100);
+        jScrollPane2.setBounds(290, 270, 190, 110);
 
+        listaSeguidores.setEnabled(false);
         jScrollPane3.setViewportView(listaSeguidores);
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 270, 150, 100);
+        jScrollPane3.setBounds(10, 270, 150, 110);
 
         JLImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         JLImagen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -173,16 +181,25 @@ public class ConsultaCliente extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2);
-        jButton2.setBounds(500, 310, 180, 20);
+        jButton2.setBounds(500, 300, 180, 20);
 
-        jButton3.setText("Ver Temas");
+        jButton3.setText("Cargar Clientes");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
         jPanel1.add(jButton3);
-        jButton3.setBounds(500, 350, 180, 20);
+        jButton3.setBounds(500, 360, 180, 20);
+
+        jButton4.setText("Ver Temas");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4);
+        jButton4.setBounds(500, 330, 180, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,7 +214,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -239,7 +256,17 @@ public class ConsultaCliente extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        cargarNicknames();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+        cargarNicknames();
+    }//GEN-LAST:event_formFocusGained
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void cargarDatosCliente(String nickname) throws IOException {
         if (nickname != null && !nickname.isEmpty()) {
@@ -386,6 +413,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
