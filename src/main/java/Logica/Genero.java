@@ -45,9 +45,5 @@ public class Genero implements Serializable{
     public Set<Album> getAlbums() {
         return albums;
     }
-
-    public String getRef() {
-        return referencia;
-    }
     
 }

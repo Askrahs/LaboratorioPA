@@ -127,13 +127,10 @@ public class AlbumJpaController {
                 TypedQuery<Album> query = em.createQuery(
                     "SELECT a FROM Album a WHERE a.titulo = :titulo", Album.class);
                 query.setParameter("titulo", albumSeleccionado);
-                JOptionPane.showMessageDialog(null,"llegue pa no dio null");
                 return query.getSingleResult();
                 
             } catch (NoResultException e) {
-                JOptionPane.showMessageDialog(null,"llegue pa a lnull");
-                return null;
-                
+                return null;               
             } finally {
                 em.close();
             }
