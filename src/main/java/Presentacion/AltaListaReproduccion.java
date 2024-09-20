@@ -8,8 +8,13 @@ import Logica.IControllerMusica;
 import Logica.Tema;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -19,8 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class AltaListaReproduccion extends javax.swing.JFrame {
     private JFrame principal;
     private IControllerMusica controlMus;
-    private File selectedFile = null;
-    private String ruta = null;
+    private String rutadestino = null;
     
     public AltaListaReproduccion(IControllerMusica icm, JFrame principal) {
          controlMus = icm;
@@ -198,7 +202,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                   JOptionPane.showMessageDialog(null,"La lista es privada"); 
                }
                
-                controlMus.altaListaReproduccion(nombre,genero,duenio,ruta, priv);
+                controlMus.altaListaReproduccion(nombre,genero,duenio,rutadestino, priv);
                 JOptionPane.showMessageDialog(this, "La lista se ha creado exitosamente","Alta Lista",JOptionPane.INFORMATION_MESSAGE);
             }catch(ListaYaExisteException e){
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Lista", JOptionPane.ERROR_MESSAGE);
@@ -209,16 +213,26 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButtonAceptarActionPerformed
 
     private void jButtonAniadirImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirImagenActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
+     JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccionar Imagen");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
         fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+        int seleccion = fileChooser.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
+            File destino = new File(ruta);
+            try{
+            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
+            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
             Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
             jLabelImagen.setIcon(new ImageIcon(image));
-            ruta = selectedFile.getAbsolutePath();
+            rutadestino = destino.getAbsolutePath();
+            } catch (IOException ex) {
+                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_jButtonAniadirImagenActionPerformed
 
