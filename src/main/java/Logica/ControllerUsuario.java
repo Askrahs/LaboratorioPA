@@ -1,9 +1,6 @@
 package Logica;
 
 import Excepciones.*;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
 import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
@@ -190,147 +187,11 @@ public class ControllerUsuario implements IControllerUsuario {
         return mu.ObtenerCuentaSeguidores(nickname);
     }
     
+    
+
     @Override
     public List<String> obtenerArtistas(){
             return cPersist.obtenerArtistas();
     }
 
-    @Override
-    public List<String> obtenerClientes(){
-            return cPersist.obtenerClientes();
-    }
-    
-    
-
-    @Override
-    public void agregarTemaAFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException {
-        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-        Cliente c = Mu.obtenerCliente(nickname);
-        Tema t = cPersist.findTemaPorDatos(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion());
-        if (t == null) {
-            throw new ElementoNoValidoException("El tema no existe.");
-        }
-        if (c.getTemasFavoritos() != null && c.getTemasFavoritos().contains(t)) {
-        throw new ElementoNoValidoException("El Tema ya está en los favoritos.");
-        }
-        Mu.addTemafavoritos(c, t);
-    }
-
-        @Override
-    public void agregarListaAFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException {
-        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-    Cliente c = Mu.obtenerCliente(nickname);
-    Lista l = cPersist.consultaListaPorTitulo(lista.getNombre());
-    if (l == null) {
-        throw new ElementoNoValidoException("La lista no existe.");
-    }
-    if (c.getAlbumsFavoritos() != null && c.getAlbumsFavoritos().contains(l)) {
-        throw new ElementoNoValidoException("El Album ya está en los favoritos.");
-    }
-    Mu.addListafavoritos(c, l);
-    }
-
-    @Override
-    public void agregarAlbumAFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException {
-        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-        Cliente c = Mu.obtenerCliente(nickname);
-        Album a = cPersist.findAlbumPorDatos(album.getArtista(), album.getTitulo());
-        if (a == null) {
-            throw new ElementoNoValidoException("El tema no existe.");
-        }
-        if (c.getAlbumsFavoritos() != null && c.getAlbumsFavoritos().contains(a)) {
-        throw new ElementoNoValidoException("El Album ya está en los favoritos.");
-        }
-        Mu.addAlbumfavoritos(c, a);
-    }
-    
-    
-    @Override
-    public void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException {
-    ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-    Cliente c = Mu.obtenerCliente(nickname);
-    
-    // Verificar si el DTOTema proporcionado es válido
-    if (tema == null) {
-        throw new ElementoNoValidoException("El tema proporcionado es inválido.");
-    }
-
-    // Buscar el tema real en la base de datos utilizando los datos del DTO
-    Tema t = cPersist.findTemaPorDatos(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion());
-
-    // Verificar si la lista existe en la base de datos
-    if (t == null) {
-        throw new ElementoNoValidoException("El Tema no existe.");
-    }
-    boolean encontrado = false;
-    for (Tema temas : c.getTemasFavoritos()) {
-    if (temas.getNombre().equals(t.getNombre())) {
-        encontrado = true;
-        break;
-    }
-    }
-
-    if (encontrado) {
-    Mu.EliminarTemafavoritos(c, t);
-    } else {
-    throw new ElementoNoValidoException("El Album no está en los favoritos del cliente.");
-    }
-}
-
-    @Override
-    public void eliminarListaDeFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException {
-    ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-    Cliente c = Mu.obtenerCliente(nickname);
-    
-    // Verificar si el DTOLista proporcionado es válido
-    if (lista == null) {
-        throw new ElementoNoValidoException("La lista proporcionada es inválida.");
-    }
-    Lista l = cPersist.consultaListaPorTitulo(lista.getNombre());
-    if (l == null) {
-        throw new ElementoNoValidoException("La lista no existe.");
-    }
-    boolean encontrado = false;
-    for (Lista listas : c.getListasFavoritas()) {
-    if (listas.getNombre().equals(l.getNombre())) {
-        encontrado = true;
-        break;
-    }
-    }
-
-    if (encontrado) {
-    Mu.EliminarListafavoritos(c, l);
-    } else {
-    throw new ElementoNoValidoException("La lista no está en los favoritos del cliente.");
-    }
-    
-}
-
-    @Override
-    public void eliminarAlbumDeFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException {
-    ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-    Cliente c = Mu.obtenerCliente(nickname);
-
-    if (album == null) {
-        throw new ElementoNoValidoException("El álbum proporcionado es inválido.");
-    }
-    Album a = cPersist.findAlbumPorDatos(album.getArtista(), album.getTitulo());
-    if (a == null) {
-        throw new ElementoNoValidoException("El Album no existe.");
-    }
-    boolean encontrado = false;
-    for (Album Albums : c.getAlbumsFavoritos()) {
-    if (Albums.getTitulo().equals(a.getTitulo())) {
-        encontrado = true;
-        break;
-    }
-    }
-    if (encontrado) {
-    Mu.EliminarAlbumfavoritos(c, a);
-    } else {
-    throw new ElementoNoValidoException("El tema no está en los favoritos del cliente.");
-    }
-}
-
-    
 }

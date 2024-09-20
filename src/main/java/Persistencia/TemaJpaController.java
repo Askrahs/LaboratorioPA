@@ -144,49 +144,4 @@ public class TemaJpaController {
         List <Tema> temas = em.createQuery("SELECT t from Tema t where t.album.titulo = :nombreAlbum",Tema.class).setParameter("nombreAlbum",nombreAlbum).getResultList();
         return temas;
      }
-     
-       
-    public List<Tema> findTemitas() {
-        EntityManager em = getEntityManager();
-            try {
-                TypedQuery<Tema> query = em.createQuery(
-                    "SELECT t FROM Tema t", Tema.class);
-                return query.getResultList();
-            } catch (NoResultException e) {
-                return null;
-            } finally {
-                em.close();
-            }
-    }
-    
-    public Tema findTemaPorDatos(String nombreTema, String duracion, String enlace, int posicion) {
-        EntityManager em = getEntityManager();
-            try {
-                TypedQuery<Tema> query = em.createQuery(
-                    "SELECT t FROM Tema t WHERE t.nombre = :nombre AND t.duracion = :duracion AND t.enlace = :enlace AND t.posicion = :posicion", Tema.class);
-                query.setParameter("nombre", nombreTema);
-                query.setParameter("duracion", duracion);
-                query.setParameter("enlace", enlace);
-                query.setParameter("posicion", posicion);
-                return query.getSingleResult();
-            } catch (NoResultException e) {
-                return null;
-            } finally {
-                em.close();
-            }
-    }
-    
-    public Tema findTemaPorTitulo(String temaSeleccionado) {
-        EntityManager em = getEntityManager();
-            try {
-                TypedQuery<Tema> query = em.createQuery(
-                    "SELECT t FROM Tema t WHERE t.nombre = :nombre", Tema.class);
-                query.setParameter("nombre", temaSeleccionado);
-                return query.getSingleResult();
-            } catch (NoResultException e) {
-                return null;
-            } finally {
-                em.close();
-            }
-    }
 }

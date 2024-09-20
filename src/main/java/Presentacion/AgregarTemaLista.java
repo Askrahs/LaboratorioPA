@@ -58,11 +58,8 @@ public class AgregarTemaLista extends javax.swing.JFrame {
 
         jRadioButton1.setText("jRadioButton1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -242,7 +239,30 @@ public class AgregarTemaLista extends javax.swing.JFrame {
 
 
     private void btnCargarListasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarListasMouseClicked
-
+//        
+//        String nombreusr = this.txtNombreUser.getText();
+//        DefaultListModel modelo;
+//         modelo = new DefaultListModel();
+//        this.ListaListas.setModel(modelo);
+//        modelo.removeAllElements();
+//       if(nombreusr.isEmpty()){
+//            try {
+//                
+//                List <DTOLista> listadefaul = ctrlM.Obtengolistas();
+//                
+//                if(listadefaul.isEmpty()){
+//                    JOptionPane.showMessageDialog(null,"No hay Listas en el sistema");
+//                }else{
+//                    for(int i = 0;i<listadefaul.size();i++){
+//                        modelo.addElement(listadefaul.get(i).getNombre());
+//                    }
+//                }
+//            } catch (NoExisteLista  ex) {
+//               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//       } 
+//         
+//        //modelo.addElement(listas);
     }//GEN-LAST:event_btnCargarListasMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -251,19 +271,49 @@ public class AgregarTemaLista extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnCargarTemasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarTemasMouseClicked
-
+   
+//        DefaultListModel modelo;
+//         modelo = new DefaultListModel();
+//        this.ListasTemas.setModel(modelo);
+//        modelo.removeAllElements();
+//       
+//            try {
+//                
+//                List <DTOTema> listatemasdefaul = ctrlM.Obtengotemas();
+//                
+//                if(listatemasdefaul.isEmpty()){
+//                    JOptionPane.showMessageDialog(null,"No hay Temas en el sistema");
+//                }else{
+//                    for(int i = 0;i<listatemasdefaul.size();i++){
+//                        modelo.addElement(listatemasdefaul.get(i).getNombre());
+//                    }
+//                }
+//            } catch (TemaNoExiste  ex) {
+//               // Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            }
     }//GEN-LAST:event_btnCargarTemasMouseClicked
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
         String nombreuser = this.txtNombreUser.getText();
         String nombrelista = this.txtNombreLista.getText();
         String nombretema = this.txtNombreTema.getText();
+        
+//        if(nombreuser.isEmpty()||nombrelista.isEmpty()||nombretema.isEmpty()){
+//            JOptionPane.showMessageDialog(null,"Uno de los campos esta vacio");
+//        }else{
+//            try {
+//                ctrlM.AgregarTemaLista(nombreuser, nombrelista, nombretema);
+//            } catch (UsuariosNoExisten ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (ListaNoexisteException ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (NoesDueñodelaLista ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (TemaNoExiste ex) {
+//                Logger.getLogger(AgregarTemaLista.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }//GEN-LAST:event_btnAgregarMouseClicked
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        setVisible(false);
-        principal.setVisible(true);
-    }//GEN-LAST:event_formWindowClosed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
