@@ -26,6 +26,13 @@ public class DTOAlbum {
         this.generos = generos;
     }
     
+    public DTOAlbum(String titulo, int anio, String rutaImagen, String artista) {
+        this.titulo = titulo;
+        this.anio = anio;
+        this.rutaImagen = rutaImagen;
+        this.artista = artista;
+    }
+    
     public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos, Set<DTOTema> temas) {
         this.titulo = titulo;
         this.anio = anio;

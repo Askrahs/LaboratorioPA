@@ -25,7 +25,11 @@ public class LaboratorioPA {
     private AgregarTemaLista AgreTemList;
     private ConsultaArtista ConArt;
     private AgregarTemaListaPublica TiposAniaTemList;
-
+    private AgregarTemaListaÁlbum AgrTemLisAlb;
+    private PublicarLista PblLista;
+    private ConsultaListadeReproduccion ConList;
+    private EliminarTemaListaAlbum EliTemLisAlb;
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -55,7 +59,16 @@ public class LaboratorioPA {
         SegUsr.setVisible(false);
         ConCli = new Presentacion.ConsultaCliente(ctrlU, principal);
         ConCli.setVisible(false);
+        AgrTemLisAlb = new Presentacion.AgregarTemaListaÁlbum(ctrlM,ctrlU,principal);
+        AgrTemLisAlb.setVisible(false);
+        EliTemLisAlb = new Presentacion.EliminarTemaListaAlbum(ctrlM, ctrlU, principal);
+        EliTemLisAlb.setVisible(false);
         
+        
+        ConList = new Presentacion.ConsultaListadeReproduccion(ctrlU, ctrlM, principal);
+        ConList.setVisible(false);
+        PblLista = new Presentacion.PublicarLista(ctrlM, principal);
+        PblLista.setVisible(false);
         AltAlb = new Presentacion.AltaAlbum(ctrlM, principal);
         AltAlb.setVisible(false);
         ConAlb = new Presentacion.ConsultaAlbum(ctrlU, ctrlM, principal);
@@ -148,6 +161,29 @@ public class LaboratorioPA {
         });
         menuUsuarios.add(menuItemConCli);
         
+         //AÑADIR FAVORITOS SACAR
+        JMenuItem menuItemconAnia = new JMenuItem("Añado Favorito");
+        menuItemconAnia.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                AgrTemLisAlb.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemconAnia);
+        
+         //AÑADIR FAVORITOS
+        JMenuItem menuItemconElim = new JMenuItem("Elimino Favorito");
+        menuItemconElim.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                EliTemLisAlb.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemconElim);
         //CONSULTA ARTISTA
         JMenuItem menuItemConArt = new JMenuItem("Consulta Artista");
         menuItemConArt.addActionListener(new ActionListener() {
@@ -195,6 +231,30 @@ public class LaboratorioPA {
             }
         });
         menuLista.add(menuItemRegistrarLista);
+        
+        //opcion submenu Publicar Lista
+        JMenuItem menuItemPblLista = new JMenuItem("Publicar Lista");
+        menuItemPblLista.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                PblLista.setVisible(true);
+                //( ͡❛ ͜ʖ͡❛ )
+            }
+        });
+        menuLista.add(menuItemPblLista);
+        
+        //opcion submenu Consulta Lista
+        JMenuItem menuItemConList = new JMenuItem("Consulta Lista");
+        menuItemConList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                ConList.setVisible(true);
+                //( ͡❛ ͜ʖ͡❛ )
+            }
+        });
+        menuLista.add(menuItemConList);
         
         //Añado tema a lista
         JMenuItem MenuItemaniadotem = new JMenuItem("Añado Tema a Lista");

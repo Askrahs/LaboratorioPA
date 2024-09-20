@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
 public class ManejadorUsuario {
 
@@ -160,5 +161,73 @@ public class ManejadorUsuario {
             return 0L;
         }
     }
-
+    
+     public void addTemafavoritos(Cliente c, Tema tema){
+        c.agregarTemaFavorito(tema);
+        try {
+                t.begin();
+                em.merge(c);
+                t.commit();
+            } catch (Exception e) {
+                //si sale mal rollback
+                t.rollback();
+            }
+        
+    }
+    
+    public void addListafavoritos(Cliente c, Lista lista){
+        c.agregarListaFavorita(lista);
+        try {
+                t.begin();
+                em.merge(c);
+                t.commit();
+            } catch (Exception e) {
+                //si sale mal rollback
+                t.rollback();
+            }
+        
+    }
+    
+    public void addAlbumfavoritos(Cliente c, Album album){
+        c.agregarAlbumFavorito(album);
+        try {
+                t.begin();
+                em.merge(c);
+                t.commit();
+            } catch (Exception e) {
+                //si sale mal rollback
+                t.rollback();
+            }
+        
+    }
+    
+    public void EliminarTemafavoritos(Cliente c, Tema tema){
+        Tema temita = em.find(Tema.class, tema.getId());  // Pido el tema buscandolo por ID
+    if (temita != null) {
+        c.removerTemaFavorito(temita);  // Remover el tema de la lista
+        t.begin();
+        em.merge(c);  // Actualizar la lista
+        t.commit();
+    }
+    }
+    
+    public void EliminarListafavoritos(Cliente c, Lista lista){
+    Lista listita = em.find(Lista.class, lista.getId());  // Pido el tema buscandolo por ID
+    if (listita != null) {
+        c.removerListaFavorita(listita);  // Remover el tema de la lista
+        t.begin();
+        em.merge(c);  // Actualizar la lista
+        t.commit();
+    }
+    }
+    
+    public void EliminarAlbumfavoritos(Cliente c, Album album){
+    Album albuma = em.find(Album.class, album.getId());  // Pido el tema buscandolo por ID
+    if (albuma != null) {
+        c.removerAlbumFavorito(albuma);  // Remover el tema de la lista
+        t.begin();
+        em.merge(c);  // Actualizar la lista
+        t.commit();
+    }      
+    }
 }
