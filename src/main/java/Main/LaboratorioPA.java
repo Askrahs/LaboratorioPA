@@ -1,3 +1,5 @@
+package Main;
+
 import Excepciones.NoExisteLista;
 import Logica.*;
 import Presentacion.*;
@@ -10,7 +12,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class LaboratorioPA {
-
     private JFrame principal;
     private IControllerUsuario ctrlU;
     private IControllerMusica ctrlM;
@@ -25,6 +26,7 @@ public class LaboratorioPA {
     private AgregarTemaLista AgreTemList;
     private ConsultaArtista ConArt;
     private AgregarTemaListaPublica TiposAniaTemList;
+    public static final String CARPETA_IMAGEN = "D:/Netbeans/EspotifyBD/";
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

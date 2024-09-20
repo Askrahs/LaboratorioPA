@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Main.LaboratorioPA;
 import Excepciones.*;
 import Logica.IControllerMusica;
 import LogicaDTO.DTOAlbum;
@@ -326,7 +327,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         try {
             anio = Integer.parseInt(jTextFieldAnio.getText());
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "El texto no es un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El texto no es un valor válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -361,7 +362,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         int seleccion = fileChooser.showOpenDialog(null);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
+            String ruta = LaboratorioPA.CARPETA_IMAGEN + archivoSeleccionado.getName();
             File destino = new File(ruta);
             try{
             Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
