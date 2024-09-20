@@ -654,6 +654,9 @@ public class ControllerMusica implements IControllerMusica {
         DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
         dtoTemas.add(dtoTema);
     }
+    if(dtoTemas ==null){
+        JOptionPane.showMessageDialog(null,"No tiene temas favoritos");
+    }
     return dtoTemas;            
 }
 
@@ -692,6 +695,10 @@ public class ControllerMusica implements IControllerMusica {
         DTOLista dtoLista = new DTOLista(l.getNombre(), l.getRutaImagen(), l.getGenero().getNombre());
         dtoListas.add(dtoLista);
     }
+    
+    if(dtoListas ==null){
+        JOptionPane.showMessageDialog(null,"No tiene listas favoritas");
+    }
     return dtoListas;            
 }
 
@@ -717,6 +724,9 @@ public class ControllerMusica implements IControllerMusica {
         // Crear el DTO con los datos del álbum favorito
         DTOAlbum dtoAlbum = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname());
         dtoAlbums.add(dtoAlbum);
+    }
+    if(dtoAlbums ==null){
+        JOptionPane.showMessageDialog(null,"No tiene albums favoritas");
     }
     return dtoAlbums;            
 }

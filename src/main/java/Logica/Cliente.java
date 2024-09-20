@@ -57,7 +57,6 @@ public class Cliente extends Usuario{
 
     public void removerListaFavorita(Lista lista) { 
         listasFavoritas.remove(lista);
-        JOptionPane.showMessageDialog(null, "llegue");
     }
 
     public void removerAlbumFavorito(Album album) {
