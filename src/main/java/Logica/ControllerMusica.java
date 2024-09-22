@@ -565,8 +565,10 @@ public class ControllerMusica implements IControllerMusica {
             //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<Albumes.size();i++){
                 alb = Albumes.get(i);
-                DTOAlbum datoalbu = new DTOAlbum(alb.getTitulo(), alb.getAnio(), alb.getRutaImagen(), alb.getArtista().getNickname(), null, null);
-                dtoalbum.add(datoalbu);
+                if(alb.getArtista() != null){
+                    DTOAlbum datoalbu = new DTOAlbum(alb.getTitulo(), alb.getAnio(), alb.getRutaImagen(), alb.getArtista().getNickname(), null, null);
+                     dtoalbum.add(datoalbu);
+                }
             }     
              return dtoalbum;   
     }

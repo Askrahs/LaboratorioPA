@@ -19,8 +19,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class AltaListaReproduccion extends javax.swing.JFrame {
     private JFrame principal;
     private IControllerMusica controlMus;
-    private String rutadestino = CARPETA_IMAGEN;
+    private String rutadestino = null;
     private IControllerUsuario ctrlU;
+    
     public AltaListaReproduccion(IControllerUsuario icu,IControllerMusica icm, JFrame principal) {
          controlMus = icm;
          ctrlU = icu;
