@@ -12,7 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class LaboratorioPA {
-    public static final String CARPETA_IMAGEN = "D:/Netbeans/EspotifyBD/";
+
     private JFrame principal;
     private IControllerUsuario ctrlU;
     private IControllerMusica ctrlM;
@@ -30,8 +30,8 @@ public class LaboratorioPA {
     private AgregarTemaListaÁlbum AgrTemLisAlb;
     private PublicarLista PblLista;
     private ConsultaListadeReproduccion ConList;
-    private EliminarTemaListaAlbum EliTemLisAlb;    
-
+    private EliminarTemaListaAlbum EliTemLisAlb;
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {

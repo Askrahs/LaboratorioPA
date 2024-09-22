@@ -2,7 +2,6 @@ package Presentacion;
 
 import Excepciones.*;
 import Logica.*;
-import Main.LaboratorioPA;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -389,7 +388,7 @@ public class AltaUsuario extends javax.swing.JFrame {
         int seleccion = fileChooser.showOpenDialog(null);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = LaboratorioPA.CARPETA_IMAGEN + archivoSeleccionado.getName();
+            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
             File destino = new File(ruta);
             try{
             Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);

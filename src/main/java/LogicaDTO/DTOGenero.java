@@ -22,6 +22,8 @@ public class DTOGenero {
         this.nombre = nombre;
         this.nombrepapa = nombrepapa;
     }
+    
+    
 
         public String getRef() {
             return Ref;
