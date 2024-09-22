@@ -1,7 +1,5 @@
 package Logica;
 
-import Persistencia.ControllerPersistencia;
-import Persistencia.TemaJpaController;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -47,7 +45,7 @@ public class ManejadorLista {
             try{        
             lis = query.getSingleResult();
             }catch(Exception e){
-                 //System.out.println("No se encontró ninguna lista con el nombre proporcionado.");
+                 System.out.println("No se encontró ninguna lista con el nombre proporcionado.");
             }
 
            // JOptionPane.showMessageDialog(null,"El nobre de la lista es: "+lis.getNombre());
@@ -101,6 +99,11 @@ public class ManejadorLista {
             return listas;
         }
         
+        public List<Lista> todaslistaspublica(){
+            List<Lista> listas = em.createQuery("select l from Lista l where l.esPrivada = false", Lista.class).getResultList();
+            return listas;
+        }
+        
         public List<Lista> todaslistasconduenio(){
             List<Lista> listas = em.createQuery("select l from Lista l where l.duenio is not null", Lista.class).getResultList();
             return listas;
@@ -136,4 +139,18 @@ public class ManejadorLista {
     }
             JOptionPane.showMessageDialog(null,"Tema Removido con exito a la lista");
         }
+        
+        public void publicolista( boolean Privada , Lista lista){
+        lista.setEsPrivada(Privada);
+        lista.removeDuenio();
+        try {
+                t.begin();
+                em.merge(lista);
+                t.commit();
+            } catch (Exception e) {
+                //si sale mal rollback
+                t.rollback();
+            }
+        
+    }
 }

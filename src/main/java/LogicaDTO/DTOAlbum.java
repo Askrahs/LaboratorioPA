@@ -8,23 +8,7 @@ public class DTOAlbum {
     private String rutaImagen;
     private String artista;
     private Set<String> generos;
-    private Set<DTOTema> temas;   
-
-    
-    public DTOAlbum(String titulo, int anio) {
-        this.titulo = titulo;
-        this.anio = anio;
-     
-    }
-    
-    
-    public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos) {
-        this.titulo = titulo;
-        this.anio = anio;
-        this.rutaImagen = rutaImagen;
-        this.artista = artista;
-        this.generos = generos;
-    }
+    private Set<DTOTema> temas;     
     
     public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos, Set<DTOTema> temas) {
         this.titulo = titulo;

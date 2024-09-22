@@ -169,7 +169,7 @@ public class LaboratorioPA {
          public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
-                AgrTemLisAlb.setVisible(true);
+//                AgrTemLisAlb.setVisible(true);
                 
             }
         });
@@ -181,7 +181,7 @@ public class LaboratorioPA {
          public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
-                EliTemLisAlb.setVisible(true);
+//                EliTemLisAlb.setVisible(true);
                 
             }
         });
@@ -252,7 +252,7 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
-                ConList.setVisible(true);
+               ConList.setVisible(true);
                 //( ͡❛ ͜ʖ͡❛ )
             }
         });
@@ -284,32 +284,6 @@ public class LaboratorioPA {
         });
         menuGen.add(menuItemRegistrarGenero);
 
-        
-//        //Opcion agregar Lista
-//        JMenu MenuAgreList = new JMenu("Agrego Tema");
-//        menuBar.add(MenuAgreList);
-//        JMenuItem menuAgreLista = new JMenuItem("Registrar Tema ");
-//        menuAgreLista.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                //muestro le iternalframe para registrar Listas
-//                principal.setVisible(false);
-//            }
-//        });
-//        MenuAgreList.add(menuAgreLista);
-//        
-//        
-//        //Opcion Agregar Tema a Lista
-//        JMenu MenuAgreTemList = new JMenu("Agrego Temas a Lista");
-//        menuBar.add(MenuAgreTemList);
-//        JMenuItem menuItemRegistrarTemaLista = new JMenuItem("Registrar Tema a Lista");
-//        menuItemRegistrarTemaLista.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//               
-//                principal.setVisible(false);
-//                AgreTemList.setVisible(true);
-//            }
-//        });
-//        MenuAgreTemList.add(menuItemRegistrarTemaLista);
     }
     
 }

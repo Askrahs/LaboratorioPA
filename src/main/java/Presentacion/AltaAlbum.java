@@ -339,7 +339,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         
         if (checkFormulario()) {
             if(!controlMus.existeAlbum(nicknameArtista,titulo)){
-                            albumDTO = new DTOAlbum(titulo,anio, rutaDestino, nicknameArtista, generos);     
+                albumDTO = new DTOAlbum(titulo,anio, rutaDestino, nicknameArtista, generos, null);     
             habilitarFormTemas();
             }else{
                 JOptionPane.showMessageDialog(this, "El artista ya tiene un album con ese titulo.", "Error", JOptionPane.ERROR_MESSAGE);
