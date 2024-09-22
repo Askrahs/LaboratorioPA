@@ -1,14 +1,5 @@
 package Presentacion;
-<<<<<<< HEAD
 
-import Excepciones.*;
-import javax.swing.JOptionPane;
-import Logica.IControllerMusica;
-
-public class PublicarLista extends javax.swing.JFrame {
-    private IControllerMusica ctrlM;
-=======
-//lolo
 import Excepciones.*;
 import javax.swing.JOptionPane;
 import Logica.IControllerMusica;
@@ -19,17 +10,6 @@ import javax.swing.JFrame;
 public class PublicarLista extends javax.swing.JFrame {
     private IControllerMusica ctrlM;
     private JFrame principal;
->>>>>>> origin/Fixeo_magistral
-    
-    public PublicarLista(IControllerMusica ctrl) {
-        ctrlM= ctrl;
-        initComponents();
-    }
-<<<<<<< HEAD
-    public PublicarLista() {
-        initComponents();
-    }
-=======
     
     public PublicarLista(IControllerMusica ctrlM, JFrame principal) {
         this.ctrlM = ctrlM;
@@ -41,8 +21,6 @@ public class PublicarLista extends javax.swing.JFrame {
         initComponents();
     }
 
-    
->>>>>>> origin/Fixeo_magistral
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +31,6 @@ public class PublicarLista extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-<<<<<<< HEAD
         jButton2 = new javax.swing.JButton();
         NomUser = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -64,7 +41,6 @@ public class PublicarLista extends javax.swing.JFrame {
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-=======
         jPanel2 = new javax.swing.JPanel();
         NomUser = new javax.swing.JTextField();
         NomList = new javax.swing.JTextField();
@@ -98,7 +74,6 @@ public class PublicarLista extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Nombre de usuario propietario de la lisata.");
->>>>>>> origin/Fixeo_magistral
 
         jButton2.setText("Aceptar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +82,6 @@ public class PublicarLista extends javax.swing.JFrame {
             }
         });
 
-<<<<<<< HEAD
         NomUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NomUserActionPerformed(evt);
@@ -150,7 +124,7 @@ public class PublicarLista extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-=======
+                      
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Nombre de la lista a hacer publica.");
 
@@ -182,7 +156,6 @@ public class PublicarLista extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
->>>>>>> origin/Fixeo_magistral
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NomUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,9 +165,7 @@ public class PublicarLista extends javax.swing.JFrame {
                 .addComponent(NomList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-<<<<<<< HEAD
                 .addContainerGap(15, Short.MAX_VALUE))
-=======
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -213,7 +184,6 @@ public class PublicarLista extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
->>>>>>> origin/Fixeo_magistral
         );
 
         pack();
@@ -230,10 +200,7 @@ public class PublicarLista extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String nombreUsuario = NomUser.getText();
         String nombreLista = NomList.getText();
-<<<<<<< HEAD
         
-=======
->>>>>>> origin/Fixeo_magistral
         // Validar que los campos no estén vacíos
         if (nombreUsuario.isEmpty() || nombreLista.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, completa ambos campos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -252,12 +219,10 @@ public class PublicarLista extends javax.swing.JFrame {
         } catch (ListaYaEsPublicaException ex) {
             JOptionPane.showMessageDialog(this, "Error: La lista ya es pública.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (OperacionNoPermitidaException ex) {
-<<<<<<< HEAD
             JOptionPane.showMessageDialog(this, "Error: No tienes permisos para publicar esta lista.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
-=======
             Logger.getLogger(PublicarLista.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -267,7 +232,6 @@ public class PublicarLista extends javax.swing.JFrame {
         setVisible(false);
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
->>>>>>> origin/Fixeo_magistral
     
    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -308,10 +272,7 @@ public class PublicarLista extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-<<<<<<< HEAD
     private javax.swing.JLabel jLabel3;
-=======
     private javax.swing.JPanel jPanel2;
->>>>>>> origin/Fixeo_magistral
     // End of variables declaration//GEN-END:variables
 }
