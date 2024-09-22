@@ -9,7 +9,7 @@ public interface IControllerMusica {
     public abstract void altaAlbum(DTOAlbum album, Set<DTOTema> temas) throws AlbumYaExisteException, UsuarioNoExisteException;   
     public abstract void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste;
     public abstract void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean espirvada) throws ListaYaExisteException;
-    public abstract void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException;
+    public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException, ListaYaEsPublicaException;
     public abstract void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste;
     public abstract void ModificoPadre(String nombrenodo, String nombrepadrenuevo);
     public abstract DefaultMutableTreeNode DameTodoslosgeneros();
@@ -30,4 +30,16 @@ public interface IControllerMusica {
     public abstract List<DTOTema> ObtengoTemasdeAlbum(String nombreAlbum);
     public abstract void EliminotemaLista(String nombrelista, String nombretema);
     public abstract void EliminoTemaListaConduenio(String nombreUsuario,String nombrelista,String nombreteam);
+    public abstract List<DTOTema> obtenerTemitas();
+    public abstract List<DTOLista> ObtengoListasPublicas() throws NoExisteLista;
+    public abstract List<DTOAlbum> obtenerAlbums();
+    public abstract DTOLista consultaListaPorTituloyGenero(String listaSeleccionada, String genero);
+    public abstract List<DTOTema> obtenerTemitasfavCliente(String nicknames);
+    public abstract List<DTOLista> obtenerListitasfavCliente(String nicknames);
+    public abstract List<DTOAlbum> obtenerAlbumsfavCliente(String nicknames);
+    public abstract List<String> obtenerListaPorGenero(String generoSeleccionado);
+    public abstract List<String> obtenerListaPorCliente(String artistaSeleccionado);
+    public abstract DTOLista consultaListaPorTitulo(String listaSeleccionado);
+    public abstract List<DTOLista> obtenerListitas();
+    public abstract DTOTema consultaTemaPorTitulo(String temaSeleccionada);
 }

@@ -8,7 +8,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import javax.swing.JOptionPane;
 
 public class AlbumJpaController {
 
@@ -166,10 +165,26 @@ public class AlbumJpaController {
                     return alb;
     }
     
-    
     public List<Album> todosLosAlbums(){
          EntityManager em = getEntityManager();
          List<Album> Albums = em.createQuery("select a from Album a", Album.class).getResultList();
          return Albums;
+    }
+    
+    public Album findAlbumPorDatos(String artista, String nombreA) {
+        EntityManager em = getEntityManager();
+            try {
+                TypedQuery<Album> query = em.createQuery(
+                    "SELECT a FROM Album a WHERE a.artista.nickname = :artista AND a.titulo = :titulo", Album.class);
+                query.setParameter("titulo", nombreA);
+                //query.setParameter("rutaImagen", rutaImagen);
+                query.setParameter("artista", artista);
+                //query.setParameter("anio", anio);
+                return query.getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            } finally {
+                em.close();
+            }
     }
 }

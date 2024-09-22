@@ -1,4 +1,6 @@
 package Logica;
+
+import LogicaDTO.*;
 import Excepciones.*;
 import java.util.Collection;
 import java.util.List;
@@ -19,5 +21,13 @@ public interface IControllerUsuario {
     public abstract List<String> ObtenerAlbumsArtista(String nickname) throws ArtistaSinAlbums;
     public abstract List<String> ObtenerSeguidoresArtista(String nickname) throws SinSeguidores;
     public abstract List<String> obtenerArtistas();
+    public abstract List<String> obtenerClientes();
     public abstract Long ObtenerCuentaSeguidores(String nickname);
+    public abstract void agregarAlbumAFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
+    public abstract void agregarListaAFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
+    public abstract void agregarTemaAFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
+
+    public abstract void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
+    public abstract void eliminarListaDeFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
+    public abstract void eliminarAlbumDeFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
 }
