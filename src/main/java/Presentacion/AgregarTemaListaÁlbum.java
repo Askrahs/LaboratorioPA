@@ -1,5 +1,5 @@
 package Presentacion;
-//lolo
+
 import Excepciones.ElementoNoValidoException;
 import Excepciones.NoExisteLista;
 import Excepciones.NoHayUsuariosEnElSistemaException;
@@ -15,13 +15,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-<<<<<<< HEAD
-/**
- *
- * @author leand
- */
-=======
->>>>>>> origin/Fixeo_magistral
 public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     
     private JFrame principal;
@@ -373,11 +366,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     
     // Obtener listas públicas desde el controlador
     try {
-<<<<<<< HEAD
-        listas = ctrlM.ObtengolistasPUBLICAS();
-=======
         listas = ctrlM.ObtengoListasPublicas();
->>>>>>> origin/Fixeo_magistral
     } catch (NoExisteLista ex) {
         Logger.getLogger(AgregarTemaListaÁlbum.class.getName()).log(Level.SEVERE, "No existen listas públicas", ex);
         JOptionPane.showMessageDialog(this, "No existen listas públicas disponibles.", "Error", JOptionPane.ERROR_MESSAGE);
