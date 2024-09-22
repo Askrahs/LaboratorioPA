@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public class ControllerUsuario implements IControllerUsuario {
     ControllerPersistencia cPersist = new ControllerPersistencia();
@@ -331,6 +332,27 @@ public class ControllerUsuario implements IControllerUsuario {
     throw new ElementoNoValidoException("El tema no está en los favoritos del cliente.");
     }
 }
+
+    @Override
+    public List<String> ObtenerListasCliente(String nickname) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        List<String> nombresListas = Mu.obtenerListasCli(nickname);
+        return nombresListas;
+    }
+
+    @Override
+    public List<String> ObtenerAlbumsCliente(String nickname) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        List<String> nombresAlbums = Mu.obtenerAlbumsCli(nickname);
+        return nombresAlbums;
+    }
+
+    @Override
+    public List<String> ObtenerTemasCliente(String nickname) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        List<String> nombresTemas = Mu.obtenerTemasCli(nickname);
+        return nombresTemas;
+    }
 
     
 }

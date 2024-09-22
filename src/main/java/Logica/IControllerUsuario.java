@@ -30,4 +30,7 @@ public interface IControllerUsuario {
     public abstract void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
     public abstract void eliminarListaDeFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
     public abstract void eliminarAlbumDeFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
+    public abstract List<String> ObtenerListasCliente(String nickname);
+    public abstract List<String> ObtenerAlbumsCliente(String nickname);
+    public abstract List<String> ObtenerTemasCliente(String nickname);
 }
