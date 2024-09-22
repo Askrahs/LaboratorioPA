@@ -220,6 +220,7 @@ public class ConsultaArtista extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -320,22 +321,8 @@ public class ConsultaArtista extends javax.swing.JFrame {
                 txtFechaNac.setText(a.getFechaNac());
                 txtBio.setText(a.getBiografia());
                 txtWeb.setText(a.getWebSite());
-
-//                //IMAGEN
-//                byte[] imagenBytes = a.getImagen(); // Asegúrate de que el método getImagen() retorne el byte[]
-//                if (imagenBytes != null) {
-//                    // Convertir los bytes en una imagen
-//                    InputStream is = new ByteArrayInputStream(imagenBytes);
-//                    BufferedImage bufferedImage = ImageIO.read(is);
-//
-//                    // Escalar la imagen para ajustarse al tamaño del JLabel
-//                    Image scaledImage = bufferedImage.getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
-//
-//                    // Establecer la imagen en el JLabel
-//                    JLImagen.setIcon(new ImageIcon(scaledImage));
-//                } else {
-//                    JLImagen.setIcon(null); // Si no hay imagen, limpia el JLabel
-//                }
+                //IMAGEN
+                cargarImagen(a.getRutaImagen());  
 
                 //SEGUIDORES 
                 try {
@@ -383,6 +370,14 @@ public class ConsultaArtista extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
             }
 
+        }
+    }
+    
+    public void cargarImagen(String ruta){
+        if(ruta != null){
+            ImageIcon icon = new ImageIcon(ruta);
+            Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
+            JLImagen.setIcon(new ImageIcon(image));
         }
     }
 

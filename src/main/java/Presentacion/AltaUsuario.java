@@ -18,6 +18,8 @@ import javax.swing.text.PlainDocument;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -300,6 +302,7 @@ public class AltaUsuario extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -327,13 +330,51 @@ public class AltaUsuario extends javax.swing.JFrame {
             String mes = txtMes.getText();
             String año = txtAño.getText();
 
+            if (dia.isEmpty() || mes.isEmpty() || año.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Los campos de la fecha no pueden estar vacíos.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validación de la fecha de nacimiento
+            try {
+                int diaInt = Integer.parseInt(dia);
+                int mesInt = Integer.parseInt(mes);
+                int añoInt = Integer.parseInt(año);
+
+                // Validar el rango del mes (1-12)
+                if (mesInt < 1 || mesInt > 12) {
+                    JOptionPane.showMessageDialog(this, "Mes inválido. Debe estar entre 1 y 12.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Validar el rango del día (1-31) según el mes
+                if (diaInt < 1 || diaInt > 31) {
+                    JOptionPane.showMessageDialog(this, "Día inválido. Debe estar entre 1 y 31.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                LocalDate fechaIngresada = LocalDate.of(añoInt, mesInt, diaInt);
+                LocalDate fechaActual = LocalDate.now();
+                LocalDate fechaLimite = fechaActual.minusYears(120);
+
+                if (fechaIngresada.isAfter(fechaActual)) {
+                    JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser en el futuro.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else if (fechaIngresada.isBefore(fechaLimite)) {
+                    JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser mayor a 120 años atrás.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (DateTimeParseException | NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Fecha inválida. Verifica los campos.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             //Al ingresar un usuario la lista de seguidores y siguiendo estara vacia.
             Collection<Usuario> siguiendo = null;
             Collection<Usuario> seguidores = null;
 
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
-
 
             if (cbArtista.isSelected()) {
                 String bio = txtBiografia.getText();
@@ -391,12 +432,12 @@ public class AltaUsuario extends javax.swing.JFrame {
             File archivoSeleccionado = fileChooser.getSelectedFile();
             String ruta = LaboratorioPA.CARPETA_IMAGEN + archivoSeleccionado.getName();
             File destino = new File(ruta);
-            try{
-            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
-            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
-            Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
-            JLImagen.setIcon(new ImageIcon(image));
-            rutaDestino = destino.getAbsolutePath();
+            try {
+                Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
+                Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
+                JLImagen.setIcon(new ImageIcon(image));
+                rutaDestino = destino.getAbsolutePath();
             } catch (IOException ex) {
                 Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }

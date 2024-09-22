@@ -230,4 +230,30 @@ public class ManejadorUsuario {
         t.commit();
     }      
     }
+    
+    public List<String> obtenerListasCli(String nickname){
+        List<String> nombresListas;
+        String jpql = "SELECT l.nombre FROM Cliente c JOIN c.listasFavoritas l WHERE c.nickname = :nickname";
+        nombresListas = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
+        
+        return nombresListas;
+    }
+    
+    public List<String> obtenerAlbumsCli(String nickname){
+        List<String> nombresAlbums;
+        String jpql = "SELECT a.titulo FROM Cliente c JOIN c.albumsFavoritos a WHERE c.nickname = :nickname";
+        nombresAlbums = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
+        
+        return nombresAlbums;
+    }
+    
+    public List<String> obtenerTemasCli(String nickname){
+        List<String> nombreTemas;
+        String jpql = "SELECT t.nombre FROM Cliente c JOIN c.temasFavoritos t WHERE c.nickname = :nickname";
+        nombreTemas = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
+        
+        return nombreTemas;
+        
+        
+    }
 }

@@ -346,6 +346,8 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     
     private void jTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTemaActionPerformed
         List<DTOTema> temitas = ctrlM.obtenerTemitas();
+        
+        cargarNicknames();
     DefaultListModel<String> listModel;
     if (jListTemas.getModel() instanceof DefaultListModel) {
     listModel = (DefaultListModel<String>) jListTemas.getModel();
@@ -421,6 +423,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void jAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlbumActionPerformed
+    cargarNicknames();
     List<DTOAlbum> albums = ctrlM.obtenerAlbums();
     DefaultListModel<String> listModel;
     if (jListAlbums.getModel() instanceof DefaultListModel) {

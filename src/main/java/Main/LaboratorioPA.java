@@ -12,7 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class LaboratorioPA {
-    public static final String CARPETA_IMAGEN = "D:/Netbeans/EspotifyBD/";
+    public static final String CARPETA_IMAGEN = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LaboratorioPA";
     private JFrame principal;
     private IControllerUsuario ctrlU;
     private IControllerMusica ctrlM;
@@ -59,6 +59,7 @@ public class LaboratorioPA {
         SegUsr.setVisible(false);
         DejUsr = new Presentacion.DejarDeSeguirUsuario(ctrlU, principal);
         SegUsr.setVisible(false);
+        
         ConCli = new Presentacion.ConsultaCliente(ctrlU, principal);
         ConCli.setVisible(false);
         AgrTemLisAlb = new Presentacion.AgregarTemaListaÁlbum(ctrlM,ctrlU,principal);
@@ -169,7 +170,7 @@ public class LaboratorioPA {
          public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
-//                AgrTemLisAlb.setVisible(true);
+                AgrTemLisAlb.setVisible(true);
                 
             }
         });
@@ -181,7 +182,7 @@ public class LaboratorioPA {
          public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
-//                EliTemLisAlb.setVisible(true);
+                EliTemLisAlb.setVisible(true);
                 
             }
         });

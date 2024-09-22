@@ -25,6 +25,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
     public ConsultaCliente(IControllerUsuario Control, JFrame principal) {
         this.ctrlU = Control;
         this.principal = principal;
+
         initComponents();
         cargarNicknames();
     }
@@ -58,10 +59,13 @@ public class ConsultaCliente extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         listaSeguidores = new javax.swing.JList<>();
         JLImagen = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnLista = new javax.swing.JButton();
+        btnAlbum = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnTema = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ListaP = new javax.swing.JList<>();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consulta Cliente");
@@ -170,18 +174,23 @@ public class ConsultaCliente extends javax.swing.JFrame {
         jPanel1.add(JLImagen);
         JLImagen.setBounds(500, 40, 180, 190);
 
-        jButton1.setText("Ver Listas");
-        jPanel1.add(jButton1);
-        jButton1.setBounds(500, 270, 180, 20);
-
-        jButton2.setText("Ver Albums");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnLista.setText("Ver Listas");
+        btnLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnListaActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(500, 300, 180, 20);
+        jPanel1.add(btnLista);
+        btnLista.setBounds(500, 270, 180, 20);
+
+        btnAlbum.setText("Ver Albums");
+        btnAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlbumActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAlbum);
+        btnAlbum.setBounds(500, 300, 180, 20);
 
         jButton3.setText("Cargar Clientes");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -192,14 +201,24 @@ public class ConsultaCliente extends javax.swing.JFrame {
         jPanel1.add(jButton3);
         jButton3.setBounds(500, 360, 180, 20);
 
-        jButton4.setText("Ver Temas");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnTema.setText("Ver Temas");
+        btnTema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnTemaActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4);
-        jButton4.setBounds(500, 330, 180, 20);
+        jPanel1.add(btnTema);
+        btnTema.setBounds(500, 330, 180, 20);
+
+        ListaP.setEnabled(false);
+        jScrollPane4.setViewportView(ListaP);
+
+        jPanel1.add(jScrollPane4);
+        jScrollPane4.setBounds(690, 40, 130, 340);
+
+        jLabel7.setText("Preferencias:");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(690, 20, 130, 16);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -207,7 +226,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -219,6 +238,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -250,9 +270,42 @@ public class ConsultaCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listaClienteValueChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlbumActionPerformed
+        //BOTON ALBUMS
+        DefaultListModel<String> model1 = new DefaultListModel<>();
+        model1.addElement("");
+        ListaP.setModel(model1);
+
+        //CONTROLES
+        if (txtNick.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado un Cliente.", "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //cargar
+        String nickname1 = txtNick.getText();
+
+        
+        try {
+            Cliente c = ctrlU.ObtenerCliente(nickname1);
+            //cargo la lista con las listas del cliente:
+
+            List<String> albums = ctrlU.ObtenerAlbumsCliente(nickname1);
+            //control
+            if (albums != null && !albums.isEmpty()) {
+                DefaultListModel<String> model = new DefaultListModel<>();
+                // Agregamos cada nickname al modelo.
+                for (String a : albums) {
+                    model.addElement(a);
+                }
+                // Establecemos el modelo al JList.
+                ListaP.setModel(model);
+            }
+        } catch (UsuarioNoExisteException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnAlbumActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -264,9 +317,78 @@ public class ConsultaCliente extends javax.swing.JFrame {
         cargarNicknames();
     }//GEN-LAST:event_formFocusGained
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTemaActionPerformed
+        //BOTON TEMAS
+        //LIMPIO ANTES
+        DefaultListModel<String> model1 = new DefaultListModel<>();
+        model1.addElement("");
+        ListaP.setModel(model1);
+
+        //CONTROLES
+        if (txtNick.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado un Cliente.", "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //cargar
+        String nickname1 = txtNick.getText();
+        
+        try {
+            Cliente c = ctrlU.ObtenerCliente(nickname1);
+            //cargo la lista con las listas del cliente:
+
+            List<String> temas = ctrlU.ObtenerTemasCliente(nickname1);
+            //control
+            if (temas != null && !temas.isEmpty()) {
+                DefaultListModel<String> model = new DefaultListModel<>();
+                // Agregamos cada nickname al modelo.
+                for (String s : temas) {
+                    model.addElement(s);
+                }
+                // Establecemos el modelo al JList.
+                ListaP.setModel(model);
+            }
+        } catch (UsuarioNoExisteException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btnTemaActionPerformed
+
+    private void btnListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaActionPerformed
+        //LIMPIO ANTES
+        DefaultListModel<String> model1 = new DefaultListModel<>();
+        model1.addElement("");
+        ListaP.setModel(model1);
+
+        //CONTROLES
+        if (txtNick.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado un Cliente.", "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //cargar
+        String nickname1 = txtNick.getText();
+
+        try {
+            Cliente c = ctrlU.ObtenerCliente(nickname1);
+            //cargo la lista con las listas del cliente:
+
+            List<String> listas = ctrlU.ObtenerListasCliente(nickname1);
+            //control
+            if (listas != null && !listas.isEmpty()) {
+                DefaultListModel<String> model = new DefaultListModel<>();
+                // Agregamos cada nickname al modelo.
+                for (String s : listas) {
+                    model.addElement(s);
+                }
+                // Establecemos el modelo al JList.
+                ListaP.setModel(model);
+            }
+        } catch (UsuarioNoExisteException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnListaActionPerformed
 
     private void cargarDatosCliente(String nickname) throws IOException {
         if (nickname != null && !nickname.isEmpty()) {
@@ -279,22 +401,9 @@ public class ConsultaCliente extends javax.swing.JFrame {
                 txtEmail.setText(c.getEmail());
                 txtFecha.setText(c.getFechaNac());
 
-//                //IMAGEN
-//                byte[] imagenBytes = c.getRutaImagen(); // Asegúrate de que el método getImagen() retorne el byte[]
-//                if (imagenBytes != null) {
-//                    // Convertir los bytes en una imagen
-//                    InputStream is = new ByteArrayInputStream(imagenBytes);
-//                    BufferedImage bufferedImage = ImageIO.read(is);
-//
-//                    // Escalar la imagen para ajustarse al tamaño del JLabel
-//                    Image scaledImage = bufferedImage.getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
-//
-//                    // Establecer la imagen en el JLabel
-//                    JLImagen.setIcon(new ImageIcon(scaledImage));
-//                } else {
-//                    JLImagen.setIcon(null); // Si no hay imagen, limpia el JLabel
-//                }
-                
+                //IMAGEN
+                cargarImagen(c.getRutaImagen());
+
                 //SEGUIDORES
                 try {
 
@@ -309,8 +418,9 @@ public class ConsultaCliente extends javax.swing.JFrame {
                         // Establecemos el modelo al JList.
                         listaSeguidores.setModel(model);
                     }
-                } catch (SinSeguidores ex) {}
-                
+                } catch (SinSeguidores ex) {
+                }
+
                 //SIGUIENDO
                 try {
                     List<String> siguiendo = ctrlU.ObtenerSiguiendoCliente(nickname);
@@ -324,8 +434,8 @@ public class ConsultaCliente extends javax.swing.JFrame {
                         // Establecemos el modelo al JList.
                         listaSiguiendo.setModel(model);
                     }
-                } catch (NoSigueANadie ex) {}
-                
+                } catch (NoSigueANadie ex) {
+                }
 
             } catch (UsuarioNoExisteException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Consulta Cliente", JOptionPane.ERROR_MESSAGE);
@@ -373,6 +483,15 @@ public class ConsultaCliente extends javax.swing.JFrame {
         model.addElement("");
         listaSeguidores.setModel(model);
         listaSiguiendo.setModel(model);
+        ListaP.setModel(model);
+    }
+
+    public void cargarImagen(String ruta) {
+        if (ruta != null) {
+            ImageIcon icon = new ImageIcon(ruta);
+            Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
+            JLImagen.setIcon(new ImageIcon(image));
+        }
     }
 
     public static void main(String args[]) {
@@ -410,10 +529,11 @@ public class ConsultaCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLImagen;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JList<String> ListaP;
+    private javax.swing.JButton btnAlbum;
+    private javax.swing.JButton btnLista;
+    private javax.swing.JButton btnTema;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -421,11 +541,13 @@ public class ConsultaCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JList<String> listaCliente;
     private javax.swing.JList<String> listaSeguidores;
     private javax.swing.JList<String> listaSiguiendo;
