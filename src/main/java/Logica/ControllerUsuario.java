@@ -111,6 +111,19 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         return c;
     }
+    
+    @Override
+public String ObtenerNombreCliente(String nickname) throws UsuarioNoExisteException {
+    ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    Cliente c = mu.obtenerCliente(nickname);
+    
+    if (c == null) {
+        throw new UsuarioNoExisteException("El usuario seleccionado no existe...");
+    }
+    
+    return c.getNombre();
+}
+
 
     @Override
     public List<String> ObtenerSeguidoresCliente(String nickname) throws SinSeguidores {

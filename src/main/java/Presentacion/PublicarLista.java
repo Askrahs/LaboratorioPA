@@ -11,11 +11,6 @@ public class PublicarLista extends javax.swing.JFrame {
     private IControllerMusica ctrlM;
     private JFrame principal;
     
-    public PublicarLista(IControllerMusica ctrl) {
-        ctrlM= ctrl;
-        initComponents();
-    }
-    
     public PublicarLista(IControllerMusica ctrlM, JFrame principal) {
         this.ctrlM = ctrlM;
         this.principal = principal;

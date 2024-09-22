@@ -9,7 +9,6 @@ public interface IControllerMusica {
     public abstract void altaAlbum(DTOAlbum album, Set<DTOTema> temas) throws AlbumYaExisteException, UsuarioNoExisteException;   
     public abstract void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste;
     public abstract void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean espirvada) throws ListaYaExisteException;
-    //public abstract void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste;
     public abstract void ModificoPadre(String nombrenodo, String nombrepadrenuevo);
     public abstract DefaultMutableTreeNode DameTodoslosgeneros();
     public abstract void EliminoGenero(String nombregen, String refe);

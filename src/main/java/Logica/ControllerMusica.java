@@ -133,29 +133,22 @@ public class ControllerMusica implements IControllerMusica {
      @Override
      //A la espera de la otra parte del codigo
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada) throws ListaYaExisteException{
-       //JOptionPane.showMessageDialog(null,"llegue2");
         ManejadorLista ml = ManejadorLista.getInstance();
         ManejadorGenero mangen =ManejadorGenero.getInstance();
         ManejadorUsuario usrman = ManejadorUsuario.getinstance();
-        //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
-        //JOptionPane.showMessageDialog(null,"llegue097");
-       // JOptionPane.showMessageDialog(null,"Nombre ingresado: "+nombre);
         Lista los = ml.ExisteLista(nombre);
-       // JOptionPane.showMessageDialog(null,"llegue323");
-        if(los==null){//si existe lista
-           // JOptionPane.showMessageDialog(null,"llegue3");
+        if(los==null){
             if(genero.isEmpty()){
            
                 if(usrman.obtenerUsuario(duenio)!=null){//si usuario existe
-                   //JOptionPane.showMessageDialog(null,"llegue5");
                     ml.creolista(nombre, genero, duenio,ruta,privada);
-               // JOptionPane.showMessageDialog(null,"llegue4");
+                    JOptionPane.showMessageDialog(null, "La lista se ha creado exitosamente", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
             }
             }else{
                 Genero gen = mangen.Existegenbasedatoss(genero);
-                 if(gen!=null){ //si es false existe
-                 //   JOptionPane.showMessageDialog(null,"llegue6");
+                 if(gen!=null){
                      ml.creolista(nombre, genero, duenio,ruta, privada);
+                     JOptionPane.showMessageDialog(null, "La lista se ha creado exitosamente", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
                  }else{
                     JOptionPane.showMessageDialog(null,"Genero no existe"); 
                  }

@@ -1,18 +1,13 @@
 package Presentacion;
 
-import Excepciones.AlbumYaExisteException;
 import Excepciones.ListaYaExisteException;
 import Excepciones.UsuarioNoExisteException;
-import Logica.Genero;
-import Logica.IControllerMusica;
-import Logica.Tema;
+import Logica.*;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -25,9 +20,10 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     private JFrame principal;
     private IControllerMusica controlMus;
     private String rutadestino = null;
-    
-    public AltaListaReproduccion(IControllerMusica icm, JFrame principal) {
+    private IControllerUsuario ctrlU;
+    public AltaListaReproduccion(IControllerUsuario icu,IControllerMusica icm, JFrame principal) {
          controlMus = icm;
+         ctrlU = icu;
         this.principal = principal;
         initComponents();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -82,7 +78,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
 
         jLabel2.setText("Genero:");
 
-        jLabel3.setText("Dueño:");
+        jLabel3.setText("Nickname Dueño:");
 
         jTextFieldDuenio.setEnabled(false);
 
@@ -116,12 +112,12 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                                     .addComponent(jTextFieldGenero)
                                     .addComponent(jTextFieldNombreLista, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                                     .addComponent(jTextFieldDuenio))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jToggleButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                         .addComponent(jButtonAniadirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -188,28 +184,33 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxPrivadaActionPerformed
 
     private void jToggleButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAceptarActionPerformed
-        String nombre = this.jTextFieldNombreLista.getText();
-        String genero = this.jTextFieldGenero.getText();
-        String duenio = this.jTextFieldDuenio.getText();
-        boolean priv;
-        //AGREGAR IMAGEN
         if (checkFormulario()) {
-            try{
-                priv = jCheckBoxPrivada.isSelected(); 
-               if(priv==false){
-               JOptionPane.showMessageDialog(null,"La lista es publica");
-               }else{
-                  JOptionPane.showMessageDialog(null,"La lista es privada"); 
-               }
-               
-                controlMus.altaListaReproduccion(nombre,genero,duenio,rutadestino, priv);
-                JOptionPane.showMessageDialog(this, "La lista se ha creado exitosamente","Alta Lista",JOptionPane.INFORMATION_MESSAGE);
-            }catch(ListaYaExisteException e){
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Lista", JOptionPane.ERROR_MESSAGE);
-            } 
-            
-        limpiarFormulario();
+    try {
+        String nombre = jTextFieldNombreLista.getText();
+        String genero = jTextFieldGenero.getText();
+        String duenio = jTextFieldDuenio.getText();
+        boolean esPrivada = jCheckBoxPrivada.isSelected();
+
+        // Verificamos si la lista es privada y si el dueño existe
+        if (esPrivada) {
+            Cliente c = ctrlU.ObtenerCliente(duenio);
+            if (c == null || c.getNombre() == null) {
+                JOptionPane.showMessageDialog(null, "El cliente especificado no existe");
+                return;
+            }
         }
+
+        controlMus.altaListaReproduccion(nombre, genero, duenio, rutadestino, esPrivada);
+        limpiarFormulario();
+        
+    } catch (ListaYaExisteException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (UsuarioNoExisteException ex) {
+        Logger.getLogger(AltaListaReproduccion.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
     }//GEN-LAST:event_jToggleButtonAceptarActionPerformed
 
     private void jButtonAniadirImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirImagenActionPerformed
