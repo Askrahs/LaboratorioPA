@@ -22,7 +22,7 @@ public class ControllerMusica implements IControllerMusica {
     public void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste{    
         ManejadorGenero mg= ManejadorGenero.getInstance();        
         if(mg.EncuentroGenerobool(nombregen)==true){//chequeo si el genero existe
-         
+           // JOptionPane.showMessageDialog(null,"llegue1");
            if(nombrepadre.isEmpty()){
                DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
                 mg.AñadoGenero(refe, nombregen,Generoall);
@@ -38,9 +38,9 @@ public class ControllerMusica implements IControllerMusica {
            }
         }else{
             if(nombrepadre == null){
-           
+            //JOptionPane.showMessageDialog(null,"llegue2");
             if(mg.EncuentroGenerobool(nombrepadre)==true){//Verifico si el genero padre existe
-             
+                //JOptionPane.showMessageDialog(null,"llegue3");
                  DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
                 mg.AñadoGenero(refe, nombregen,Generoall);//Creo el genero padre
                 DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
@@ -50,7 +50,7 @@ public class ControllerMusica implements IControllerMusica {
                  JOptionPane.showConfirmDialog(null, "Se Añado al padre Correctamente");           
                 }     
             }else{
-               
+                //JOptionPane.showMessageDialog(null,"llegue4");
                 DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
                 DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
                 if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
@@ -131,33 +131,38 @@ public class ControllerMusica implements IControllerMusica {
     }         
     
      @Override
-    public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada) throws ListaYaExisteException {
+     //A la espera de la otra parte del codigo
+    public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada) throws ListaYaExisteException{
+       //JOptionPane.showMessageDialog(null,"llegue2");
         ManejadorLista ml = ManejadorLista.getInstance();
-        ManejadorGenero mangen = ManejadorGenero.getInstance();
+        ManejadorGenero mangen =ManejadorGenero.getInstance();
         ManejadorUsuario usrman = ManejadorUsuario.getinstance();
+        //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
+        //JOptionPane.showMessageDialog(null,"llegue097");
+       // JOptionPane.showMessageDialog(null,"Nombre ingresado: "+nombre);
         Lista los = ml.ExisteLista(nombre);
-        if (los != null) {
-            throw new ListaYaExisteException("La lista '" + nombre + "' ya existe.");
+       // JOptionPane.showMessageDialog(null,"llegue323");
+        if(los==null){//si existe lista
+           // JOptionPane.showMessageDialog(null,"llegue3");
+            if(genero.isEmpty()){
+           
+                if(usrman.obtenerUsuario(duenio)!=null){//si usuario existe
+                   //JOptionPane.showMessageDialog(null,"llegue5");
+                    ml.creolista(nombre, genero, duenio,ruta,privada);
+               // JOptionPane.showMessageDialog(null,"llegue4");
+            }
+            }else{
+                Genero gen = mangen.Existegenbasedatoss(genero);
+                 if(gen!=null){ //si es false existe
+                 //   JOptionPane.showMessageDialog(null,"llegue6");
+                     ml.creolista(nombre, genero, duenio,ruta, privada);
+                 }else{
+                    JOptionPane.showMessageDialog(null,"Genero no existe"); 
+                 }
+             }
+            }else{
+        JOptionPane.showMessageDialog(null,"Lista ya existe");
         }
-        if (!privada) {
-            Genero gen = mangen.Existegenbasedatoss(genero);
-        if (gen == null) {
-            JOptionPane.showMessageDialog(null, "El género '" + genero + "' no existe.");
-            return;
-        } else {
-            ml.creolista(nombre, genero, duenio, ruta, privada);
-            JOptionPane.showMessageDialog(null, "Lista pública creada exitosamente.");
-        }
-    } else {
-        Usuario usuario = usrman.obtenerUsuario(duenio);
-        if (usuario == null) {
-            JOptionPane.showMessageDialog(null, "El usuario '" + duenio + "' no existe.");
-            return;
-        } else {
-            ml.creolista(nombre, genero, duenio, ruta, privada);
-            JOptionPane.showMessageDialog(null, "Lista privada creada exitosamente.");
-        }
-    }
     } 
 
 @Override
@@ -174,6 +179,7 @@ public class ControllerMusica implements IControllerMusica {
     if (lista == null) {
         throw new ListaNoexisteException("La lista " + nombreLista + " no existe.");
     }
+    //Verificar si el cliente es el propietario de la lista
     if (lista.getDuenio().getNombre() != usuario.getNombre()) {
         throw new OperacionNoPermitidaException("El usuario seleccionado no es propietario de dicha lista.");
     }
@@ -230,7 +236,7 @@ public class ControllerMusica implements IControllerMusica {
         List <Genero> gen = mang.obtengoListaGenero();
         Genero genunoauno;
             List <DTOGenero> dtogeneros = new ArrayList<>();
-            
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<gen.size();i++){
                 genunoauno = gen.get(i);
                 DTOGenero dagenero = new DTOGenero(genunoauno.getRef(),genunoauno.getNombre(),genunoauno.getNombrepapa());
@@ -302,13 +308,13 @@ public class ControllerMusica implements IControllerMusica {
     
              @Override
             public List<DTOLista> Obtengolistasconduenio()throws NoExisteLista{
-       
+           //JOptionPane.showMessageDialog(null,"llegue2");
             ManejadorLista man= ManejadorLista.getInstance();
             Lista losta;
             List <Lista> lista;
             lista = man.todaslistasconduenio();          
             List <DTOLista> dtolista = new ArrayList<>();
-          
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<lista.size();i++){
                 losta = lista.get(i);
                 DTOLista datolista = new DTOLista(losta.getNombre());
@@ -320,13 +326,13 @@ public class ControllerMusica implements IControllerMusica {
             
             @Override
             public List<DTOLista> Obtengolistassinduenio()throws NoExisteLista{
-         
+           //JOptionPane.showMessageDialog(null,"llegue2");
             ManejadorLista man= ManejadorLista.getInstance();
             Lista losta;
             List <Lista> lista;
             lista = man.todaslistassinduenio();          
             List <DTOLista> dtolista = new ArrayList<>();
-          
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<lista.size();i++){
                 losta = lista.get(i);
                 DTOLista datolista = new DTOLista(losta.getNombre());
@@ -338,13 +344,13 @@ public class ControllerMusica implements IControllerMusica {
         
            @Override
             public List<DTOLista> Obtengolistas()throws NoExisteLista{
-          
+           //JOptionPane.showMessageDialog(null,"llegue2");
             ManejadorLista man= ManejadorLista.getInstance();
             Lista losta;
             List <Lista> lista;
             lista = man.todaslistas();          
             List <DTOLista> dtolista = new ArrayList<>();
-            
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<lista.size();i++){
                 losta = lista.get(i);
                 DTOLista datolista = new DTOLista(losta.getNombre());
@@ -355,7 +361,7 @@ public class ControllerMusica implements IControllerMusica {
     
     
     public void aniadoTemaListaPublica(String nombreLista, String nombreTema){
-       
+        JOptionPane.showMessageDialog(null,"llegue1");
         Tema tem = cPersist.findTemaPorNombre(nombreTema);
         Tema iteratem;
         ManejadorLista manlis = ManejadorLista.getInstance();
@@ -364,9 +370,9 @@ public class ControllerMusica implements IControllerMusica {
         if(lis!=null){
             if(lis.getDuenio()==null){
             if(lis.getEsPrivada()!=true){
-              
+                // JOptionPane.showMessageDialog(null,"llegue2");
                 if(temos.isEmpty()){
-                   
+                    // JOptionPane.showMessageDialog(null,"llegue3");
                     manlis.aniadotemalista(nombreLista, tem);
                     JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
                 }else{
@@ -395,7 +401,7 @@ public class ControllerMusica implements IControllerMusica {
     }
     
     public void EliminotemaLista(String nombreLista, String nombreTema){
-       
+        JOptionPane.showMessageDialog(null,"llegue1");
         Tema tem = cPersist.findTemaPorNombre(nombreTema);
         Tema iteratem;
         ManejadorLista manlis = ManejadorLista.getInstance();
@@ -404,9 +410,9 @@ public class ControllerMusica implements IControllerMusica {
         if(lis!=null){
             if(lis.getDuenio()==null){
             if(lis.getEsPrivada()!=true){
-               
+                // JOptionPane.showMessageDialog(null,"llegue2");
                 if(temos.isEmpty()){
-                   
+                    // JOptionPane.showMessageDialog(null,"llegue3");
                     JOptionPane.showMessageDialog(null,"No hay Temas en la lista");
                     return;
                 }else{
@@ -447,9 +453,9 @@ public class ControllerMusica implements IControllerMusica {
         if(lis!=null){
             if(lis.getDuenio().getNombre().equalsIgnoreCase(Cli.getNombre())){
                 if(lis.getEsPrivada()!=true){
-               
+                    // JOptionPane.showMessageDialog(null,"llegue2");
                     if(temos.isEmpty()){
-                     
+                        // JOptionPane.showMessageDialog(null,"llegue3");
                         JOptionPane.showMessageDialog(null,"la lista esta vacia");
                     }else{
                         for(int i = 0; i<temos.size();i++){
@@ -481,7 +487,7 @@ public class ControllerMusica implements IControllerMusica {
     }
      }
     public void aniadoTemaListaConduenio(String nombreUsuario,String nombreLista,String nombreTema){
-     
+       //JOptionPane.showMessageDialog(null,"llegue1");
         Tema tem = cPersist.findTemaPorNombre(nombreTema);
         Tema iteratem;
         ManejadorLista manlis = ManejadorLista.getInstance();
@@ -494,9 +500,9 @@ public class ControllerMusica implements IControllerMusica {
         if(lis!=null){
             if(lis.getDuenio().getNombre().equalsIgnoreCase(Cli.getNombre())){
                 if(lis.getEsPrivada()!=true){
-                  
+                    // JOptionPane.showMessageDialog(null,"llegue2");
                     if(temos.isEmpty()){
-                        
+                        // JOptionPane.showMessageDialog(null,"llegue3");
                         manlis.aniadotemalista(nombreLista, tem);
                         JOptionPane.showMessageDialog(null,"Tema Añadido con exito");
                     }else{
@@ -533,14 +539,14 @@ public class ControllerMusica implements IControllerMusica {
     
     @Override
     public List <DTOTema> TemasdeListas(String nombrelista){
- 
+        //JOptionPane.showMessageDialog(null,"ENTRE 1");
         ManejadorLista manlis = ManejadorLista.getInstance();
         List <Tema> temos = manlis.temasdelalista(nombrelista);
-    
+         //  JOptionPane.showMessageDialog(null,"ENTRE 2");
             
             Tema tem;
             List <DTOTema> dtotema = new ArrayList<>();
-           
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<temos.size();i++){
                 tem = temos.get(i);
                 DTOTema datotemo = new DTOTema(tem.getNombre(),tem.getDuracion(),tem.getEnlace(),tem.getPosicion());
@@ -556,7 +562,7 @@ public class ControllerMusica implements IControllerMusica {
         
         Album alb;
             List <DTOAlbum> dtoalbum = new ArrayList<>();
-            
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<Albumes.size();i++){
                 alb = Albumes.get(i);
                 if(alb.getArtista() != null){
@@ -570,11 +576,11 @@ public class ControllerMusica implements IControllerMusica {
     
     @Override
     public  List<DTOTema> ObtengoTemasdeAlbum(String nombreAlbum){
-      
+       //JOptionPane.showMessageDialog(null,"LLEGUE 1");
         List <Tema> temos = cPersist.ObtengotemaPorAlbum(nombreAlbum);
          Tema tem;
             List <DTOTema> dtotema = new ArrayList<>();
-           
+            //JOptionPane.showMessageDialog(null,"llegue4");
             for (int i = 0; i<temos.size();i++){
                 tem = temos.get(i);
                 DTOTema datotemo = new DTOTema(tem.getNombre(),tem.getDuracion(),tem.getEnlace(),tem.getPosicion());

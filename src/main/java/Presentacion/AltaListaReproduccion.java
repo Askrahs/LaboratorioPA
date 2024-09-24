@@ -3,7 +3,6 @@ package Presentacion;
 import Excepciones.ListaYaExisteException;
 import Excepciones.UsuarioNoExisteException;
 import Logica.*;
-import static Main.LaboratorioPA.CARPETA_IMAGEN;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -178,12 +177,10 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         jTextFieldDuenio.setEnabled(true);
         jTextFieldGenero.setEnabled(false);
         jTextFieldGenero.setText("");
-        limpiarFormulario();
        }else{
         jTextFieldDuenio.setEnabled(false);
         jTextFieldGenero.setEnabled(true);
         jTextFieldDuenio.setText("");
-        
        }
     }//GEN-LAST:event_jCheckBoxPrivadaActionPerformed
 
@@ -194,6 +191,8 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         String genero = jTextFieldGenero.getText();
         String duenio = jTextFieldDuenio.getText();
         boolean esPrivada = jCheckBoxPrivada.isSelected();
+
+        // Verificamos si la lista es privada y si el dueño existe
         if (esPrivada) {
             Cliente c = ctrlU.ObtenerCliente(duenio);
             if (c == null || c.getNombre() == null) {
@@ -201,6 +200,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                 return;
             }
         }
+
         controlMus.altaListaReproduccion(nombre, genero, duenio, rutadestino, esPrivada);
         limpiarFormulario();
         
@@ -223,7 +223,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         int seleccion = fileChooser.showOpenDialog(null);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = CARPETA_IMAGEN + archivoSeleccionado.getName();
+            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
             File destino = new File(ruta);
             try{
             Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
@@ -260,6 +260,9 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AltaListaReproduccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AltaListaReproduccion().setVisible(true);
@@ -280,13 +283,14 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         return true;
     }
 
- 
+    // Permite borrar el contenido de un formulario antes de cerrarlo.
+    // Recordar que las ventanas no se destruyen, sino que simplemente 
+    // se ocultan, por lo que conviene borrar la información para que 
+    // no aparezca al mostrarlas nuevamente.
     private void limpiarFormulario() {
         jTextFieldNombreLista.setText("");
         jTextFieldGenero.setText("");
        jTextFieldDuenio.setText("");
-       rutadestino = null;
-       jLabelImagen.setIcon(null);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
