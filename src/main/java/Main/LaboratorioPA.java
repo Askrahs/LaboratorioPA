@@ -24,7 +24,7 @@ public class LaboratorioPA {
     private ConsultaAlbum ConAlb;
     private AltaListaReproduccion AltLis;
     private AltaGenero AltGen;
-    private AgregarTemaLista AgreTemList;
+   // private AgregarTemaLista AgreTemList;
     private ConsultaArtista ConArt;
     private AgregarTemaListaPublica TiposAniaTemList;
     private AgregarTemaListaÁlbum AgrTemLisAlb;
@@ -80,8 +80,8 @@ public class LaboratorioPA {
         AltLis.setVisible(false);
         AltGen = new Presentacion.AltaGenero(ctrlM, principal);
         AltGen.setVisible(false);
-        AgreTemList = new Presentacion.AgregarTemaLista(ctrlM, principal);
-        AgreTemList.setVisible(false);
+        //AgreTemList = new Presentacion.AgregarTemaLista(ctrlU, ctrlM, principal);
+       // AgreTemList.setVisible(false);
         ConArt = new Presentacion.ConsultaArtista(ctrlU,principal);
         ConArt.setVisible(false);
         TiposAniaTemList = new Presentacion.AgregarTemaListaPublica(ctrlM, principal);

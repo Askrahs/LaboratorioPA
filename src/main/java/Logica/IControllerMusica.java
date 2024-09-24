@@ -20,16 +20,16 @@ public interface IControllerMusica {
     public abstract boolean existeAlbum(String nicknameArtista, String titulo);
     public  abstract List <DTOGenero> Datageneros();
     public  abstract void AñadotemalistaAlbum(String nombreAlbum, String nombreLista, String nombreTema, String NombreUsuario);
-    public abstract void aniadoTemaListaPublica(String nombreLista, String nombreTema);
+    public abstract void aniadoTemaListaPublica(String nombreLista, String nombreTema,String nombreAlbum);
     public abstract List <DTOTema> TemasdeListas(String nombrelista);
     public abstract List<DTOLista> Obtengolistas()throws NoExisteLista;
     public abstract List<DTOLista> Obtengolistassinduenio()throws NoExisteLista;
-    public abstract void aniadoTemaListaConduenio(String nombreUsuario,String nombrelista,String nombreteam);
+    public abstract void aniadoTemaListaConduenio(String nombreUsuario,String nombrelista,String nombreteam,String nombreAlbum);
     public abstract List<DTOLista> Obtengolistasconduenio()throws NoExisteLista;
     public abstract List<DTOAlbum> ObtengoAlbums();
     public abstract List<DTOTema> ObtengoTemasdeAlbum(String nombreAlbum);
-    public abstract void EliminotemaLista(String nombrelista, String nombretema);
-    public abstract void EliminoTemaListaConduenio(String nombreUsuario,String nombrelista,String nombreteam);
+    public abstract void EliminotemaLista(String nombrelista, String nombretema, String nombreAlbum);
+    public abstract void EliminoTemaListaConduenio(String nombreUsuario,String nombrelista,String nombreteam,String nombreAlbum);
     public abstract List<DTOTema> obtenerTemitas();
     public abstract List<DTOLista> ObtengoListasPublicas() throws NoExisteLista;
     public abstract List<DTOAlbum> obtenerAlbums();
@@ -42,4 +42,6 @@ public interface IControllerMusica {
     public abstract DTOLista consultaListaPorTitulo(String listaSeleccionado);
     public abstract List<DTOLista> obtenerListitas();
     public abstract DTOTema consultaTemaPorTitulo(String temaSeleccionada);
+    public abstract void aniadoTemaListaConduenioLista(String nombreUsuario,String nombrelista,String nombreteam,String nombrealb);
+    public abstract void aniadoTemaListaPublicaLista(String nombrelista,String nombreteam,String nombrealb);
 }

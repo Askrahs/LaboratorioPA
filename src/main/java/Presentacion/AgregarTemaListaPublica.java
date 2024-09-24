@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Presentacion;
 
 import Excepciones.NoExisteLista;
@@ -39,6 +36,21 @@ private JFrame principal;
         CargarListas();
         CargarListasconduenios();
         CargarAlbumes();
+        todonulo();
+    }
+    public void cleartodo(){
+        this.txtListaDelTema.setText("");
+        this.txtNombreAlbum.setText("");
+        this.txtNombreLista.setText("");
+        this.txtNombreTema.setText("");
+        this.txtNombreUsr.setText("");
+    }
+    public void todonulo(){
+        this.txtListaDelTema.setEditable(false);
+        this.txtNombreAlbum.setEditable(false);
+        this.txtNombreLista.setEditable(false);
+        this.txtNombreTema.setEditable(false);
+        this.txtNombreUsr.setEditable(false);
     }
     
     public void CargarListasconduenios() throws NoExisteLista{
@@ -108,10 +120,15 @@ private JFrame principal;
         txtNombreTema = new javax.swing.JTextField();
         txtNombreLista = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        txtNombreAlbum = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtListaDelTema = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaListas = new javax.swing.JList<>();
@@ -125,6 +142,11 @@ private JFrame principal;
         AlbumList = new javax.swing.JList<>();
         jScrollPane6 = new javax.swing.JScrollPane();
         ListTemasAlbum = new javax.swing.JList<>();
+        boxAaniadirtemaAlbum = new javax.swing.JCheckBox();
+        AñadirSinDuenio = new javax.swing.JCheckBox();
+        AñadirConDuenio = new javax.swing.JCheckBox();
+        boxAniadirListaLista = new javax.swing.JCheckBox();
+        boxEliminar = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -146,6 +168,12 @@ private JFrame principal;
             }
         });
 
+        txtNombreTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreTemaActionPerformed(evt);
+            }
+        });
+
         txtNombreLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreListaActionPerformed(evt);
@@ -153,6 +181,16 @@ private JFrame principal;
         });
 
         jLabel3.setText("Nombre Usuario:");
+
+        jLabel4.setText("Nombre Album:");
+
+        txtListaDelTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtListaDelTemaActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Lista del Tema");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,18 +207,26 @@ private JFrame principal;
                             .addComponent(jLabel3)
                             .addGap(18, 18, 18)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreUsr, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                    .addComponent(txtNombreAlbum)
+                    .addComponent(txtNombreUsr)
                     .addComponent(txtNombreTema)
-                    .addComponent(txtNombreLista, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                    .addComponent(txtNombreLista)
+                    .addComponent(txtListaDelTema, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
                 .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombreAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreUsr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
@@ -190,9 +236,13 @@ private JFrame principal;
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtListaDelTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
@@ -202,6 +252,11 @@ private JFrame principal;
         btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAceptarMouseClicked(evt);
+            }
+        });
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
             }
         });
 
@@ -218,29 +273,48 @@ private JFrame principal;
                 btnEliminarMouseClicked(evt);
             }
         });
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Cargar Datos");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnAceptar))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(btnAceptar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(btnAceptar)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
-                .addGap(22, 22, 22))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnAceptar)
+                    .addComponent(btnCancelar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion"));
@@ -333,15 +407,15 @@ private JFrame principal;
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,43 +423,100 @@ private JFrame principal;
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
+
+        boxAaniadirtemaAlbum.setText("Añadir Tema-Album S/Dueño");
+        boxAaniadirtemaAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxAaniadirtemaAlbumActionPerformed(evt);
+            }
+        });
+
+        AñadirSinDuenio.setText("Añadir Lista-Lista S/Dueñio");
+        AñadirSinDuenio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AñadirSinDuenioActionPerformed(evt);
+            }
+        });
+
+        AñadirConDuenio.setText("Añadir Tema-Album C/Dueñio");
+        AñadirConDuenio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AñadirConDuenioActionPerformed(evt);
+            }
+        });
+
+        boxAniadirListaLista.setText("Añadir Lista-Lista C/Dueño");
+        boxAniadirListaLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxAniadirListaListaActionPerformed(evt);
+            }
+        });
+
+        boxEliminar.setText("Eliminar");
+        boxEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(boxAaniadirtemaAlbum)
+                            .addComponent(AñadirConDuenio))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AñadirSinDuenio)
+                            .addComponent(boxAniadirListaLista)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boxEliminar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(boxAaniadirtemaAlbum)
+                            .addComponent(AñadirSinDuenio))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AñadirConDuenio)
+                            .addComponent(boxAniadirListaLista))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(boxEliminar)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -397,18 +528,41 @@ private JFrame principal;
     }//GEN-LAST:event_txtNombreUsrActionPerformed
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
-        String nombreUsuario=this.txtNombreUsr.getText();
-        String nombrelista = this.txtNombreLista.getText();
-        String nombreteam = this.txtNombreTema.getText();
-        if(nombrelista.isEmpty()||nombreteam.isEmpty()){
-         JOptionPane.showMessageDialog(null,"Uno de los campos esta vacio, Porfavor llene ambos");
-        }else{
+        boolean paraalbum = boxAaniadirtemaAlbum.isSelected();
+        boolean paralista = boxAniadirListaLista.isSelected();
+        boolean paralista2 = AñadirSinDuenio.isSelected();
+        boolean paralbum2 = AñadirConDuenio.isSelected();
+        if(paraalbum==true||paralbum2==true){
+            
+            String nombreteam = this.txtNombreTema.getText();
+            String nombrealb = this.txtNombreAlbum.getText();
+             String nombrelista = this.txtNombreLista.getText();
+             String nombreUsuario = this.txtNombreUsr.getText();
               if(nombreUsuario.isEmpty()){
-                  ctrlM.aniadoTemaListaPublica(nombrelista, nombreteam);
+                 
+                  ctrlM.aniadoTemaListaPublica(nombrelista, nombreteam,nombrealb);
               }else{
-                  ctrlM.aniadoTemaListaConduenio(nombreUsuario,nombrelista,nombreteam);
+                  ctrlM.aniadoTemaListaConduenio(nombreUsuario,nombrelista,nombreteam,nombrealb);
               }
+        }else{
+            if(paralista==true|| paralista2==true)
+            {
+                
+                String nicknameUsuario = this.txtNombreUsr.getText();
+                String nombreteam = this.txtNombreTema.getText();
+                String nombrelista = this.txtNombreLista.getText();
+                String nombrelistadelteam = this.txtListaDelTema.getText();
+                 if(nicknameUsuario.isEmpty()){
+                    
+                  ctrlM.aniadoTemaListaPublicaLista(nombrelista, nombreteam,nombrelistadelteam);
+              }else{
+                    
+                  ctrlM.aniadoTemaListaConduenioLista(nicknameUsuario,nombrelista,nombreteam,nombrelistadelteam);
+              }
+            }
+             
         }
+       cleartodo();
                 
                 
     }//GEN-LAST:event_btnAceptarMouseClicked
@@ -526,18 +680,22 @@ private JFrame principal;
             ListasTemas.clearSelection();
             listatemaconsuenio.clearSelection();
     }//GEN-LAST:event_ListTemasAlbumValueChanged
-
+    
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-         String nombreUsuario=this.txtNombreUsr.getText();
+        
+        String nombreUsuario=this.txtNombreUsr.getText();
         String nombrelista = this.txtNombreLista.getText();
         String nombreteam = this.txtNombreTema.getText();
+        String nombreAlbum = this.txtNombreAlbum.getText();
         if(nombrelista.isEmpty()||nombreteam.isEmpty()){
          JOptionPane.showMessageDialog(null,"Uno de los campos esta vacio, Porfavor llene ambos");
         }else{
               if(nombreUsuario.isEmpty()){
-                  ctrlM.EliminotemaLista(nombrelista, nombreteam);
+                  
+                  ctrlM.EliminotemaLista(nombrelista, nombreteam, nombreAlbum);
               }else{
-                  ctrlM.EliminoTemaListaConduenio(nombreUsuario,nombrelista,nombreteam);
+                  
+                  ctrlM.EliminoTemaListaConduenio(nombreUsuario,nombrelista,nombreteam, nombreAlbum);
               }
         }
                 
@@ -554,6 +712,107 @@ private JFrame principal;
         this.setVisible(false);
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void boxAaniadirtemaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxAaniadirtemaAlbumActionPerformed
+       cleartodo();
+        if(boxAaniadirtemaAlbum.isSelected()){
+        txtNombreAlbum.setEditable(true);
+        txtNombreLista.setEditable(true);
+        txtNombreTema.setEditable(true);
+       }else{
+         txtNombreAlbum.setEditable(false);
+        txtNombreLista.setEditable(false);
+        txtNombreTema.setEditable(false);
+       }
+    }//GEN-LAST:event_boxAaniadirtemaAlbumActionPerformed
+
+    private void boxAniadirListaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxAniadirListaListaActionPerformed
+       cleartodo();       
+        if(boxAniadirListaLista.isSelected()){
+        txtNombreUsr.setEditable(true);
+        txtListaDelTema.setEditable(true);
+        txtNombreLista.setEditable(true);
+        txtNombreTema.setEditable(true);
+       }else{
+        txtNombreUsr.setEditable(false);
+        txtListaDelTema.setEditable(false);
+        txtNombreLista.setEditable(false);
+        txtNombreTema.setEditable(false);
+       }
+    }//GEN-LAST:event_boxAniadirListaListaActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    try {
+        CargarListas();
+    } catch (NoExisteLista ex) {
+        Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    try {
+        CargarListasconduenios();
+    } catch (NoExisteLista ex) {
+        Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        CargarAlbumes();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void txtNombreTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreTemaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreTemaActionPerformed
+
+    private void AñadirConDuenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirConDuenioActionPerformed
+       cleartodo();
+        if(AñadirConDuenio.isSelected()){
+        txtNombreAlbum.setEditable(true);
+        txtNombreLista.setEditable(true);
+        txtNombreTema.setEditable(true);
+        txtNombreUsr.setEditable(true);
+       }else{
+         txtNombreAlbum.setEditable(false);
+        txtNombreLista.setEditable(false);
+        txtNombreTema.setEditable(false);
+         txtNombreUsr.setEditable(false);
+       }
+    }//GEN-LAST:event_AñadirConDuenioActionPerformed
+
+    private void AñadirSinDuenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirSinDuenioActionPerformed
+       cleartodo();
+        if(AñadirSinDuenio.isSelected()){
+        txtListaDelTema.setEditable(true);
+        txtNombreLista.setEditable(true);
+        txtNombreTema.setEditable(true);
+       }else{
+         txtListaDelTema.setEditable(false);
+        txtNombreLista.setEditable(false);
+        txtNombreTema.setEditable(false);
+       }
+    }//GEN-LAST:event_AñadirSinDuenioActionPerformed
+
+    private void txtListaDelTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtListaDelTemaActionPerformed
+    
+    }//GEN-LAST:event_txtListaDelTemaActionPerformed
+
+    private void boxEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxEliminarActionPerformed
+        cleartodo();
+        if(boxEliminar.isSelected()){
+      txtNombreAlbum.setEditable(true);
+        txtNombreLista.setEditable(true);
+        txtNombreTema.setEditable(true);
+        txtNombreUsr.setEditable(true);
+      } else{
+      txtNombreAlbum.setEditable(false);
+             txtNombreLista.setEditable(false);
+        txtNombreTema.setEditable(false); 
+        txtNombreUsr.setEditable(false);
+                }
+    }//GEN-LAST:event_boxEliminarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -592,16 +851,24 @@ private JFrame principal;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> AlbumList;
+    private javax.swing.JCheckBox AñadirConDuenio;
+    private javax.swing.JCheckBox AñadirSinDuenio;
     private javax.swing.JList<String> ListTemasAlbum;
     private javax.swing.JList<String> ListaListas;
     private javax.swing.JList<String> ListasConDuenio;
     private javax.swing.JList<String> ListasTemas;
+    private javax.swing.JCheckBox boxAaniadirtemaAlbum;
+    private javax.swing.JCheckBox boxAniadirListaLista;
+    private javax.swing.JCheckBox boxEliminar;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -612,8 +879,10 @@ private JFrame principal;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JList<String> listatemaconsuenio;
-    private javax.swing.JTextField txtNombreLista;
-    private javax.swing.JTextField txtNombreTema;
-    private javax.swing.JTextField txtNombreUsr;
+    public javax.swing.JTextField txtListaDelTema;
+    public javax.swing.JTextField txtNombreAlbum;
+    public javax.swing.JTextField txtNombreLista;
+    public javax.swing.JTextField txtNombreTema;
+    public javax.swing.JTextField txtNombreUsr;
     // End of variables declaration//GEN-END:variables
 }
