@@ -445,7 +445,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         }
         try {
             int anioInt =  Integer.parseInt(anio);
-            if(anioInt < 1900 || anioInt > java.time.Year.now().getValue()){
+            if(anioInt < 1800 || anioInt > java.time.Year.now().getValue()){
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
@@ -484,6 +484,8 @@ public class AltaAlbum extends javax.swing.JFrame {
         jTextFieldNombreT.setText("");
         jTextFieldDuracionT.setText("");
         jTextFieldLinkT.setText("");
+        DefaultListModel<String> listModel = (DefaultListModel<String>) jGenerosSeleccionados.getModel();
+        listModel.clear();
     }
     
     private void limpiarFormTemas() {
