@@ -1,11 +1,19 @@
 package LogicaDTO;
 
 public class DTOTema {
+    private int id;
     private String nombre;
     private String duracion;
     private String enlace;
     private int posicion;
 
+    public DTOTema(int id, String nombre, String duracion, String enlace, int posicion) {
+        this.id=id;
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.enlace = enlace;
+        this.posicion = posicion;
+    }
     public DTOTema(String nombre, String duracion, String enlace, int posicion) {
         this.nombre = nombre;
         this.duracion = duracion;

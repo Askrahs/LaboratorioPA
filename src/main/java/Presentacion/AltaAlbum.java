@@ -491,7 +491,10 @@ public class AltaAlbum extends javax.swing.JFrame {
         jTextFieldLinkT.setText("");
         DefaultListModel<String> listModel = (DefaultListModel<String>) jGenerosSeleccionados.getModel();
         listModel.clear();
-        rutaDestino = null;
+
+
+       rutaDestino = null;
+
     }
     
     private void limpiarFormTemas() {

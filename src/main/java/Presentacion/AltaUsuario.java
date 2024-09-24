@@ -355,13 +355,13 @@ public class AltaUsuario extends javax.swing.JFrame {
 
                 LocalDate fechaIngresada = LocalDate.of(añoInt, mesInt, diaInt);
                 LocalDate fechaActual = LocalDate.now();
-                LocalDate fechaLimite = fechaActual.minusYears(120);
+                LocalDate fechaLimite = fechaActual.minusYears(200);
 
                 if (fechaIngresada.isAfter(fechaActual)) {
                     JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser en el futuro.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else if (fechaIngresada.isBefore(fechaLimite)) {
-                    JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser mayor a 120 años atrás.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser mayor a 200 años atrás.", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (DateTimeParseException | NumberFormatException ex) {
