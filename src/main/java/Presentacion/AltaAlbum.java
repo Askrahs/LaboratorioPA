@@ -394,7 +394,6 @@ public class AltaAlbum extends javax.swing.JFrame {
         String duracion = this.jTextFieldDuracionT.getText();
         String enlace = this.jTextFieldLinkT.getText();
         if(checkFormularioTema()){
-            //DTOTema(String nombre, String duracion, String enlace, int posicion)
             DTOTema nuevoTema = new DTOTema(nombre,duracion,enlace,ubicacion);
             boolean existe = false;
             for(DTOTema tema : temasDTO){
@@ -419,6 +418,12 @@ public class AltaAlbum extends javax.swing.JFrame {
          try{
                 controlMus.altaAlbum(albumDTO, temasDTO);
                 JOptionPane.showMessageDialog(this, "El Album se ha creado exitosamente","Alta Album",JOptionPane.INFORMATION_MESSAGE);
+                if (albumDTO != null && albumDTO.getTemas() != null) {
+                    albumDTO.getTemas().clear();
+                }
+                if (temasDTO != null) {
+                    temasDTO.clear();
+                }
            }catch(AlbumYaExisteException e){
                JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Album", JOptionPane.ERROR_MESSAGE);
             } catch (UsuarioNoExisteException ex) {
@@ -445,7 +450,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         }
         try {
             int anioInt =  Integer.parseInt(anio);
-            if(anioInt < 1900 || anioInt > java.time.Year.now().getValue()){
+            if(anioInt < 1800 || anioInt > java.time.Year.now().getValue()){
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
@@ -484,6 +489,9 @@ public class AltaAlbum extends javax.swing.JFrame {
         jTextFieldNombreT.setText("");
         jTextFieldDuracionT.setText("");
         jTextFieldLinkT.setText("");
+        DefaultListModel<String> listModel = (DefaultListModel<String>) jGenerosSeleccionados.getModel();
+        listModel.clear();
+        rutaDestino = null;
     }
     
     private void limpiarFormTemas() {
