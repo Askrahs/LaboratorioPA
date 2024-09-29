@@ -29,8 +29,9 @@ public class AltaUsuario extends javax.swing.JFrame {
     //referencia a la ventana principal:
     private JFrame principal;
     private IControllerUsuario ctrlU;
-    private File selectedFile = null;
+    private File archivoSeleccionado = null;
     private String rutaDestino = "";
+    
 
     public AltaUsuario(IControllerUsuario Control, JFrame principal) {
         this.ctrlU = Control;
@@ -319,7 +320,7 @@ public class AltaUsuario extends javax.swing.JFrame {
         String nick = txtNickname.getText();
         //nickname vacio.
         if (nick.isEmpty()) {
-            limpiar();
+            
             JOptionPane.showMessageDialog(this, "El campo Nickname no puede estar vacio. ", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
         } else {
             String nombre = txtNombre.getText();
@@ -376,12 +377,27 @@ public class AltaUsuario extends javax.swing.JFrame {
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
 
+            String ruta = null;
+            //RUTA IMAGEN 
+            if (archivoSeleccionado != null) {
+                 ruta = "FotoUsr_" + nombre + ".jpg";
+                File destino = new File(ruta);
+                try {
+                    Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            
             if (cbArtista.isSelected()) {
+                //datos artistas
                 String bio = txtBiografia.getText();
                 String web = txtWebsite.getText();
-                limpiar();
+                
                 try {
-                    ctrlU.registrarArtista(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores, bio, web);
+                    ctrlU.registrarArtista(nick, nombre, apellido, email, ruta, fecha, siguiendo, seguidores, bio, web);
+                    limpiar();
                     JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
@@ -389,9 +405,11 @@ public class AltaUsuario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                limpiar();
+                //datos clientes
+                
                 try {
-                    ctrlU.registrarCliente(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores);
+                    ctrlU.registrarCliente(nick, nombre, apellido, email, ruta, fecha, siguiendo, seguidores);
+                    limpiar();
                     JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
@@ -429,18 +447,12 @@ public class AltaUsuario extends javax.swing.JFrame {
         fileChooser.setFileFilter(filter);
         int seleccion = fileChooser.showOpenDialog(null);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = LaboratorioPA.CARPETA_IMAGEN + archivoSeleccionado.getName();
-            File destino = new File(ruta);
-            try {
-                Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
-                Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
-                JLImagen.setIcon(new ImageIcon(image));
-                rutaDestino = destino.getAbsolutePath();
-            } catch (IOException ex) {
-                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            archivoSeleccionado = fileChooser.getSelectedFile();
+            //String ruta = "FotoUsr " + archivoSeleccionado.getName();
+            
+            ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
+            Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
+            JLImagen.setIcon(new ImageIcon(image));
 
         }
 
@@ -564,7 +576,7 @@ public class AltaUsuario extends javax.swing.JFrame {
         txtBiografia.setText("");
         txtWebsite.setText("");
         //IMAGEN
-        selectedFile = null;
+        archivoSeleccionado = null;
         JLImagen.setIcon(null);
         JLImagen.setText("");
     }

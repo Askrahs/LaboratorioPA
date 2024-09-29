@@ -12,7 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class LaboratorioPA {
-    public static final String CARPETA_IMAGEN = "D:\\Netbeans\\EspotifyBD";
+    public static final String CARPETA_IMAGEN = "";
     private JFrame principal;
     private IControllerUsuario ctrlU;
     private IControllerMusica ctrlM;
@@ -133,6 +133,7 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                
                 principal.setVisible(false);
+                SegUsr.cargarNicknames();
                 SegUsr.setVisible(true);
             }
         });
@@ -144,7 +145,9 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
+                
                 DejUsr.setVisible(true);
+                DejUsr.cargarNicknames();
             }
         });
         menuUsuarios.add(menuItemDejarDeSeguirUsr);
@@ -155,7 +158,7 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
-                
+                ConCli.cargarNicknames();
                 ConCli.setVisible(true);
                 
                 
@@ -193,6 +196,7 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                 
                 principal.setVisible(false);
+                ConArt.cargarNicknames();
                 ConArt.setVisible(true);
                 
             }
