@@ -133,7 +133,7 @@ public class LaboratorioPA {
             public void actionPerformed(ActionEvent e) {
                
                 principal.setVisible(false);
-                SegUsr.cargarNicknames();
+                //SegUsr.cargarNicknames();
                 SegUsr.setVisible(true);
             }
         });
@@ -147,7 +147,7 @@ public class LaboratorioPA {
                 principal.setVisible(false);
                 
                 DejUsr.setVisible(true);
-                DejUsr.cargarNicknames();
+                //DejUsr.cargarNicknames();
             }
         });
         menuUsuarios.add(menuItemDejarDeSeguirUsr);

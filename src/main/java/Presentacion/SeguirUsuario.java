@@ -21,6 +21,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
         this.ctrlU = Control;
         this.principal = principal;
         initComponents();
+        cargarNicknames();
     }
 
     public SeguirUsuario() {
