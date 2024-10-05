@@ -4,6 +4,7 @@
  */
 package LogicaDTO;
 
+import Logica.Genero;
 import java.util.List;
 
 /**
@@ -25,7 +26,33 @@ public class DTOLista {
     private DTOUsuario duenio;
    
     private List<DTOTema> temas;
-
+    
+    public DTOLista(String nombre, String rutaImagen, String generoOCreador) {
+        this.nombre = nombre;
+        this.rutaImagen = rutaImagen;
+    }
+    
+    public DTOLista(String nombre, String rutaImagen) {
+        this.nombre = nombre;
+        this.rutaImagen = rutaImagen;
+    }
+    public DTOLista(String nombre, String rutaImagen, Genero genero, List<DTOTema> temas) {
+        this.nombre = nombre;
+        this.rutaImagen = rutaImagen;
+        this.temas = temas;
+    }
+    
+     public DTOLista(String nombre, String rutaImagen, String genero, List<DTOTema> temas) {
+        this.nombre = nombre;
+        this.rutaImagen = rutaImagen;
+        this.temas = temas;
+    }
+     
+    public DTOLista(String nombre, String rutaImagen, List<DTOTema> temas) {
+        this.nombre = nombre;
+        this.rutaImagen = rutaImagen;
+        this.temas = temas;
+    }
     public DTOLista(String nombre) {
         this.nombre = nombre;
     }
@@ -77,6 +104,7 @@ public class DTOLista {
     public void setTemas(List<DTOTema> temas) {
         this.temas = temas;
     }
+        
     
     
     

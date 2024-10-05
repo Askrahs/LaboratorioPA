@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Genero implements Serializable{
     @Id
     @Column(name = "Referencia")
-    private String Ref;
+    private String referencia;
     
     @Column(name="Nombre", unique = true, nullable = false)
     private String nombre;
@@ -28,12 +28,12 @@ public class Genero implements Serializable{
     public Genero(){}
     
      public Genero(String referencia, String nombree, String nompadre){
-        this.Ref = referencia;
+        this.referencia = referencia;
         this.nombre = nombree;
         this.nombrepapa=nompadre;
     }
-    public String getRef() {
-        return Ref;
+    public String getReferencia() {
+        return referencia;
     }
     public String getNombre() {
         return nombre;
@@ -45,5 +45,11 @@ public class Genero implements Serializable{
     public Set<Album> getAlbums() {
         return albums;
     }
+
+    String getRef() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
     
 }
