@@ -338,7 +338,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         }
         
         if (checkFormulario()) {
-            if(!controlMus.existeAlbum(nicknameArtista,titulo)){
+            if(!controlMus.existeAlbum(nicknameArtista,titulo)){               
                 albumDTO = new DTOAlbum(titulo,anio, rutaDestino, nicknameArtista, generos, null);     
             habilitarFormTemas();
             }else{
@@ -354,26 +354,34 @@ public class AltaAlbum extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jButtonImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImagenActionPerformed
+        if(!jTextFieldNombreArtista.getText().isEmpty() && !jTextFieldNombreAlbum.getText().isEmpty()){
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccionar Imagen");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int seleccion = fileChooser.showOpenDialog(null);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = LaboratorioPA.CARPETA_IMAGEN + archivoSeleccionado.getName();
-            File destino = new File(ruta);
-            try{
-            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
-            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
-            Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
-            jLabelImagen.setIcon(new ImageIcon(image));
-            rutaDestino = destino.getAbsolutePath();
-            } catch (IOException ex) {
-                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            fileChooser.setDialogTitle("Seleccionar Imagen");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
+            fileChooser.setFileFilter(filter);
+            int seleccion = fileChooser.showOpenDialog(null);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                File archivoSeleccionado = fileChooser.getSelectedFile();
+                ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
+                Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
+                jLabelImagen.setIcon(new ImageIcon(image));       
+                //Carpeta
+                String carpetaDestino = "src/recursos/imagenes/";
+                rutaDestino = carpetaDestino + "FotoAlb_" + jTextFieldNombreArtista.getText() + "_" + jTextFieldNombreAlbum.getText()  + ".jpg";
+                File destino = new File(rutaDestino);
+                File directorio = new File(carpetaDestino);
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }       
+                try {
+                    Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese los campos de texto primero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonImagenActionPerformed
 
