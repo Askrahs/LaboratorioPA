@@ -18,6 +18,7 @@ public class Usuario implements Serializable{
     protected String nombre;
     protected String apellido;
     protected String email;
+    protected String contraseña;
     
     @Lob
     protected String rutaImagen;
@@ -37,7 +38,7 @@ public class Usuario implements Serializable{
     
     public Usuario(){ }
 
-    public Usuario(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
+    public Usuario(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores,String contraseña) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -46,6 +47,7 @@ public class Usuario implements Serializable{
         this.fechaNac = fechaNac;
         this.siguiendo = siguiendo;
         this.seguidores = seguidores;
+        this.contraseña = contraseña;
     }
 
     public Collection<Usuario> getSiguiendo() {
@@ -111,5 +113,15 @@ public class Usuario implements Serializable{
     public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+    
+    
    
 }
