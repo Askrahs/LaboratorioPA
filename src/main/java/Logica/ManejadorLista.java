@@ -28,13 +28,24 @@ public class ManejadorLista {
         return instancia;
     }
     
-        public void addLista(Lista lista) {
-         try {
+     private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+     
+    public void addLista(Lista lista) {
+        EntityManager em = getEntityManager();
+        EntityTransaction t = em.getTransaction();
+        try {
             t.begin();
             em.persist(lista);
             t.commit();
         } catch (Exception e) {
-            t.rollback();
+            if (t.isActive()) {
+                t.rollback();
+            }
+            e.printStackTrace();  // Mostrar el error para debugging
+        } finally {
+            em.close();
         }
     }
 
@@ -144,7 +155,6 @@ public class ManejadorLista {
         
         public void publicolista( boolean Privada , Lista lista){
         lista.setEsPrivada(Privada);
-        lista.removeDuenio();
         try {
                 t.begin();
                 em.merge(lista);

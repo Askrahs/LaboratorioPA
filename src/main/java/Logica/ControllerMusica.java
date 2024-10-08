@@ -131,38 +131,40 @@ public class ControllerMusica implements IControllerMusica {
     }         
     
      @Override
-     //A la espera de la otra parte del codigo
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada) throws ListaYaExisteException{
-       //JOptionPane.showMessageDialog(null,"llegue2");
-        ManejadorLista ml = ManejadorLista.getInstance();
-        ManejadorGenero mangen =ManejadorGenero.getInstance();
-        ManejadorUsuario usrman = ManejadorUsuario.getinstance();
-        //( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio)
-        //JOptionPane.showMessageDialog(null,"llegue097");
-       // JOptionPane.showMessageDialog(null,"Nombre ingresado: "+nombre);
-        Lista los = ml.ExisteLista(nombre);
-       // JOptionPane.showMessageDialog(null,"llegue323");
-        if(los==null){//si existe lista
-           // JOptionPane.showMessageDialog(null,"llegue3");
-            if(genero.isEmpty()){
-           
-                if(usrman.obtenerUsuario(duenio)!=null){//si usuario existe
-                   //JOptionPane.showMessageDialog(null,"llegue5");
-                    ml.creolista(nombre, genero, duenio,ruta,privada);
-               // JOptionPane.showMessageDialog(null,"llegue4");
+    ManejadorLista ml = ManejadorLista.getInstance();
+    ManejadorGenero mangen = ManejadorGenero.getInstance();
+    ManejadorUsuario usrman = ManejadorUsuario.getinstance();
+
+    Lista los = ml.ExisteLista(nombre);
+    if (los == null) { // Si no existe la lista
+        if (genero.isEmpty()) {
+            if (usrman.obtenerUsuario(duenio) != null) { // Si el usuario existe
+                ml.creolista(nombre, genero, duenio, ruta, privada);
+                mostrarMensajePrivacidad(privada);
+                JOptionPane.showMessageDialog(null, "Lista de reproducción creada exitosamente.", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
             }
-            }else{
-                Genero gen = mangen.Existegenbasedatoss(genero);
-                 if(gen!=null){ //si es false existe
-                 //   JOptionPane.showMessageDialog(null,"llegue6");
-                     ml.creolista(nombre, genero, duenio,ruta, privada);
-                 }else{
-                    JOptionPane.showMessageDialog(null,"Genero no existe"); 
-                 }
-             }
-            }else{
-        JOptionPane.showMessageDialog(null,"Lista ya existe");
+        } else {
+            Genero gen = mangen.Existegenbasedatoss(genero);
+            if (gen != null) { // Si el género existe
+                ml.creolista(nombre, genero, duenio, ruta, privada);
+                mostrarMensajePrivacidad(privada);
+                JOptionPane.showMessageDialog(null, "Lista de reproducción creada exitosamente.", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Género no existe");
+            }
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Lista ya existe");
+    }
+}
+
+    private void mostrarMensajePrivacidad(boolean privada) {
+    if (privada) {
+        JOptionPane.showMessageDialog(null, "La lista es privada", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(null, "La lista es pública", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
+    }
     } 
 
     @Override
@@ -186,7 +188,6 @@ public class ControllerMusica implements IControllerMusica {
     if (!lista.getEsPrivada()) {
         throw new ListaYaEsPublicaException("La lista " + nombreLista + " ya es pública.");
     }else{
-        // Hacer pública la lista de reproducción
         Ml.publicolista(false, lista);  
     }
     } 
@@ -340,7 +341,9 @@ public class ControllerMusica implements IControllerMusica {
             }     
              return dtolista;          
         }
-             
+    
+    
+    
     @Override
     public List<DTOLista> Obtengolistas()throws NoExisteLista{
            //JOptionPane.showMessageDialog(null,"llegue2");
@@ -581,6 +584,20 @@ public class ControllerMusica implements IControllerMusica {
             }     
              return dtoalbum;   
     }
+    
+    @Override
+    public List<String> ObtengolistasClipriv(String nickcli) throws NoExisteLista {
+    // Obtenemos las listas privadas del cliente, que deberían ser objetos de tipo Lista o similar
+    List<String> listas = cPersist.findListaPorClientePriv(nickcli);
+    List<String> dtoListas = new ArrayList<>();
+
+    // Iteramos sobre la lista de objetos de tipo Lista
+    for (String l : listas) {
+        dtoListas.add(l);
+    }
+
+    return dtoListas;
+}
     
     @Override
     public  List<DTOTema> ObtengoTemasdeAlbum(String nombreAlbum){

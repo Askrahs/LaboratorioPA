@@ -43,4 +43,5 @@ public interface IControllerMusica {
     public abstract List<DTOTema> obtenerTemitasfavCliente(String nicknames);
     public abstract List<DTOLista> obtenerListitasfavCliente(String nicknames);
     public abstract List<DTOAlbum> obtenerAlbumsfavCliente(String nicknames);
+    public List<String> ObtengolistasClipriv(String nickcli)throws NoExisteLista;
 }

@@ -142,4 +142,8 @@ public class ControllerPersistencia {
     public List<Album> obtenerAlbumsFavoritosDeCliente(String nicknameCliente) {
         return cliJpa.findAlbumsFavoritosDeCliente(nicknameCliente);
     }
+    
+    public List<String> findListaPorClientePriv(String clienteSeleccionado) {
+        return listJpa.findListaPorClientePriv(clienteSeleccionado);
+    }
 }

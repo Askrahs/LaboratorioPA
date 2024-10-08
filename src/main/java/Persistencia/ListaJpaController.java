@@ -122,7 +122,20 @@ public class ListaJpaController {
             em.close();
         }
     }
-
+    
+     public List<String> findListaPorClientePriv(String clienteSeleccionado) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<String> query = em.createQuery(
+                "SELECT l.nombre FROM Lista l WHERE l.duenio.nickname = :nombre AND l.esPrivada = :priv", String.class);
+            query.setParameter("nombre", clienteSeleccionado);
+            query.setParameter("priv", true);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+     
     public Lista findListaPorCliente2(String clienteSeleccionado) {
         EntityManager em = getEntityManager();
         try {

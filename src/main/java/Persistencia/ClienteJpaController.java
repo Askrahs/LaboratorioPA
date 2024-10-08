@@ -65,7 +65,6 @@ public class ClienteJpaController {
         em.close();
     }
     }
-
-    
+     
     
 }

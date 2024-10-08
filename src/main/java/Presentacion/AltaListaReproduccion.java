@@ -1,18 +1,13 @@
 package Presentacion;
 
-import Excepciones.AlbumYaExisteException;
+
 import Excepciones.ListaYaExisteException;
-import Excepciones.UsuarioNoExisteException;
-import Logica.Genero;
 import Logica.IControllerMusica;
-import Logica.Tema;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -54,6 +49,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         jTextFieldDuenio = new javax.swing.JTextField();
         jButtonAniadirImagen = new javax.swing.JButton();
         jLabelImagen = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -96,6 +92,13 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         jLabelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabelImagen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,12 +119,14 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                                     .addComponent(jTextFieldGenero)
                                     .addComponent(jTextFieldNombreLista, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                                     .addComponent(jTextFieldDuenio))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(jToggleButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jToggleButtonAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                         .addComponent(jButtonAniadirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -152,7 +157,9 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButtonAceptar)
                     .addComponent(jButtonAniadirImagen))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -188,58 +195,67 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxPrivadaActionPerformed
 
     private void jToggleButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAceptarActionPerformed
-        String nombre = this.jTextFieldNombreLista.getText();
-        String genero = this.jTextFieldGenero.getText();
-        String duenio = this.jTextFieldDuenio.getText();
-        boolean priv;
-        //AGREGAR IMAGEN
-        if (checkFormulario()) {
-            try{
-                priv = jCheckBoxPrivada.isSelected(); 
-               if(priv==false){
-               JOptionPane.showMessageDialog(null,"La lista es publica");
-               }else{
-                  JOptionPane.showMessageDialog(null,"La lista es privada"); 
-               }
-               
-                controlMus.altaListaReproduccion(nombre,genero,duenio,rutadestino, priv);
-                JOptionPane.showMessageDialog(this, "La lista se ha creado exitosamente","Alta Lista",JOptionPane.INFORMATION_MESSAGE);
-            }catch(ListaYaExisteException e){
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Lista", JOptionPane.ERROR_MESSAGE);
-            } 
+        String nombre = this.jTextFieldNombreLista.getText().trim();
+    String genero = this.jTextFieldGenero.getText().trim();
+    String duenio = this.jTextFieldDuenio.getText().trim();
+    boolean priv;
+
+    if (checkFormulario()) {
+        try {
+            priv = jCheckBoxPrivada.isSelected(); 
+            controlMus.altaListaReproduccion(nombre, genero, duenio, rutadestino, priv);
             
-        limpiarFormulario();
+        } catch (ListaYaExisteException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Lista", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    limpiarFormulario();
     }//GEN-LAST:event_jToggleButtonAceptarActionPerformed
 
     private void jButtonAniadirImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirImagenActionPerformed
-     JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccionar Imagen");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int seleccion = fileChooser.showOpenDialog(null);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
-            File destino = new File(ruta);
-            try{
-            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
-            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
-            Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
-            jLabelImagen.setIcon(new ImageIcon(image));
-            rutadestino = destino.getAbsolutePath();
-            } catch (IOException ex) {
-                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+    if(!jTextFieldNombreLista.getText().isEmpty()){
+        JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Seleccionar Imagen");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
+            fileChooser.setFileFilter(filter);
+            int seleccion = fileChooser.showOpenDialog(null);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                File archivoSeleccionado = fileChooser.getSelectedFile();
+                ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
+                Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
+                jLabelImagen.setIcon(new ImageIcon(image));       
+                //Carpeta
+                String carpetaDestino = "src/recursos/imagenes/";
+                rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText()  + ".jpg";
+                File destino = new File(rutadestino);
+                File directorio = new File(carpetaDestino);
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }       
+                try {
+                    Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese los campos de texto primero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonAniadirImagenActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.setVisible(false);
+        limpiarFormulario();
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        limpiarFormulario();
+        principal.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
  
     public static void main(String args[]) {
         try {
@@ -286,13 +302,19 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     // se ocultan, por lo que conviene borrar la información para que 
     // no aparezca al mostrarlas nuevamente.
     private void limpiarFormulario() {
-        jTextFieldNombreLista.setText("");
-        jTextFieldGenero.setText("");
-       jTextFieldDuenio.setText("");
+    jTextFieldNombreLista.setText("");
+    jTextFieldGenero.setText("");
+    jTextFieldDuenio.setText("");
+    jCheckBoxPrivada.setSelected(false);
+    jTextFieldDuenio.setEnabled(false);
+    jTextFieldGenero.setEnabled(true);
+    jLabelImagen.setIcon(null); 
+    rutadestino = null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAniadirImagen;
     private javax.swing.JCheckBox jCheckBoxPrivada;
     private javax.swing.JLabel jLabel1;
