@@ -6,6 +6,7 @@ import Logica.IControllerMusica;
 import LogicaDTO.DTOAlbum;
 import LogicaDTO.DTOLista;
 import LogicaDTO.DTOTema;
+import LogicaDTO.DTOUsuario;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,12 +14,12 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Santiago
- */
+
 public class AgregarTemaListaPublica extends javax.swing.JFrame {
+    
 private JFrame principal;
+    private boolean primeraseleccion = true;
+    private int contador = 0;
     private IControllerMusica ctrlM;
     private DefaultListModel<String> listModel;
     public AgregarTemaListaPublica() {
@@ -34,43 +35,50 @@ private JFrame principal;
       
         principal = princi;
         CargarListas();
-        CargarListasconduenios();
         CargarAlbumes();
         todonulo();
     }
+
+
     public void cleartodo(){
         this.txtListaDelTema.setText("");
         this.txtNombreAlbum.setText("");
         this.txtNombreLista.setText("");
         this.txtNombreTema.setText("");
         this.txtNombreUsr.setText("");
+        this.txtNombreDuenio.setText("");
     }
+
+
     public void todonulo(){
         this.txtListaDelTema.setEditable(false);
         this.txtNombreAlbum.setEditable(false);
         this.txtNombreLista.setEditable(false);
         this.txtNombreTema.setEditable(false);
         this.txtNombreUsr.setEditable(false);
+        this.txtNombreDuenio.setEditable(false);
     }
     
     public void CargarListasconduenios() throws NoExisteLista{
          List <DTOLista> listass = ctrlM.Obtengolistasconduenio();
-        if (!(ListasConDuenio.getModel() instanceof DefaultListModel)) {
-                        ListasConDuenio.setModel(new DefaultListModel<>());
+         ListaListas.clearSelection();
+        if (!(ListaListas.getModel() instanceof DefaultListModel)) {
+                        ListaListas.setModel(new DefaultListModel<>());
                     }
-                    DefaultListModel<String> temaLista = (DefaultListModel<String>) ListasConDuenio.getModel();
+                    DefaultListModel<String> temaLista = (DefaultListModel<String>) ListaListas.getModel();
                     temaLista.clear();
-                    ListasConDuenio.clearSelection();
+                    ListaListas.clearSelection();
                     for(DTOLista lis : listass){
                         String loquemuestro = lis.getNombre();
                         temaLista.addElement(loquemuestro);
                     }
-                    ListasConDuenio.clearSelection();
+                    ListaListas.clearSelection();
     }
     
     
     public void CargarListas() throws NoExisteLista{
         List <DTOLista> listass = ctrlM.Obtengolistassinduenio();
+        ListaListas.clearSelection();
         if (!(ListaListas.getModel() instanceof DefaultListModel)) {
                         ListaListas.setModel(new DefaultListModel<>());
                     }
@@ -103,12 +111,6 @@ private JFrame principal;
                 }
                 AlbumList.clearSelection();
             }
-    
-    
-        
-       
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -128,25 +130,16 @@ private JFrame principal;
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ListaListas = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ListasTemas = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ListasConDuenio = new javax.swing.JList<>();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listatemaconsuenio = new javax.swing.JList<>();
         jScrollPane5 = new javax.swing.JScrollPane();
         AlbumList = new javax.swing.JList<>();
         jScrollPane6 = new javax.swing.JScrollPane();
         ListTemasAlbum = new javax.swing.JList<>();
-        boxAaniadirtemaAlbum = new javax.swing.JCheckBox();
-        AñadirSinDuenio = new javax.swing.JCheckBox();
-        AñadirConDuenio = new javax.swing.JCheckBox();
-        boxAniadirListaLista = new javax.swing.JCheckBox();
-        boxEliminar = new javax.swing.JCheckBox();
+        cboListas = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ListaListas = new javax.swing.JList<>();
+        txtNombreDuenio = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        cboComoAniado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -217,7 +210,7 @@ private JFrame principal;
                     .addComponent(txtNombreUsr)
                     .addComponent(txtNombreTema)
                     .addComponent(txtNombreLista)
-                    .addComponent(txtListaDelTema, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                    .addComponent(txtListaDelTema))
                 .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
@@ -279,98 +272,28 @@ private JFrame principal;
             }
         });
 
-        jButton1.setText("Cargar Datos");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                    .addComponent(btnCancelar)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnEliminar)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar))
+                .addComponent(btnEliminar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(btnAceptar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelar))
         );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion"));
-        jPanel3.setForeground(new java.awt.Color(255, 255, 102));
-
-        ListaListas.setBorder(javax.swing.BorderFactory.createTitledBorder("Listas por Defecto"));
-        ListaListas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ListaListas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ListaListasValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(ListaListas);
-
-        ListasTemas.setBorder(javax.swing.BorderFactory.createTitledBorder("Temas de Por Defecto"));
-        ListasTemas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ListasTemas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ListasTemasValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(ListasTemas);
-
-        ListasConDuenio.setBorder(javax.swing.BorderFactory.createTitledBorder("Listas con dueños"));
-        ListasConDuenio.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ListasConDuenio.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ListasConDuenioValueChanged(evt);
-            }
-        });
-        jScrollPane3.setViewportView(ListasConDuenio);
-
-        listatemaconsuenio.setBorder(javax.swing.BorderFactory.createTitledBorder("Temas de Con dueño"));
-        listatemaconsuenio.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        listatemaconsuenio.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listatemaconsuenioValueChanged(evt);
-            }
-        });
-        jScrollPane4.setViewportView(listatemaconsuenio);
 
         AlbumList.setBorder(javax.swing.BorderFactory.createTitledBorder("Albums"));
         AlbumList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -385,7 +308,7 @@ private JFrame principal;
         });
         jScrollPane5.setViewportView(AlbumList);
 
-        ListTemasAlbum.setBorder(javax.swing.BorderFactory.createTitledBorder("Temas de albums"));
+        ListTemasAlbum.setBorder(javax.swing.BorderFactory.createTitledBorder("Temas "));
         ListTemasAlbum.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -398,125 +321,85 @@ private JFrame principal;
         });
         jScrollPane6.setViewportView(ListTemasAlbum);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        boxAaniadirtemaAlbum.setText("Añadir Tema-Album S/Dueño");
-        boxAaniadirtemaAlbum.addActionListener(new java.awt.event.ActionListener() {
+        cboListas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Listas Default", "Listas con Dueños" }));
+        cboListas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxAaniadirtemaAlbumActionPerformed(evt);
+                cboListasActionPerformed(evt);
             }
         });
 
-        AñadirSinDuenio.setText("Añadir Lista-Lista S/Dueñio");
-        AñadirSinDuenio.addActionListener(new java.awt.event.ActionListener() {
+        ListaListas.setBorder(javax.swing.BorderFactory.createTitledBorder("Listas "));
+        ListaListas.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        ListaListas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListaListasValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ListaListas);
+
+        txtNombreDuenio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AñadirSinDuenioActionPerformed(evt);
+                txtNombreDuenioActionPerformed(evt);
             }
         });
 
-        AñadirConDuenio.setText("Añadir Tema-Album C/Dueñio");
-        AñadirConDuenio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AñadirConDuenioActionPerformed(evt);
-            }
-        });
+        jLabel6.setText("Dueño de la Lista:");
 
-        boxAniadirListaLista.setText("Añadir Lista-Lista C/Dueño");
-        boxAniadirListaLista.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxAniadirListaListaActionPerformed(evt);
-            }
-        });
-
-        boxEliminar.setText("Eliminar");
-        boxEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxEliminarActionPerformed(evt);
-            }
-        });
+        cboComoAniado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Añadir de Album a lista", "Añadir de Lista a Lista" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(boxAaniadirtemaAlbum)
-                            .addComponent(AñadirConDuenio))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AñadirSinDuenio)
-                            .addComponent(boxAniadirListaLista)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boxEliminar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtNombreDuenio, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboListas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(cboComoAniado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(boxAaniadirtemaAlbum)
-                            .addComponent(AñadirSinDuenio))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(AñadirConDuenio)
-                            .addComponent(boxAniadirListaLista))
+                        .addComponent(txtNombreDuenio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboListas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboComoAniado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(boxEliminar)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(21, Short.MAX_VALUE))))
         );
 
         pack();
@@ -528,29 +411,24 @@ private JFrame principal;
     }//GEN-LAST:event_txtNombreUsrActionPerformed
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
-        boolean paraalbum = boxAaniadirtemaAlbum.isSelected();
-        boolean paralista = boxAniadirListaLista.isSelected();
-        boolean paralista2 = AñadirSinDuenio.isSelected();
-        boolean paralbum2 = AñadirConDuenio.isSelected();
-        if(paraalbum==true||paralbum2==true){
-            
+        //AHORA HAY QUE CHEQUEAR QUE CAMPOS ESTAN RELLENOS, DEPENDIENDO DE LO QUE ESTE RELLENO PARA DONDE VA YA NO VA LAS BOX
+            String nameusu = this.txtNombreDuenio.getText();
+        this.txtNombreUsr.setText(nameusu);
+            JOptionPane.showMessageDialog(null,"El cliente es ["+nameusu+"]");
             String nombreteam = this.txtNombreTema.getText();
             String nombrealb = this.txtNombreAlbum.getText();
              String nombrelista = this.txtNombreLista.getText();
              String nombreUsuario = this.txtNombreUsr.getText();
-              if(nombreUsuario.isEmpty()){
+             String nombredelalistadeltema = this.txtListaDelTema.getText();
+            if(nombredelalistadeltema.isEmpty()){
+             if(nombreUsuario.isEmpty()){
                  
                   ctrlM.aniadoTemaListaPublica(nombrelista, nombreteam,nombrealb);
               }else{
                   ctrlM.aniadoTemaListaConduenio(nombreUsuario,nombrelista,nombreteam,nombrealb);
               }
-        }else{
-            if(paralista==true|| paralista2==true)
-            {
-                
+            }else{
                 String nicknameUsuario = this.txtNombreUsr.getText();
-                String nombreteam = this.txtNombreTema.getText();
-                String nombrelista = this.txtNombreLista.getText();
                 String nombrelistadelteam = this.txtListaDelTema.getText();
                  if(nicknameUsuario.isEmpty()){
                     
@@ -559,126 +437,199 @@ private JFrame principal;
                     
                   ctrlM.aniadoTemaListaConduenioLista(nicknameUsuario,nombrelista,nombreteam,nombrelistadelteam);
               }
+            
             }
-             
-        }
+        
        cleartodo();
-                
+      
                 
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void ListaListasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaListasValueChanged
-        txtNombreLista.setText("");       
-        if (!evt.getValueIsAdjusting()) {
-                String nombrelista = ListaListas.getSelectedValue();
-                //JOptionPane.showMessageDialog(null,"LLEGUE 3");
-                if (nombrelista != null) {
-                   // JOptionPane.showMessageDialog(null,"LLEGUE 4");
-                    List<DTOTema> temasA = ctrlM.TemasdeListas(nombrelista);
-                   // JOptionPane.showMessageDialog(null,"LLEGUE 2");
-                    if (!(ListasTemas.getModel() instanceof DefaultListModel)) {
-                        ListasTemas.setModel(new DefaultListModel<>());
-                    }
-                   // JOptionPane.showMessageDialog(null,"LLEGUE 1");
-                    DefaultListModel<String> temaLista = (DefaultListModel<String>) ListasTemas.getModel();
-                    temaLista.clear();
-                    ListasTemas.clearSelection();
-                    for(DTOTema tem : temasA){
-                        String loquemuestro = tem.getNombre();
-                        temaLista.addElement(loquemuestro);
-                    }
-                    ListasTemas.clearSelection();
-                }
-        }
+        
+        String como = cboComoAniado.getSelectedItem().toString();
+        if(como.equalsIgnoreCase("Añadir de Album a lista")){
+            if(cboListas.getSelectedItem().toString().equalsIgnoreCase("Listas Default")){
+      
+                DefaultListModel<String> modeloLista = new DefaultListModel<>();
                 
-            ListasConDuenio.clearSelection();
-            txtNombreLista.setText("");    
-            String nombretema = ListaListas.getSelectedValue();
-            txtNombreLista.setText(nombretema);
+                String nombrelista = ListaListas.getSelectedValue();
+                if (nombrelista==null||nombrelista.isEmpty()) {
+                    
+                    return;
+                }
+                List <DTOTema> temas = ctrlM.TemasdeListas(nombrelista);
+                
+                for(DTOTema tema : temas){
+                    modeloLista.addElement(tema.getNombre());
+                    
+                }
+                ListTemasAlbum.clearSelection();
+                ListTemasAlbum.setModel(modeloLista);
+                txtNombreLista.setText(nombrelista);
+                
+               
+            }
             
+            if(cboListas.getSelectedItem().toString().equalsIgnoreCase("Listas con Dueños")){
+                
+                
+                try {
+            
+                    
+                    DefaultListModel<String> modeloLista = new DefaultListModel<>();
+                    DefaultListModel<String> modeloLista2 = new DefaultListModel<>();
+                    List <DTOLista> laslistas;
+                    
+                    
+                    laslistas = ctrlM.Obtengolistasconduenio();
+                    
+                    
+                    DTOLista lis;
+                    DTOUsuario duenio;
+                    
+                    String nombrelisto = ListaListas.getSelectedValue();
+                    
+                    if (nombrelisto == null||nombrelisto.isEmpty()) {
+                        
+                        return;
+                    }
+                    
+                    
+                    txtNombreLista.setText(nombrelisto);
+                    List <DTOTema> temas = ctrlM.TemasdeListas(nombrelisto);
+                    for(DTOTema tema : temas){
+                        
+                        modeloLista.addElement(tema.getNombre());
+                    }
+                    
+                    ListTemasAlbum.clearSelection();
+                    ListTemasAlbum.setModel(modeloLista);
+                    
+                    
+                    for (int i = 0 ; i<laslistas.size();i++){
+                        lis = laslistas.get(i);
+                        if(lis.getNombre().equalsIgnoreCase(nombrelisto)){
+                            duenio = lis.getDuenio();
+                            txtNombreDuenio.setText(duenio.getNombre());
+                            this.txtNombreUsr.setText(this.txtNombreDuenio.getText());
+                        }
+                        
+                    }
+                } catch (NoExisteLista ex) {
+                    Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }else{
+            if(cboListas.getSelectedItem().toString().equalsIgnoreCase("Listas con Dueños")){
+                
+                
+                try {
+                
+                    
+                    DefaultListModel<String> modeloLista = new DefaultListModel<>();
+                    DefaultListModel<String> modeloLista2 = new DefaultListModel<>();
+                    List <DTOLista> laslistas;
+                    
+                    
+                    laslistas = ctrlM.Obtengolistasconduenio();
+                    
+                    
+                    DTOLista lis;
+                    DTOUsuario duenio;
+                    
+                    String nombrelisto = ListaListas.getSelectedValue();
+                    
+                    if (nombrelisto == null||nombrelisto.isEmpty()) {
+                        
+                        return;
+                    }
+                    if(primeraseleccion==true){
+                        
+                        txtNombreLista.setText(nombrelisto);
+                        List <DTOTema> temas = ctrlM.TemasdeListas(nombrelisto);
+                        for(DTOTema tema : temas){
+                            
+                            modeloLista.addElement(tema.getNombre());
+                        }
+                        
+                        ListTemasAlbum.clearSelection();
+                        ListTemasAlbum.setModel(modeloLista);
+                        
+                        primeraseleccion = false;
+                        contador++;
+                    }else{
+                        //JOptionPane.showMessageDialog(null,"Entre al dos pa");
+                        txtListaDelTema.setText(nombrelisto);
+                        List <DTOTema> temas = ctrlM.TemasdeListas(nombrelisto);
+                        for(DTOTema tema : temas){
+                            modeloLista2.addElement(tema.getNombre());
+                        }
+                        ListTemasAlbum.clearSelection();
+                        ListTemasAlbum.setModel(modeloLista2);
+                        contador++;
+                        
+                    }
+                    
+                    if(contador == 2){
+                        primeraseleccion=true;
+                        contador = 0;
+                    }
+                    if(contador == 1){
+                    for (int i = 0 ; i<laslistas.size();i++){
+                        lis = laslistas.get(i);
+                        if(lis.getNombre().equalsIgnoreCase(nombrelisto)){
+                            duenio = lis.getDuenio();
+                            txtNombreDuenio.setText(duenio.getNombre());
+                            this.txtNombreUsr.setText(this.txtNombreDuenio.getText());
+                        }
+                        
+                    }
+                    }
+                    
+                } catch (NoExisteLista ex) {
+                    Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+            }
+
+        }
+        
+
     }//GEN-LAST:event_ListaListasValueChanged
 
     private void txtNombreListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreListaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreListaActionPerformed
 
-    private void ListasConDuenioValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListasConDuenioValueChanged
-           
-        if (!evt.getValueIsAdjusting()) {
-                String nombrelista = ListasConDuenio.getSelectedValue();
-                //JOptionPane.showMessageDialog(null,"LLEGUE 3");
-                if (nombrelista != null) {
-                   // JOptionPane.showMessageDialog(null,"LLEGUE 4");
-                    List<DTOTema> temasA = ctrlM.TemasdeListas(nombrelista);
-                   // JOptionPane.showMessageDialog(null,"LLEGUE 2");
-                    if (!(listatemaconsuenio.getModel() instanceof DefaultListModel)) {
-                        listatemaconsuenio.setModel(new DefaultListModel<>());
-                    }
-                   // JOptionPane.showMessageDialog(null,"LLEGUE 1");
-                    DefaultListModel<String> temaLista = (DefaultListModel<String>) listatemaconsuenio.getModel();
-                    temaLista.clear();
-                    listatemaconsuenio.clearSelection();
-                    for(DTOTema tem : temasA){
-                        String loquemuestro = tem.getNombre();
-                        temaLista.addElement(loquemuestro);
-                    }
-                    listatemaconsuenio.clearSelection();
-                }
-        } 
-              ListaListas.clearSelection();
-              txtNombreLista.setText("");
-            String nombretema = ListasConDuenio.getSelectedValue();
-            txtNombreLista.setText(nombretema);
-              
-    }//GEN-LAST:event_ListasConDuenioValueChanged
-
     private void AlbumListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_AlbumListValueChanged
         if (!evt.getValueIsAdjusting()) {
+            ListTemasAlbum.clearSelection();
+            DefaultListModel<String> modeloLista = new DefaultListModel<>();
                 String nombreAlbum = AlbumList.getSelectedValue();
                // JOptionPane.showMessageDialog(null,"LLEGUE 3");
  
-                if (nombreAlbum != null) {
-                  //  JOptionPane.showMessageDialog(null,"LLEGUE 4");
-                    List<DTOTema> temasA = ctrlM.ObtengoTemasdeAlbum(nombreAlbum);
-                    //JOptionPane.showMessageDialog(null,"LLEGUE 2");
-                    if (!(ListTemasAlbum.getModel() instanceof DefaultListModel)) {
-                        ListTemasAlbum.setModel(new DefaultListModel<>());
-                    }
-                    //JOptionPane.showMessageDialog(null,"LLEGUE 1");
-                    DefaultListModel<String> temaLista = (DefaultListModel<String>) ListTemasAlbum.getModel();
-                    temaLista.clear();
-                    ListTemasAlbum.clearSelection();
-                    for(DTOTema tem : temasA){
-                        String loquemuestro = tem.getNombre();
-                        temaLista.addElement(loquemuestro);
-                    }
-                    ListTemasAlbum.clearSelection();
+                if (nombreAlbum == null) {
+                 JOptionPane.showMessageDialog(null,"Elija un album");
+                return;                
                 }
+                List <DTOTema> temas = ctrlM.ObtengoTemasdeAlbum(nombreAlbum);
+                for(DTOTema tema : temas){
+                    modeloLista.addElement(tema.getNombre());
+                }
+                ListTemasAlbum.setModel(modeloLista);
+                txtNombreAlbum.setText(nombreAlbum);
+                
         }
     }//GEN-LAST:event_AlbumListValueChanged
-
-    private void ListasTemasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListasTemasValueChanged
-           
-            String nombretema = ListasTemas.getSelectedValue();
-            txtNombreTema.setText(nombretema);
-            listatemaconsuenio.clearSelection();
-            ListTemasAlbum.clearSelection();
-    }//GEN-LAST:event_ListasTemasValueChanged
-
-    private void listatemaconsuenioValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listatemaconsuenioValueChanged
-          txtNombreTema.setText("");
-            String nombretema = listatemaconsuenio.getSelectedValue();
-            txtNombreTema.setText(nombretema);
-            ListasTemas.clearSelection();
-            ListTemasAlbum.clearSelection();
-    }//GEN-LAST:event_listatemaconsuenioValueChanged
 
     private void ListTemasAlbumValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListTemasAlbumValueChanged
         txtNombreTema.setText("");
             String nombretema = ListTemasAlbum.getSelectedValue();
             txtNombreTema.setText(nombretema);
-            ListasTemas.clearSelection();
-            listatemaconsuenio.clearSelection();
+          
     }//GEN-LAST:event_ListTemasAlbumValueChanged
     
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
@@ -713,98 +664,13 @@ private JFrame principal;
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    private void boxAaniadirtemaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxAaniadirtemaAlbumActionPerformed
-       cleartodo();
-        if(boxAaniadirtemaAlbum.isSelected()){
-        txtNombreAlbum.setEditable(true);
-        txtNombreLista.setEditable(true);
-        txtNombreTema.setEditable(true);
-       }else{
-         txtNombreAlbum.setEditable(false);
-        txtNombreLista.setEditable(false);
-        txtNombreTema.setEditable(false);
-       }
-    }//GEN-LAST:event_boxAaniadirtemaAlbumActionPerformed
-
-    private void boxAniadirListaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxAniadirListaListaActionPerformed
-       cleartodo();       
-        if(boxAniadirListaLista.isSelected()){
-        txtNombreUsr.setEditable(true);
-        txtListaDelTema.setEditable(true);
-        txtNombreLista.setEditable(true);
-        txtNombreTema.setEditable(true);
-       }else{
-        txtNombreUsr.setEditable(false);
-        txtListaDelTema.setEditable(false);
-        txtNombreLista.setEditable(false);
-        txtNombreTema.setEditable(false);
-       }
-    }//GEN-LAST:event_boxAniadirListaListaActionPerformed
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-    try {
-        CargarListas();
-    } catch (NoExisteLista ex) {
-        Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    try {
-        CargarListasconduenios();
-    } catch (NoExisteLista ex) {
-        Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        CargarAlbumes();
-    }//GEN-LAST:event_jButton1MouseClicked
-
     private void txtNombreTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreTemaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreTemaActionPerformed
 
-    private void AñadirConDuenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirConDuenioActionPerformed
-       cleartodo();
-        if(AñadirConDuenio.isSelected()){
-        txtNombreAlbum.setEditable(true);
-        txtNombreLista.setEditable(true);
-        txtNombreTema.setEditable(true);
-        txtNombreUsr.setEditable(true);
-       }else{
-         txtNombreAlbum.setEditable(false);
-        txtNombreLista.setEditable(false);
-        txtNombreTema.setEditable(false);
-         txtNombreUsr.setEditable(false);
-       }
-    }//GEN-LAST:event_AñadirConDuenioActionPerformed
-
-    private void AñadirSinDuenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirSinDuenioActionPerformed
-       cleartodo();
-        if(AñadirSinDuenio.isSelected()){
-        txtListaDelTema.setEditable(true);
-        txtNombreLista.setEditable(true);
-        txtNombreTema.setEditable(true);
-       }else{
-         txtListaDelTema.setEditable(false);
-        txtNombreLista.setEditable(false);
-        txtNombreTema.setEditable(false);
-       }
-    }//GEN-LAST:event_AñadirSinDuenioActionPerformed
-
     private void txtListaDelTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtListaDelTemaActionPerformed
     
     }//GEN-LAST:event_txtListaDelTemaActionPerformed
-
-    private void boxEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxEliminarActionPerformed
-        cleartodo();
-        if(boxEliminar.isSelected()){
-      txtNombreAlbum.setEditable(true);
-        txtNombreLista.setEditable(true);
-        txtNombreTema.setEditable(true);
-        txtNombreUsr.setEditable(true);
-      } else{
-      txtNombreAlbum.setEditable(false);
-             txtNombreLista.setEditable(false);
-        txtNombreTema.setEditable(false); 
-        txtNombreUsr.setEditable(false);
-                }
-    }//GEN-LAST:event_boxEliminarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
@@ -813,6 +679,28 @@ private JFrame principal;
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtNombreDuenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreDuenioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreDuenioActionPerformed
+
+    private void cboListasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboListasActionPerformed
+        String tipolista = cboListas.getSelectedItem().toString();
+        if(tipolista.equalsIgnoreCase("Listas Default")){
+            try {
+                CargarListas();
+            } catch (NoExisteLista ex) {
+                Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(tipolista.equalsIgnoreCase("Listas con Dueños")){
+            try {
+                CargarListasconduenios();
+            } catch (NoExisteLista ex) {
+                Logger.getLogger(AgregarTemaListaPublica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cboListasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -851,36 +739,27 @@ private JFrame principal;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> AlbumList;
-    private javax.swing.JCheckBox AñadirConDuenio;
-    private javax.swing.JCheckBox AñadirSinDuenio;
     private javax.swing.JList<String> ListTemasAlbum;
     private javax.swing.JList<String> ListaListas;
-    private javax.swing.JList<String> ListasConDuenio;
-    private javax.swing.JList<String> ListasTemas;
-    private javax.swing.JCheckBox boxAaniadirtemaAlbum;
-    private javax.swing.JCheckBox boxAniadirListaLista;
-    private javax.swing.JCheckBox boxEliminar;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> cboComoAniado;
+    private javax.swing.JComboBox<String> cboListas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JList<String> listatemaconsuenio;
     public javax.swing.JTextField txtListaDelTema;
     public javax.swing.JTextField txtNombreAlbum;
+    private javax.swing.JTextField txtNombreDuenio;
     public javax.swing.JTextField txtNombreLista;
     public javax.swing.JTextField txtNombreTema;
     public javax.swing.JTextField txtNombreUsr;
