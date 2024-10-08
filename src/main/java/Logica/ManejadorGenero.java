@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -96,13 +97,17 @@ public class ManejadorGenero {
         }
     }
 
-    
     public Genero Existegenbasedatoss(String nombre){
-        
-        Genero Gen = man.find(Genero.class, nombre);
-        
-            return Gen;
-        
+    TypedQuery<Genero> query = man.createQuery("SELECT g FROM Genero g WHERE g.nombre = :nombre", Genero.class);
+    query.setParameter("nombre", nombre);
+    
+    Genero gen = null;
+    try {
+        gen = query.getSingleResult();
+    } catch (NoResultException e) {
+        return null;
+    }
+    return gen;
     }
     
     public void eliminopornombrepadre(String Generoelimino){
@@ -225,13 +230,12 @@ public void remuevoGenerobasesdatos(String refe) {
     }
     
     public Genero obtenerGeneroPorNombre(String nombre) {
-        try {
-            String consulta = "select g from Genero g where g.nombre = :nombre";
-            Query query = man.createQuery(consulta);
-            query.setParameter("nombre", nombre);
-            return (Genero) query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+    try {
+        Query query = man.createQuery("SELECT g FROM Genero g WHERE g.nombre = :nombre", Genero.class);
+        query.setParameter("nombre", nombre);
+        return (Genero) query.getSingleResult();
+    } catch (NoResultException e) {
+        return null;
     }
+}
 }

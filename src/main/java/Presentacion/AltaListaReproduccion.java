@@ -78,6 +78,12 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
 
         jLabel2.setText("Genero:");
 
+        jTextFieldGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldGeneroActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Dueño:");
 
         jTextFieldDuenio.setEnabled(false);
@@ -195,7 +201,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxPrivadaActionPerformed
 
     private void jToggleButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAceptarActionPerformed
-        String nombre = this.jTextFieldNombreLista.getText().trim();
+    String nombre = this.jTextFieldNombreLista.getText().trim();
     String genero = this.jTextFieldGenero.getText().trim();
     String duenio = this.jTextFieldDuenio.getText().trim();
     boolean priv;
@@ -256,6 +262,10 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         limpiarFormulario();
         principal.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextFieldGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldGeneroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldGeneroActionPerformed
  
     public static void main(String args[]) {
         try {

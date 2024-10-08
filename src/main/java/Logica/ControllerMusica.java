@@ -146,7 +146,7 @@ public class ControllerMusica implements IControllerMusica {
             }
         } else {
             Genero gen = mangen.Existegenbasedatoss(genero);
-            if (gen != null) { // Si el género existe
+            if (gen != null) {
                 ml.creolista(nombre, genero, duenio, ruta, privada);
                 mostrarMensajePrivacidad(privada);
                 JOptionPane.showMessageDialog(null, "Lista de reproducción creada exitosamente.", "Alta Lista", JOptionPane.INFORMATION_MESSAGE);
