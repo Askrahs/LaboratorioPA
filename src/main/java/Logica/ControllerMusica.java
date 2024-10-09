@@ -19,21 +19,24 @@ public class ControllerMusica implements IControllerMusica {
     public ControllerMusica() {}       
     ControllerPersistencia cPersist = new ControllerPersistencia();
     @Override
-    public void AltaGenero (String refe, String nombregen, String nombrepadre) throws GenroYaExiste{    
+    public void AltaGenero (String nombregen, String nombrepadre) throws GenroYaExiste{    
         ManejadorGenero mg= ManejadorGenero.getInstance();        
         if(mg.EncuentroGenerobool(nombregen)==true){//chequeo si el genero existe
          
            if(nombrepadre.isEmpty()){
                DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
-                mg.AñadoGenero(refe, nombregen,Generoall);
+                mg.AñadoGenero(nombregen,Generoall);
                Generoall=null;                 
            }else{
             if(mg.EncuentroGenerobool(nombrepadre)==true){//Si no existe genero padre lo creo, poniendo por default al padre como el nodo Generos              
-                DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
-                mg.AñadoGenero(refe, nombregen,Generoall);//Creo el genero padre
+              
+                JOptionPane.showMessageDialog(null,"El nodo padre no existe");
+                return;
+            
             }
             DefaultMutableTreeNode nodopadre = mg.EncuentroGenero(nombrepadre);//Creo una variable DefaultMutableTreeNode que va a señar al nodo padre del nodo nuevo que quiero crear
-            mg.AñadoGenero(refe, nombregen,nodopadre);//Creo el nuevo genero y lo añado al arbol;
+            
+            mg.AñadoGenero(nombregen,nodopadre);//Creo el nuevo genero y lo añado al arbol;
             JOptionPane.showMessageDialog(null, "Se Creo el genero Correctamente"); 
            }
         }else{
@@ -42,7 +45,7 @@ public class ControllerMusica implements IControllerMusica {
             if(mg.EncuentroGenerobool(nombrepadre)==true){//Verifico si el genero padre existe
              
                  DefaultMutableTreeNode Generoall = mg.ObtengoNodoRaiz();
-                mg.AñadoGenero(refe, nombregen,Generoall);//Creo el genero padre
+                mg.AñadoGenero(nombregen,Generoall);//Creo el genero padre
                 DefaultMutableTreeNode Generoexis = mg.EncuentroGenero(nombregen);
                 DefaultMutableTreeNode Generopapa = mg.EncuentroGenero(nombrepadre);
                 if(mg.eshijode(Generoexis,Generopapa)!=true){//verifico si es el hijo
@@ -61,6 +64,7 @@ public class ControllerMusica implements IControllerMusica {
                 }
             }
             }
+            JOptionPane.showMessageDialog(null,"El Genero ya existe");
             throw new GenroYaExiste("El genero ya existe");
         }
 }
@@ -94,10 +98,10 @@ public class ControllerMusica implements IControllerMusica {
     }
    
     @Override
-    public void EliminoGenero(String nombregen, String refe){
+    public void EliminoGenero(String nombregen){
         ManejadorGenero mg= ManejadorGenero.getInstance();
         if(mg.EncuentroGenerobool(nombregen)!=true){
-            mg.remuevoGenero(nombregen, refe);
+            mg.remuevoGenero(nombregen);
         }else{
             try {
               throw new GenroYaExiste("El Genero " + nombregen + " no esta registrado");
@@ -239,7 +243,7 @@ public class ControllerMusica implements IControllerMusica {
             
             for (int i = 0; i<gen.size();i++){
                 genunoauno = gen.get(i);
-                DTOGenero dagenero = new DTOGenero(genunoauno.getRef(),genunoauno.getNombre(),genunoauno.getNombrepapa());
+                DTOGenero dagenero = new DTOGenero(genunoauno.getNombre(),genunoauno.getNombrepapa());
                 dtogeneros.add(dagenero);
             }
              return dtogeneros;   
@@ -314,10 +318,12 @@ public class ControllerMusica implements IControllerMusica {
             List <Lista> lista;
             lista = man.todaslistasconduenio();          
             List <DTOLista> dtolista = new ArrayList<>();
-          
+            Usuario usr;
             for (int i = 0; i<lista.size();i++){
                 losta = lista.get(i);
-                DTOLista datolista = new DTOLista(losta.getNombre());
+                usr = losta.getDuenio();
+                DTOUsuario datousr= new DTOUsuario(usr.getNickname());
+                DTOLista datolista = new DTOLista(losta.getNombre(), datousr);
                 dtolista.add(datolista);
             }     
              return dtolista;          

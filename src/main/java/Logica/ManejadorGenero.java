@@ -117,19 +117,19 @@ public class ManejadorGenero {
         man.getTransaction().commit();
         System.out.println("Rengoles actualizados" + total);
     }
-    public void remuevoGenero(String GeneroElimino, String refe) {   
-        this.remuevoGenerobasesdatos(refe);
+    public void remuevoGenero(String GeneroElimino) {   
+        this.remuevoGenerobasesdatos(GeneroElimino);
         this.eliminopornombrepadre(GeneroElimino);
         DefaultMutableTreeNode nodoelimin = EncuentroGenero(GeneroElimino);
         nodoelimin.removeFromParent();     
     }
 
-public void remuevoGenerobasesdatos(String refe) {
+public void remuevoGenerobasesdatos(String Nombre) {
         man.getTransaction().begin();
-        String referenciaMayus = refe.toUpperCase();
-        String cuestion = ("DELETE FROM Genero g WHERE UPPER(g.Ref) = :ref");
+        String referenciaMayus = Nombre.toUpperCase();
+        String cuestion = ("DELETE FROM Genero g WHERE UPPER(g.nombre) = :Nombre");
         Query consulta = man.createQuery(cuestion);
-        consulta.setParameter("ref",referenciaMayus);
+        consulta.setParameter("Nombre",referenciaMayus);
         int total = consulta.executeUpdate();
         man.getTransaction().commit();
         System.out.println("Rengoles actualizados" + total);
@@ -149,9 +149,9 @@ public void remuevoGenerobasesdatos(String refe) {
         return true;
     }
 
-    public void AñadoGenero(String refe, String nombreGenero, DefaultMutableTreeNode nodopadre) {
+    public void AñadoGenero(String nombreGenero, DefaultMutableTreeNode nodopadre) {
         String namepapa = (String) nodopadre.getUserObject();
-        Genero g = new Genero(refe, nombreGenero, namepapa);
+        Genero g = new Genero(nombreGenero, namepapa);
         boolean persistencia = AñadoGenerobasedatos(g);
         if (persistencia == true) {
             DefaultMutableTreeNode NuevoNodo = new DefaultMutableTreeNode(g.getNombre());

@@ -17,8 +17,8 @@ public class DTOGenero {
 
     private String nombrepapa;
 
-    public DTOGenero(String Ref, String nombre, String nombrepapa) {
-        this.Ref = Ref;
+    public DTOGenero(String nombre, String nombrepapa) {
+        
         this.nombre = nombre;
         this.nombrepapa = nombrepapa;
     }

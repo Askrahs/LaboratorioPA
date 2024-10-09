@@ -40,7 +40,10 @@ public class DTOLista {
     public DTOLista(String nombre) {
         this.nombre = nombre;
     }
-
+    public DTOLista(String nombre,DTOUsuario denio){
+        this.nombre = nombre;
+        this.duenio = denio;
+    }
     public String getNombre() {
         return nombre;
     }

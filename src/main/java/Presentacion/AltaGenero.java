@@ -35,9 +35,27 @@ public class AltaGenero extends javax.swing.JFrame {
         principal = princi;       
         String[] titulo = new String []{"Ref","Nombre","Nombre Padre"};
         dtm.setColumnIdentifiers(titulo);
-        tabGeneros.setModel(dtm); 
+         cargodatos();
     }
     
+    
+    
+    public void cargodatos(){
+            modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros());
+
+            Arbol.setModel(modelo);
+        
+        List <DTOGenero> datogen = controlMus.Datageneros();
+        DTOGenero dtogen;
+
+        for(int i = 0; i<datogen.size();i++){
+            dtogen = datogen.get(i);
+            dtm.addRow(new Object[]{
+                dtogen.getRef(), dtogen.getNombre(),dtogen.getNombrepapa()}
+        );
+        }
+
+    }
    
       public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -54,24 +72,19 @@ public class AltaGenero extends javax.swing.JFrame {
 
         btnModificar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNombrePadre = new javax.swing.JTextField();
-        txtReferencia = new javax.swing.JTextField();
-        btnAceptar = new javax.swing.JButton();
         txtNombreGen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Arbol = new javax.swing.JTree();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabGeneros = new javax.swing.JTable();
-        btnCargodatos = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtNodoSeleccionado = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
 
         btnModificar.setText("MODIFICAR");
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -95,25 +108,11 @@ public class AltaGenero extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cargar Datos"));
 
-        jLabel1.setText("Referencia:");
-
         jLabel2.setText("Nombre Padre:");
 
         txtNombrePadre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombrePadreActionPerformed(evt);
-            }
-        });
-
-        btnAceptar.setText("ACEPTAR");
-        btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAceptarMouseClicked(evt);
-            }
-        });
-        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarActionPerformed(evt);
             }
         });
 
@@ -127,69 +126,39 @@ public class AltaGenero extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btnAceptar))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtNombrePadre, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                        .addComponent(txtReferencia)
-                        .addComponent(txtNombreGen)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombrePadre, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                    .addComponent(txtNombreGen))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombrePadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAceptar)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 380, 200));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         Arbol.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 ArbolValueChanged(evt);
             }
         });
         jScrollPane1.setViewportView(Arbol);
-
-        tabGeneros.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(tabGeneros);
-
-        btnCargodatos.setText("CARGAR DATOS");
-        btnCargodatos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCargodatosMouseClicked(evt);
-            }
-        });
 
         jLabel3.setText("Nodo Seleccionado:");
 
@@ -207,34 +176,26 @@ public class AltaGenero extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3)
-                        .addGap(55, 55, 55)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNodoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCargodatos))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNodoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNodoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCargodatos)
-                .addContainerGap())
+                .addGap(45, 45, 45))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 530, 270));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 310, 270));
         jPanel2.getAccessibleContext().setAccessibleName("wwewe");
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
@@ -263,16 +224,30 @@ public class AltaGenero extends javax.swing.JFrame {
             }
         });
 
+        btnAceptar.setText("ACEPTAR");
+        btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAceptarMouseClicked(evt);
+            }
+        });
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(btnCancelar)
-                .addGap(44, 44, 44)
+                .addGap(32, 32, 32)
+                .addComponent(btnAceptar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(btnEliminar)
-                .addGap(75, 75, 75))
+                .addGap(23, 23, 23))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,7 +255,8 @@ public class AltaGenero extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnAceptar))
                 .addGap(24, 24, 24))
         );
 
@@ -299,14 +275,11 @@ public class AltaGenero extends javax.swing.JFrame {
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
             
-            String refe = this.txtReferencia.getText();
+           
             String nombre = this.txtNombreGen.getText();
             String nombrepapa = this.txtNombrePadre.getText();
             
-            if(nombre.isEmpty()||refe.isEmpty()){
-            if(refe.isEmpty()){
-                JOptionPane.showMessageDialog(null,"Ingrese una Referencia","Error", JOptionPane.ERROR_MESSAGE);
-            }
+            if(nombre.isEmpty()){
             if(nombre.isEmpty()){
                 JOptionPane.showMessageDialog(null,"Ingrese un Genero","Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -314,55 +287,21 @@ public class AltaGenero extends javax.swing.JFrame {
             
         try {
             
-            controlMus.AltaGenero(refe,nombre,nombrepapa);
+            controlMus.AltaGenero(nombre,nombrepapa);
            
         } catch (GenroYaExiste ex) {
             Logger.getLogger(AltaGenero.class.getName()).log(Level.SEVERE, null, ex);
         }
             
-        this.txtReferencia.setText("");
+      
         this.txtNombrePadre.setText("");
         this.txtNombreGen.setText("");
         
       
             }
-            
+            cargodatos();
        
     }//GEN-LAST:event_btnAceptarMouseClicked
-
-    private void ArbolValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_ArbolValueChanged
-        nodoSeleccionado =(DefaultMutableTreeNode) Arbol.getLastSelectedPathComponent();
-         if(nodoSeleccionado!=null){
-          this.txtNodoSeleccionado.setText((String) nodoSeleccionado.getUserObject());
-      }
-    }//GEN-LAST:event_ArbolValueChanged
-
-    private void txtNodoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNodoSeleccionadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNodoSeleccionadoActionPerformed
-
-    private void btnCargodatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargodatosMouseClicked
-        DefaultTableModel mum = (DefaultTableModel) this.tabGeneros.getModel();
-        mum.setRowCount(0);
-        modelo= new DefaultTreeModel((TreeNode) controlMus.DameTodoslosgeneros());
-       
-        if(modelo==null){
-            JOptionPane.showMessageDialog(null,"No existe ningun genero, porfavor cree alguno");
-        }else{
-            Arbol.setModel(modelo);
-        }
-        List <DTOGenero> datogen = controlMus.Datageneros();
-        DTOGenero dtogen;
-    
-        
-        for(int i = 0; i<datogen.size();i++){
-            dtogen = datogen.get(i);
-            dtm.addRow(new Object[]{
-                dtogen.getRef(), dtogen.getNombre(),dtogen.getNombrepapa()}
-            );
-        }
-        
-    }//GEN-LAST:event_btnCargodatosMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
@@ -374,16 +313,14 @@ public class AltaGenero extends javax.swing.JFrame {
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         String nodoaEliminar = this.txtNodoSeleccionado.getText();
-        String refe = this.txtReferencia.getText();
-        if(nodoaEliminar.isEmpty()|| refe.isEmpty()){
+       
+        if(nodoaEliminar.isEmpty()){
        if(nodoaEliminar.isEmpty()){
                 JOptionPane.showMessageDialog(null,"No Selecciono ningun genero, Seleccione uno en el arbol a la derecha porfavor");
         }
-            if(refe.isEmpty()){
-                JOptionPane.showMessageDialog(null,"Ingrese una Referencia para eliminar un genero","Error", JOptionPane.ERROR_MESSAGE);
         }
-        }
-        controlMus.EliminoGenero(nodoaEliminar, refe);
+        controlMus.EliminoGenero(nodoaEliminar);
+        cargodatos();
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
@@ -405,15 +342,24 @@ public class AltaGenero extends javax.swing.JFrame {
         principal.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void txtNodoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNodoSeleccionadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNodoSeleccionadoActionPerformed
+
+    private void ArbolValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_ArbolValueChanged
+        nodoSeleccionado =(DefaultMutableTreeNode) Arbol.getLastSelectedPathComponent();
+        if(nodoSeleccionado!=null){
+            this.txtNodoSeleccionado.setText((String) nodoSeleccionado.getUserObject());
+        }
+    }//GEN-LAST:event_ArbolValueChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree Arbol;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnCargodatos;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -421,12 +367,9 @@ public class AltaGenero extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tabGeneros;
     private javax.swing.JTextField txtNodoSeleccionado;
     private javax.swing.JTextField txtNombreGen;
     private javax.swing.JTextField txtNombrePadre;
-    private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
 
 
