@@ -294,7 +294,7 @@ public class ConsultaArtista extends javax.swing.JFrame {
         });
     }
 
-    private void cargarNicknames() {
+    public void cargarNicknames() {
         List<String> nicknames = null;
         nicknames = ctrlU.obtenerArtistas();
         if (nicknames != null && !nicknames.isEmpty()) {

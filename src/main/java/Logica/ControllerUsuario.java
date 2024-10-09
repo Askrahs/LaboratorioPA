@@ -14,14 +14,14 @@ public class ControllerUsuario implements IControllerUsuario {
     ControllerPersistencia cPersist = new ControllerPersistencia();
     
     @Override
-    public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) throws UsuarioYaExisteException, EmailYaExiste {
+    public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String contraseña) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         //Controles
         Usuario u = mu.obtenerUsuario(nickname);
         if (u == null) {
             Boolean a = mu.EmailUsado(Email);
             if (a == false) {
-                mu.AltaCliente(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores);
+                mu.AltaCliente(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores, contraseña);
             } else {
                 throw new EmailYaExiste("El Email ingresado ya existe");
             }
@@ -31,14 +31,14 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     @Override
-    public void registrarArtista(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website) throws UsuarioYaExisteException, EmailYaExiste {
+    public void registrarArtista(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website, String contraseña) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         //Controles
         Usuario u = mu.obtenerUsuario(nickname);
         if (u == null) {
             Boolean a = mu.EmailUsado(Email);
             if (a == false) {
-                mu.AltaArtista(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores, biografia, website);
+                mu.AltaArtista(nickname, nombre, apellido, Email, imagen, fechaNac, siguiendo, seguidores, biografia, website, contraseña);
             } else {
                 throw new EmailYaExiste("El Email ingresado ya existe");
             }

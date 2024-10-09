@@ -2,7 +2,6 @@ package Presentacion;
 
 import Excepciones.*;
 import Logica.*;
-import Main.LaboratorioPA;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,8 +28,9 @@ public class AltaUsuario extends javax.swing.JFrame {
     //referencia a la ventana principal:
     private JFrame principal;
     private IControllerUsuario ctrlU;
-    private File selectedFile = null;
+    private File archivoSeleccionado = null;
     private String rutaDestino = "";
+    
 
     public AltaUsuario(IControllerUsuario Control, JFrame principal) {
         this.ctrlU = Control;
@@ -75,6 +75,11 @@ public class AltaUsuario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         btnLimpiar = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtContraseña = new javax.swing.JPasswordField();
+        txtConfirmar = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Registrar Usuario.");
@@ -86,20 +91,33 @@ public class AltaUsuario extends javax.swing.JFrame {
         });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Usuario"));
+        jPanel1.setLayout(null);
 
         jLabel1.setText("Nickname :");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(11, 29, 80, 16);
 
         jLabel2.setText("Nombre:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(11, 73, 80, 16);
 
         jLabel3.setText("Apellido:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(10, 110, 80, 16);
 
         jLabel4.setText("Email:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(10, 150, 70, 16);
 
         jLabel5.setText("Biografia:");
         jLabel5.setEnabled(false);
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(10, 330, 90, 16);
 
         jLabel6.setText("Website:");
         jLabel6.setEnabled(false);
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(10, 370, 100, 16);
 
         cbArtista.setText("Artista");
         cbArtista.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -107,14 +125,26 @@ public class AltaUsuario extends javax.swing.JFrame {
                 cbArtistaMousePressed(evt);
             }
         });
+        jPanel1.add(cbArtista);
+        cbArtista.setBounds(10, 300, 90, 20);
+        jPanel1.add(txtNickname);
+        txtNickname.setBounds(90, 30, 257, 26);
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
             }
         });
+        jPanel1.add(txtNombre);
+        txtNombre.setBounds(90, 70, 257, 26);
+        jPanel1.add(txtApellido);
+        txtApellido.setBounds(90, 110, 257, 26);
+        jPanel1.add(txtEmail);
+        txtEmail.setBounds(90, 150, 257, 26);
 
         txtBiografia.setEnabled(false);
+        jPanel1.add(txtBiografia);
+        txtBiografia.setBounds(90, 330, 260, 26);
 
         txtWebsite.setEnabled(false);
         txtWebsite.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +152,8 @@ public class AltaUsuario extends javax.swing.JFrame {
                 txtWebsiteActionPerformed(evt);
             }
         });
+        jPanel1.add(txtWebsite);
+        txtWebsite.setBounds(90, 370, 260, 26);
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +161,8 @@ public class AltaUsuario extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnAgregar);
+        btnAgregar.setBounds(10, 410, 100, 27);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -136,8 +170,12 @@ public class AltaUsuario extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCancelar);
+        btnCancelar.setBounds(250, 410, 100, 27);
 
         jLabel8.setText("Fecha de nacimiento: ");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(10, 190, 160, 16);
 
         txtDia.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         txtDia.setToolTipText("");
@@ -146,6 +184,8 @@ public class AltaUsuario extends javax.swing.JFrame {
                 txtDiaActionPerformed(evt);
             }
         });
+        jPanel1.add(txtDia);
+        txtDia.setBounds(140, 190, 41, 24);
 
         jButton1.setText("Añadir imagen");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -153,9 +193,13 @@ public class AltaUsuario extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(370, 200, 164, 26);
 
         JLImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         JLImagen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(JLImagen);
+        JLImagen.setBounds(370, 30, 164, 164);
 
         txtMes.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         txtMes.setToolTipText("");
@@ -164,6 +208,8 @@ public class AltaUsuario extends javax.swing.JFrame {
                 txtMesActionPerformed(evt);
             }
         });
+        jPanel1.add(txtMes);
+        txtMes.setBounds(220, 190, 41, 24);
 
         txtAño.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         txtAño.setToolTipText("");
@@ -172,10 +218,16 @@ public class AltaUsuario extends javax.swing.JFrame {
                 txtAñoActionPerformed(evt);
             }
         });
+        jPanel1.add(txtAño);
+        txtAño.setBounds(310, 190, 40, 24);
 
         jLabel7.setText("/");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(200, 190, 10, 20);
 
         jLabel9.setText("/");
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(280, 190, 10, 20);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -183,106 +235,30 @@ public class AltaUsuario extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnLimpiar);
+        btnLimpiar.setBounds(130, 410, 100, 27);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbArtista)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtWebsite, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtBiografia, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNickname)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpiar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7)
-                        .addGap(22, 22, 22)
-                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(JLImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbArtista))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(JLImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBiografia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnLimpiar))
-                .addContainerGap())
-        );
+        jLabel10.setText("Contraseña:");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(10, 230, 100, 16);
+
+        jLabel11.setText("Confirmar");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(10, 270, 90, 10);
+
+        jLabel12.setText("contraseña:");
+        jPanel1.add(jLabel12);
+        jLabel12.setBounds(10, 280, 90, 16);
+        jPanel1.add(txtContraseña);
+        txtContraseña.setBounds(90, 230, 260, 26);
+
+        txtConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConfirmarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtConfirmar);
+        txtConfirmar.setBounds(90, 270, 260, 26);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,14 +266,14 @@ public class AltaUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -319,12 +295,28 @@ public class AltaUsuario extends javax.swing.JFrame {
         String nick = txtNickname.getText();
         //nickname vacio.
         if (nick.isEmpty()) {
-            limpiar();
+            
             JOptionPane.showMessageDialog(this, "El campo Nickname no puede estar vacio. ", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
         } else {
             String nombre = txtNombre.getText();
             String apellido = txtApellido.getText();
             String email = txtEmail.getText();
+            String contraseña = txtContraseña.getText();
+            String confirmacion = txtConfirmar.getText();
+            
+            //control confirmacion de contraseña
+            
+            if (contraseña.isEmpty() || confirmacion.isEmpty()){
+                JOptionPane.showMessageDialog(this, "El campo de contraseña o confirmar contraseña no puede ser vacio", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            if (!confirmacion.equals(contraseña)){
+                JOptionPane.showMessageDialog(this, "La confirmacion no es igual a la contraseña. ", "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            
 
             String dia = txtDia.getText();
             String mes = txtMes.getText();
@@ -376,12 +368,27 @@ public class AltaUsuario extends javax.swing.JFrame {
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
 
+            String ruta = null;
+            //RUTA IMAGEN 
+            if (archivoSeleccionado != null) {
+                 ruta = "FotoUsr_" + nombre + ".jpg";
+                File destino = new File(ruta);
+                try {
+                    Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            
             if (cbArtista.isSelected()) {
+                //datos artistas
                 String bio = txtBiografia.getText();
                 String web = txtWebsite.getText();
-                limpiar();
+                
                 try {
-                    ctrlU.registrarArtista(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores, bio, web);
+                    ctrlU.registrarArtista(nick, nombre, apellido, email, ruta, fecha, siguiendo, seguidores, bio, web, contraseña);
+                    limpiar();
                     JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
@@ -389,9 +396,11 @@ public class AltaUsuario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Artista", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                limpiar();
+                //datos clientes
+                
                 try {
-                    ctrlU.registrarCliente(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores);
+                    ctrlU.registrarCliente(nick, nombre, apellido, email, ruta, fecha, siguiendo, seguidores, contraseña);
+                    limpiar();
                     JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Registrar Cliente", JOptionPane.ERROR_MESSAGE);
@@ -429,18 +438,12 @@ public class AltaUsuario extends javax.swing.JFrame {
         fileChooser.setFileFilter(filter);
         int seleccion = fileChooser.showOpenDialog(null);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = LaboratorioPA.CARPETA_IMAGEN + archivoSeleccionado.getName();
-            File destino = new File(ruta);
-            try {
-                Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
-                Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
-                JLImagen.setIcon(new ImageIcon(image));
-                rutaDestino = destino.getAbsolutePath();
-            } catch (IOException ex) {
-                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            archivoSeleccionado = fileChooser.getSelectedFile();
+            //String ruta = "FotoUsr " + archivoSeleccionado.getName();
+            
+            ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
+            Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
+            JLImagen.setIcon(new ImageIcon(image));
 
         }
 
@@ -474,6 +477,10 @@ public class AltaUsuario extends javax.swing.JFrame {
         setVisible(false);
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void txtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConfirmarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -563,8 +570,11 @@ public class AltaUsuario extends javax.swing.JFrame {
         txtAño.setText("");
         txtBiografia.setText("");
         txtWebsite.setText("");
+        txtContraseña.setText("");
+        txtConfirmar.setText("");
+        
         //IMAGEN
-        selectedFile = null;
+        archivoSeleccionado = null;
         JLImagen.setIcon(null);
         JLImagen.setText("");
     }
@@ -581,6 +591,9 @@ public class AltaUsuario extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -593,6 +606,8 @@ public class AltaUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtAño;
     private javax.swing.JTextField txtBiografia;
+    private javax.swing.JPasswordField txtConfirmar;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtDia;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMes;

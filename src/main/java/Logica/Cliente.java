@@ -41,8 +41,8 @@ public class Cliente extends Usuario{
     this.listasFavoritas = new HashSet<>();
     }
 
-    public Cliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores) {
-        super(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores);
+    public Cliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores,String contraseña) {
+        super(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores,contraseña);
     }
 
      public void removerTemaFavorito(Tema tema) {
