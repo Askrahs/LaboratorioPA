@@ -33,4 +33,6 @@ public interface IControllerUsuario {
     public abstract List<String> ObtenerListasCliente(String nickname);
     public abstract List<String> ObtenerAlbumsCliente(String nickname);
     public abstract List<String> ObtenerTemasCliente(String nickname);
+    public abstract boolean LoginCliente(String nickname,String contraseña);
+    public abstract boolean LoginArtista(String nickname,String contraseña);
 }
