@@ -194,16 +194,15 @@ public class SeguirUsuario extends javax.swing.JFrame {
             List<String> siguiendo;
             try {
                 siguiendo = ctrlU.ObtenerSiguiendoCliente(nicknameSeleccionado);
-                //control
-                if (siguiendo != null && !siguiendo.isEmpty()) {
-                    DefaultListModel<String> model = new DefaultListModel<>();
-                    // Agregamos cada nickname al modelo.
-                    for (String s : siguiendo) {
-                        model.addElement(s);
-                    }
-                    // Establecemos el modelo al JList.
-                    ListaSeguidos.setModel(model);
+
+                DefaultListModel<String> model = new DefaultListModel<>();
+                // Agregamos cada nickname al modelo.
+                for (String s : siguiendo) {
+                    model.addElement(s);
                 }
+                // Establecemos el modelo al JList.
+                ListaSeguidos.setModel(model);
+
             } catch (NoSigueANadie ex) {
                 Logger.getLogger(SeguirUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -487,6 +487,8 @@ public class ConsultaCliente extends javax.swing.JFrame {
             JLImagen.setIcon(new ImageIcon(image));
         }
     }
+    
+    
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
