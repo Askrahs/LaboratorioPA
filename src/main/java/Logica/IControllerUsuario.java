@@ -35,4 +35,6 @@ public interface IControllerUsuario {
     public abstract List<String> ObtenerTemasCliente(String nickname);
     public abstract boolean LoginCliente(String nickname,String contraseña);
     public abstract boolean LoginArtista(String nickname,String contraseña);
+    public abstract boolean EmailUsado(String Email);
+    public abstract boolean NicknameUsado(String nickname);
 }

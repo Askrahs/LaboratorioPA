@@ -286,4 +286,16 @@ public class ManejadorUsuario {
         return false;  // Retorna false en caso de que ocurra algún error
     }
     }
+    
+    public Boolean NicknameUsado(String nickname) {
+        Long count = null;
+
+        String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname";
+        count = (Long) em.createQuery(jpql).setParameter("nickname", nickname).getSingleResult();
+
+        String jpql2 = "SELECT COUNT(a) FROM Artista a WHERE a.nickname = :nickname";
+        count = count + (Long) em.createQuery(jpql2).setParameter("nickname", nickname).getSingleResult();
+
+        return count > 0;
+    }
 }

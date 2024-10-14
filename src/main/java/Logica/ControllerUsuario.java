@@ -364,8 +364,19 @@ public class ControllerUsuario implements IControllerUsuario {
     @Override
     public boolean LoginArtista(String nickname, String contraseña) {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-        
         return Mu.LoginArtista(nickname, contraseña);
+    }
+
+    @Override
+    public boolean EmailUsado(String Email) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        return Mu.EmailUsado(Email);
+    }
+
+    @Override
+    public boolean NicknameUsado(String nickname) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        return Mu.NicknameUsado(nickname);
     }
 
     
