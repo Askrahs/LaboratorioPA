@@ -438,7 +438,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
         }
     }
 
-    public void cargarNicknames() {
+    private void cargarNicknames() {
         List<String> nicknames = null;
         try {
             nicknames = ctrlU.ObtenerNicknamesClientes();
