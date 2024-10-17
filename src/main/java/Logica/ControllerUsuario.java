@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class ControllerUsuario implements IControllerUsuario {
     ControllerPersistencia cPersist = new ControllerPersistencia();

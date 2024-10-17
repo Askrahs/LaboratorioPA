@@ -1,7 +1,5 @@
 package Logica;
 
-import Logica.Artista;
-import Logica.Usuario;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.swing.JOptionPane;
 
 public class ManejadorUsuario {
 
@@ -253,8 +250,38 @@ public class ManejadorUsuario {
         nombreTemas = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
         
         return nombreTemas;
+    }
+    
+    public boolean LoginCliente(String nickname, String contraseña){
+       try {
+        String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
+        Long count = em.createQuery(jpql, Long.class)
+                       .setParameter("nickname", nickname)
+                       .setParameter("contraseña", contraseña)
+                       .getSingleResult();
         
+        // Si el count es mayor que 0, significa que existe un cliente con ese nickname y contraseña
+        return count > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;  // Retorna false en caso de que ocurra algún error
+    }
+    }
+    
+    public boolean LoginArtista(String nickname, String contraseña){
+        try {
+        String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
+        Long count = em.createQuery(jpql, Long.class)
+                       .setParameter("nickname", nickname)
+                       .setParameter("contraseña", contraseña)
+                       .getSingleResult();
         
+        // Si el count es mayor que 0, significa que existe un cliente con ese nickname y contraseña
+        return count > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;  // Retorna false en caso de que ocurra algún error
+    }
     }
     
     public Boolean NicknameUsado(String nickname) {
