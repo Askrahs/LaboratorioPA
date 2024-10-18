@@ -1,5 +1,7 @@
 package Logica;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class ManejadorUsuario {
 
@@ -65,7 +68,6 @@ public class ManejadorUsuario {
         //FOR EACH OBTENER ARTISTAS BD
         return artistas;
     }
-     
 
     public Artista obtenerArtista(String nickname) {
         Artista a = em.find(Artista.class, nickname);
@@ -149,7 +151,7 @@ public class ManejadorUsuario {
         nicknames = em.createQuery(jpql, String.class).getResultList();
         return nicknames;
     }
-    
+
     public Long ObtenerCuentaSeguidores(String nickname) {
         Artista artista = em.find(Artista.class, nickname);
         if (artista != null) {
@@ -158,132 +160,132 @@ public class ManejadorUsuario {
             return 0L;
         }
     }
-    
-     public void addTemafavoritos(Cliente c, Tema tema){
+
+    public void addTemafavoritos(Cliente c, Tema tema) {
         c.agregarTemaFavorito(tema);
         try {
-                t.begin();
-                em.merge(c);
-                t.commit();
-            } catch (Exception e) {
-                //si sale mal rollback
-                t.rollback();
-            }
-        
+            t.begin();
+            em.merge(c);
+            t.commit();
+        } catch (Exception e) {
+            //si sale mal rollback
+            t.rollback();
+        }
+
     }
-    
-    public void addListafavoritos(Cliente c, Lista lista){
+
+    public void addListafavoritos(Cliente c, Lista lista) {
         c.agregarListaFavorita(lista);
         try {
-                t.begin();
-                em.merge(c);
-                t.commit();
-            } catch (Exception e) {
-                //si sale mal rollback
-                t.rollback();
-            }
-        
+            t.begin();
+            em.merge(c);
+            t.commit();
+        } catch (Exception e) {
+            //si sale mal rollback
+            t.rollback();
+        }
+
     }
-    
-    public void addAlbumfavoritos(Cliente c, Album album){
+
+    public void addAlbumfavoritos(Cliente c, Album album) {
         c.agregarAlbumFavorito(album);
         try {
-                t.begin();
-                em.merge(c);
-                t.commit();
-            } catch (Exception e) {
-                //si sale mal rollback
-                t.rollback();
-            }
-        
+            t.begin();
+            em.merge(c);
+            t.commit();
+        } catch (Exception e) {
+            //si sale mal rollback
+            t.rollback();
+        }
+
     }
-    
-    public void EliminarTemafavoritos(Cliente c, Tema tema){
+
+    public void EliminarTemafavoritos(Cliente c, Tema tema) {
         Tema temita = em.find(Tema.class, tema.getId());  // Pido el tema buscandolo por ID
-    if (temita != null) {
-        c.removerTemaFavorito(temita);  // Remover el tema de la lista
-        t.begin();
-        em.merge(c);  // Actualizar la lista
-        t.commit();
+        if (temita != null) {
+            c.removerTemaFavorito(temita);  // Remover el tema de la lista
+            t.begin();
+            em.merge(c);  // Actualizar la lista
+            t.commit();
+        }
     }
+
+    public void EliminarListafavoritos(Cliente c, Lista lista) {
+        Lista listita = em.find(Lista.class, lista.getId());  // Pido el tema buscandolo por ID
+        if (listita != null) {
+            c.removerListaFavorita(listita);  // Remover el tema de la lista
+            t.begin();
+            em.merge(c);  // Actualizar la lista
+            t.commit();
+        }
     }
-    
-    public void EliminarListafavoritos(Cliente c, Lista lista){
-    Lista listita = em.find(Lista.class, lista.getId());  // Pido el tema buscandolo por ID
-    if (listita != null) {
-        c.removerListaFavorita(listita);  // Remover el tema de la lista
-        t.begin();
-        em.merge(c);  // Actualizar la lista
-        t.commit();
+
+    public void EliminarAlbumfavoritos(Cliente c, Album album) {
+        Album albuma = em.find(Album.class, album.getId());  // Pido el tema buscandolo por ID
+        if (albuma != null) {
+            c.removerAlbumFavorito(albuma);  // Remover el tema de la lista
+            t.begin();
+            em.merge(c);  // Actualizar la lista
+            t.commit();
+        }
     }
-    }
-    
-    public void EliminarAlbumfavoritos(Cliente c, Album album){
-    Album albuma = em.find(Album.class, album.getId());  // Pido el tema buscandolo por ID
-    if (albuma != null) {
-        c.removerAlbumFavorito(albuma);  // Remover el tema de la lista
-        t.begin();
-        em.merge(c);  // Actualizar la lista
-        t.commit();
-    }      
-    }
-    
-    public List<String> obtenerListasCli(String nickname){
+
+    public List<String> obtenerListasCli(String nickname) {
         List<String> nombresListas;
         String jpql = "SELECT l.nombre FROM Cliente c JOIN c.listasFavoritas l WHERE c.nickname = :nickname";
         nombresListas = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
-        
+
         return nombresListas;
     }
-    
-    public List<String> obtenerAlbumsCli(String nickname){
+
+    public List<String> obtenerAlbumsCli(String nickname) {
         List<String> nombresAlbums;
         String jpql = "SELECT a.titulo FROM Cliente c JOIN c.albumsFavoritos a WHERE c.nickname = :nickname";
         nombresAlbums = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
-        
+
         return nombresAlbums;
     }
-    
-    public List<String> obtenerTemasCli(String nickname){
+
+    public List<String> obtenerTemasCli(String nickname) {
         List<String> nombreTemas;
         String jpql = "SELECT t.nombre FROM Cliente c JOIN c.temasFavoritos t WHERE c.nickname = :nickname";
         nombreTemas = em.createQuery(jpql, String.class).setParameter("nickname", nickname).getResultList();
-        
+
         return nombreTemas;
     }
-    
-    public boolean LoginCliente(String nickname, String contraseña){
-       try {
-        String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
-        Long count = em.createQuery(jpql, Long.class)
-                       .setParameter("nickname", nickname)
-                       .setParameter("contraseña", contraseña)
-                       .getSingleResult();
-        
-        // Si el count es mayor que 0, significa que existe un cliente con ese nickname y contraseña
-        return count > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;  // Retorna false en caso de que ocurra algún error
-    }
-    }
-    
-    public boolean LoginArtista(String nickname, String contraseña){
+
+    public boolean LoginCliente(String nickname, String contraseña) {
         try {
-        String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
-        Long count = em.createQuery(jpql, Long.class)
-                       .setParameter("nickname", nickname)
-                       .setParameter("contraseña", contraseña)
-                       .getSingleResult();
-        
-        // Si el count es mayor que 0, significa que existe un cliente con ese nickname y contraseña
-        return count > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;  // Retorna false en caso de que ocurra algún error
+            String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
+            Long count = em.createQuery(jpql, Long.class)
+                    .setParameter("nickname", nickname)
+                    .setParameter("contraseña", contraseña)
+                    .getSingleResult();
+
+            // Si el count es mayor que 0, significa que existe un cliente con ese nickname y contraseña
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;  // Retorna false en caso de que ocurra algún error
+        }
     }
+
+    public boolean LoginArtista(String nickname, String contraseña) {
+        try {
+            String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
+            Long count = em.createQuery(jpql, Long.class)
+                    .setParameter("nickname", nickname)
+                    .setParameter("contraseña", contraseña)
+                    .getSingleResult();
+
+            // Si el count es mayor que 0, significa que existe un cliente con ese nickname y contraseña
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;  // Retorna false en caso de que ocurra algún error
+        }
     }
-    
+
     public Boolean NicknameUsado(String nickname) {
         Long count = null;
 
@@ -295,4 +297,60 @@ public class ManejadorUsuario {
 
         return count > 0;
     }
+
+    public List<String> obtenerNicknamesSuscripciones() {
+        List<String> nicknames;
+        //String jpql = "SELECT s.clienteNickname FROM Suscripcion s";
+        String jpql = "SELECT s.cliente.nickname FROM Suscripcion s"; //si tiene el cliente
+        nicknames = em.createQuery(jpql, String.class).getResultList();
+        return nicknames;
+    }
+
+    public Suscripcion obtenerSuscripcion(String nickname) {
+        Suscripcion s = em.find(Suscripcion.class, nickname);
+        return s;
+    }
+
+    public void ModificarSuscripcion(String nickname, String fecha, String estadoStr, String tipoStr) {
+    EntityTransaction tx = null;
+
+    try {
+        // Iniciar la transacción
+        tx = em.getTransaction();
+        tx.begin();
+
+        // Convertir los strings a los tipos enumerados
+        Suscripcion.EstadoSuscripcion estado = Suscripcion.EstadoSuscripcion.valueOf(estadoStr);
+        Suscripcion.TipoSuscripcion tipo = Suscripcion.TipoSuscripcion.valueOf(tipoStr);
+
+        // Crear el formato de fecha correcto (si fuera necesario realizar algún parseo de fecha)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaFormato = LocalDate.parse(fecha, formatter);
+
+        // Crear el query de actualización
+        String jpql = "UPDATE Suscripcion s SET s.fecha = :fecha, s.estado = :estado, s.tipo = :tipo WHERE s.clienteNickname = :nickname";
+
+        // Ejecutar el query
+        Query query = em.createQuery(jpql);
+        query.setParameter("fecha", fechaFormato.format(formatter)); // Enviar la fecha en el formato correcto (dd/MM/yyyy)
+        query.setParameter("estado", estado);
+        query.setParameter("tipo", tipo);
+        query.setParameter("nickname", nickname);
+
+        // Realizar la actualización
+        int filasActualizadas = query.executeUpdate();
+
+        // Cometer la transacción
+        tx.commit();
+
+        System.out.println("Filas actualizadas: " + filasActualizadas);
+
+    } catch (Exception e) {
+        if (tx != null && tx.isActive()) {
+            tx.rollback(); // Hacer rollback si ocurre un error
+        }
+        e.printStackTrace();
+    }
+}
+
 }

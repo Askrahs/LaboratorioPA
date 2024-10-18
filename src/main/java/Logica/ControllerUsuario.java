@@ -378,5 +378,26 @@ public class ControllerUsuario implements IControllerUsuario {
         return Mu.NicknameUsado(nickname);
     }
 
+    @Override
+    public List<String> ObtenerNicknamesSuscripciones() {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        return Mu.obtenerNicknamesSuscripciones();
+    }
+
+    @Override
+    public Suscripcion ObtenerSuscripcion(String nickname) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        return Mu.obtenerSuscripcion(nickname);
+    }
+
+    @Override
+    public void ModificarSuscripcion(String nickname, String fecha, String Estado, String Tipo) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        Mu.ModificarSuscripcion( nickname,  fecha,  Estado,  Tipo);
+    }
+    
+    
+    
+
     
 }

@@ -4,14 +4,8 @@ import Excepciones.*;
 import Logica.Cliente;
 import Logica.IControllerUsuario;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -27,7 +21,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
         this.principal = principal;
 
         initComponents();
-        cargarNicknames();
+        //cargarNicknames();
     }
 
     public ConsultaCliente() {
