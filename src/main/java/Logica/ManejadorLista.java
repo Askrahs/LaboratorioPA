@@ -41,11 +41,12 @@ public class ManejadorLista {
             TypedQuery<Lista> query = em.createQuery("SELECT l from Lista l where l.nombre = :nombre", Lista.class);
             
             query.setParameter("nombre", nombrelista);
-            Lista lis = null;
+            Lista lis;
             try{        
             lis = query.getSingleResult();
             }catch(Exception e){
-                 System.out.println("No se encontró ninguna lista con el nombre proporcionado.");
+               //  System.out.println("No se encontró ninguna lista con el nombre proporcionado.");
+                 return null;
             }
 
            // JOptionPane.showMessageDialog(null,"El nobre de la lista es: "+lis.getNombre());
