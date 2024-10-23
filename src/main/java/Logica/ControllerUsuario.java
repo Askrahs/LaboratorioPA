@@ -2,6 +2,8 @@ package Logica;
 
 import Excepciones.*;
 import LogicaDTO.DTOAlbum;
+import LogicaDTO.DTOArtista;
+import LogicaDTO.DTOCliente;
 import LogicaDTO.DTOLista;
 import LogicaDTO.DTOTema;
 import java.util.ArrayList;
@@ -396,8 +398,17 @@ public class ControllerUsuario implements IControllerUsuario {
         Mu.ModificarSuscripcion( nickname,  fecha,  Estado,  Tipo);
     }
     
+  
+
+    @Override
+    public List<DTOArtista> obtenerArtistasData(){
+            return cPersist.obtenerArtistasData();
+    }
     
-    
+    public List<DTOCliente> obtenerClientesDATA(){
+         return cPersist.obtenerClienteData();
+    }
+
 
     
 }

@@ -1,8 +1,8 @@
 package Presentacion;
 
+
 import Excepciones.ListaYaExisteException;
-import Excepciones.UsuarioNoExisteException;
-import Logica.*;
+import Logica.IControllerMusica;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +20,9 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     private JFrame principal;
     private IControllerMusica controlMus;
     private String rutadestino = null;
-    private IControllerUsuario ctrlU;
     
-    public AltaListaReproduccion(IControllerUsuario icu,IControllerMusica icm, JFrame principal) {
+    public AltaListaReproduccion(IControllerMusica icm, JFrame principal) {
          controlMus = icm;
-         ctrlU = icu;
         this.principal = principal;
         initComponents();
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -51,6 +49,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         jTextFieldDuenio = new javax.swing.JTextField();
         jButtonAniadirImagen = new javax.swing.JButton();
         jLabelImagen = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,7 +78,13 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
 
         jLabel2.setText("Genero:");
 
-        jLabel3.setText("Nickname Dueño:");
+        jTextFieldGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldGeneroActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Dueño:");
 
         jTextFieldDuenio.setEnabled(false);
 
@@ -92,6 +97,13 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
 
         jLabelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabelImagen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,12 +125,14 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                                     .addComponent(jTextFieldGenero)
                                     .addComponent(jTextFieldNombreLista, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                                     .addComponent(jTextFieldDuenio))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(jToggleButtonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jToggleButtonAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                         .addComponent(jButtonAniadirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -149,7 +163,9 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButtonAceptar)
                     .addComponent(jButtonAniadirImagen))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,63 +201,70 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxPrivadaActionPerformed
 
     private void jToggleButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAceptarActionPerformed
-        if (checkFormulario()) {
-    try {
-        String nombre = jTextFieldNombreLista.getText();
-        String genero = jTextFieldGenero.getText();
-        String duenio = jTextFieldDuenio.getText();
-        boolean esPrivada = jCheckBoxPrivada.isSelected();
+    String nombre = this.jTextFieldNombreLista.getText().trim();
+    String genero = this.jTextFieldGenero.getText().trim();
+    String duenio = this.jTextFieldDuenio.getText().trim();
+    boolean priv;
 
-        // Verificamos si la lista es privada y si el dueño existe
-        if (esPrivada) {
-            Cliente c = ctrlU.ObtenerCliente(duenio);
-            if (c == null || c.getNombre() == null) {
-                JOptionPane.showMessageDialog(null, "El cliente especificado no existe");
-                return;
-            }
+    if (checkFormulario()) {
+        try {
+            priv = jCheckBoxPrivada.isSelected(); 
+            controlMus.altaListaReproduccion(nombre, genero, duenio, rutadestino, priv);
+            
+        } catch (ListaYaExisteException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Lista", JOptionPane.ERROR_MESSAGE);
         }
-
-        controlMus.altaListaReproduccion(nombre, genero, duenio, rutadestino, esPrivada);
-        limpiarFormulario();
-        
-    } catch (ListaYaExisteException e) {
-        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (UsuarioNoExisteException ex) {
-        Logger.getLogger(AltaListaReproduccion.class.getName()).log(Level.SEVERE, null, ex);
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
 
+    limpiarFormulario();
     }//GEN-LAST:event_jToggleButtonAceptarActionPerformed
 
     private void jButtonAniadirImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirImagenActionPerformed
-     JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccionar Imagen");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int seleccion = fileChooser.showOpenDialog(null);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-            String ruta = "D:/Netbeans/EspotifyBD/" + archivoSeleccionado.getName();
-            File destino = new File(ruta);
-            try{
-            Files.copy(archivoSeleccionado.toPath(), destino.toPath(),StandardCopyOption.REPLACE_EXISTING);
-            ImageIcon icon = new ImageIcon(destino.getAbsolutePath());
-            Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
-            jLabelImagen.setIcon(new ImageIcon(image));
-            rutadestino = destino.getAbsolutePath();
-            } catch (IOException ex) {
-                Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+    if(!jTextFieldNombreLista.getText().isEmpty()){
+        JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Seleccionar Imagen");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Imágenes", "jpg", "png", "jpeg");
+            fileChooser.setFileFilter(filter);
+            int seleccion = fileChooser.showOpenDialog(null);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                File archivoSeleccionado = fileChooser.getSelectedFile();
+                ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
+                Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
+                jLabelImagen.setIcon(new ImageIcon(image));       
+                String carpetaDestino = "src/recursos/imagenes/";
+                rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText()  + ".jpg";
+                File destino = new File(rutadestino);
+                File directorio = new File(carpetaDestino);
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }       
+                try {
+                    Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese los campos de texto primero", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonAniadirImagenActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.setVisible(false);
+        limpiarFormulario();
         principal.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        limpiarFormulario();
+        principal.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextFieldGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldGeneroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldGeneroActionPerformed
  
     public static void main(String args[]) {
         try {
@@ -288,13 +311,19 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
     // se ocultan, por lo que conviene borrar la información para que 
     // no aparezca al mostrarlas nuevamente.
     private void limpiarFormulario() {
-        jTextFieldNombreLista.setText("");
-        jTextFieldGenero.setText("");
-       jTextFieldDuenio.setText("");
+    jTextFieldNombreLista.setText("");
+    jTextFieldGenero.setText("");
+    jTextFieldDuenio.setText("");
+    jCheckBoxPrivada.setSelected(false);
+    jTextFieldDuenio.setEnabled(false);
+    jTextFieldGenero.setEnabled(true);
+    jLabelImagen.setIcon(null); 
+    rutadestino = null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAniadirImagen;
     private javax.swing.JCheckBox jCheckBoxPrivada;
     private javax.swing.JLabel jLabel1;

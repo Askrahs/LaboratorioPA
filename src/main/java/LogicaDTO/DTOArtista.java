@@ -16,6 +16,17 @@ public class DTOArtista {
     private String biografia; 
     private String website;
 
+    public DTOArtista(String nickname, String nombre, String apellido, String mail) {
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = mail;
+    }
+
+    
+    
+    
+    
     public String getNickname() {
         return nickname;
     }

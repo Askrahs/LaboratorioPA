@@ -80,7 +80,7 @@ public class LaboratorioPA {
         AltAlb.setVisible(false);
         ConAlb = new Presentacion.ConsultaAlbum(ctrlU, ctrlM, principal);
         ConAlb.setVisible(false);
-        AltLis = new Presentacion.AltaListaReproduccion(ctrlU, ctrlM, principal);
+        AltLis = new Presentacion.AltaListaReproduccion(ctrlM, principal);
         AltLis.setVisible(false);
         AltGen = new Presentacion.AltaGenero(ctrlM, principal);
         AltGen.setVisible(false);

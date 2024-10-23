@@ -1,6 +1,7 @@
 package Logica;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -46,8 +47,14 @@ public class Lista implements Serializable {
     @JoinTable(name = "Lista_Temas", joinColumns = @JoinColumn(name = "Lista_id"), inverseJoinColumns = @JoinColumn(name = "Tema_Id"))
     private List<Tema> temas = new ArrayList<>();  // Inicialización de la lista
 
+    // Campo para guardar la fecha de creación de la lista
+    @Column(name="fechaCreacion")
+    private LocalDate fechaCreacion;
+    
+    
     // Constructor vacío
     public Lista() {}
+    
 
     // Constructor con todos los parámetros
     public Lista(String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario duenio) {
@@ -57,6 +64,8 @@ public class Lista implements Serializable {
         this.genero = genero;
         this.duenio = duenio;
         this.temas = new ArrayList<>();  // Inicialización correcta de la lista
+        this.fechaCreacion = LocalDate.now();
+        
     }
 
     // Constructor con menos parámetros

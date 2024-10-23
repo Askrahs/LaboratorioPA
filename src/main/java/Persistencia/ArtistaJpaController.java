@@ -1,5 +1,11 @@
 package Persistencia;
 
+import Logica.Artista;
+import Logica.Cliente;
+import LogicaDTO.DTOArtista;
+import LogicaDTO.DTOCliente;
+import LogicaDTO.DTOLista;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,6 +30,41 @@ public class ArtistaJpaController {
             // Consulta solo para devolver los nicknames de los artistas
             TypedQuery<String> query = em.createQuery("SELECT a.nickname FROM Artista a", String.class);
             return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+ 
+    
+    public List<DTOArtista> findAllArtistaData() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Artista> query = em.createQuery("SELECT a FROM Artista a", Artista.class);
+             List<Artista> artistas = query.getResultList();
+            List<DTOArtista> dtoartista = new ArrayList<>();
+            for (Artista art : artistas){
+                dtoartista.add(new DTOArtista(art.getNickname(),art.getNombre(),art.getApellido(),art.getEmail()));
+            }
+            return dtoartista;
+           
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    public List<DTOCliente> findAllClientesData(){
+       EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
+             List<Cliente> artistas = query.getResultList();
+            List<DTOCliente> dtocliente = new ArrayList<>();
+            for (Cliente cli : artistas){
+                dtocliente.add(new DTOCliente(cli.getNickname(),cli.getNombre(),cli.getApellido(),cli.getRutaImagen(),cli.getEmail()));
+            }
+            return dtocliente;
+           
         } finally {
             em.close();
         }
