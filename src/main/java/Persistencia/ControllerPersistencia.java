@@ -1,8 +1,12 @@
 package Persistencia;
 
 import Logica.Album;
+import Logica.Artista;
 import Logica.Lista;
 import Logica.Tema;
+import LogicaDTO.DTOArtista;
+import LogicaDTO.DTOCliente;
+import LogicaDTO.DTOLista;
 import java.util.List;
 
 public class ControllerPersistencia {
@@ -87,6 +91,11 @@ public class ControllerPersistencia {
         return listJpa.findLista(listId);
     }
     
+    public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) {
+        return listJpa.obtenerListaPorGeneroDATALISTA(generoSeleccionado);
+    }
+    
+    
     public List<String> obtenerListaPorGenero(String generoSeleccionado) {
         return listJpa.findListaPorGenero(generoSeleccionado);
     }
@@ -94,7 +103,10 @@ public class ControllerPersistencia {
     public List<String> obtenerListaPorCliente(String clienteSeleccionado) {
         return listJpa.findListaPorCliente(clienteSeleccionado);
     }
-    
+     
+    public List<DTOLista> obtenerListaPorClienteDATA(String clienteSeleccionado) {
+        return listJpa.findListaPorClienteDATA(clienteSeleccionado);
+    }
     public Lista obtenerListaPorCliente2(String clienteSeleccionado) {
         return listJpa.findListaPorCliente2(clienteSeleccionado);
     }
@@ -139,4 +151,11 @@ public class ControllerPersistencia {
         return cliJpa.findAlbumsFavoritosDeCliente(nicknameCliente);
     }
     
+       public List<DTOArtista> obtenerArtistasData(){
+        return artJpa.findAllArtistaData();
+    }
+       
+       public List<DTOCliente> obtenerClienteData(){
+           return artJpa.findAllClientesData();
+       }
 }

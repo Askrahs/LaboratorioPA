@@ -1,6 +1,9 @@
 package Persistencia;
 
 import Logica.Lista;
+import LogicaDTO.DTOLista;
+import LogicaDTO.DTOTema;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -95,7 +98,26 @@ public class ListaJpaController {
             }
         }
     }
-
+public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) {
+       
+    EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Lista> query = em.createQuery(
+                "SELECT l FROM Lista l JOIN l.genero g WHERE g.nombre = :nombre", Lista.class);
+            query.setParameter("nombre", generoSeleccionado);
+            List<Lista> listas = query.getResultList();
+            
+            
+            List<DTOLista> dtoLista = new ArrayList<>();
+            for (Lista lis : listas){
+                dtoLista.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
+            }
+            return dtoLista;
+        } finally {
+            em.close();
+        }
+    
+    }
     public List<String> findListaPorGenero(String generoSeleccionado) {
         EntityManager em = getEntityManager();
         try {
@@ -108,6 +130,29 @@ public class ListaJpaController {
         }
     }
 
+    public List<DTOLista> findListaPorClienteDATA(String clienteSeleccionado) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Lista> query = em.createQuery(
+                "SELECT l FROM Lista l WHERE l.duenio.nickname = :nombre", Lista.class);
+            query.setParameter("nombre", clienteSeleccionado);
+            List<Lista> listas = query.getResultList();
+            List<DTOLista> DTOlistas = new ArrayList<>();
+            
+           
+            for (Lista lis : listas){
+                if(lis.getEsPrivada()==false){
+                DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
+                }
+            }
+            
+            return DTOlistas;
+           
+        } finally {
+            em.close();
+        }
+    }
+    
     public List<String> findListaPorCliente(String clienteSeleccionado) {
         EntityManager em = getEntityManager();
         try {

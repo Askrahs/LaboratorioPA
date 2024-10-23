@@ -11,6 +11,8 @@ public class DTOLista {
     private DTOUsuario duenio;
     private List<DTOTema> temas;
 
+    
+    
     public DTOLista(String nombre, String rutaImagen, String generoOCreador) {
         this.nombre = nombre;
         this.rutaImagen = rutaImagen;

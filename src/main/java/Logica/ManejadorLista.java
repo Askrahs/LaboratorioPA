@@ -32,7 +32,9 @@ public class ManejadorLista {
             em.persist(lista);
             t.commit();
         } catch (Exception e) {
-            t.rollback();
+           if (t != null && t.isActive()) {
+            t.rollback(); // Asegurarte de hacer rollback solo si la transacción está activa
+        }
         }
     }
 

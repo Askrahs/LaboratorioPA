@@ -38,10 +38,12 @@ public interface IControllerMusica {
     public abstract List<DTOLista> obtenerListitasfavCliente(String nicknames);
     public abstract List<DTOAlbum> obtenerAlbumsfavCliente(String nicknames);
     public abstract List<String> obtenerListaPorGenero(String generoSeleccionado);
+     public abstract List<DTOLista> obtenerListaPorClienteDATA(String artistaSeleccionado);
     public abstract List<String> obtenerListaPorCliente(String artistaSeleccionado);
     public abstract DTOLista consultaListaPorTitulo(String listaSeleccionado);
     public abstract List<DTOLista> obtenerListitas();
     public abstract DTOTema consultaTemaPorTitulo(String temaSeleccionada);
     public abstract void aniadoTemaListaConduenioLista(String nombreUsuario,String nombrelista,String nombreteam,String nombrealb);
     public abstract void aniadoTemaListaPublicaLista(String nombrelista,String nombreteam,String nombrealb);
+    public abstract List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado);
 }

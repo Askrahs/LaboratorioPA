@@ -37,4 +37,12 @@ public interface IControllerUsuario {
     public abstract boolean LoginArtista(String nickname,String contraseña);
     public abstract boolean EmailUsado(String Email);
     public abstract boolean NicknameUsado(String nickname);
+    public abstract List<String> ObtenerNicknamesSuscripciones();
+    public abstract Suscripcion ObtenerSuscripcion(String nickname);
+    public abstract void ModificarSuscripcion(String nickname, String fecha, String Estado, String Tipo);
+    
+    public abstract List<DTOArtista> obtenerArtistasData();
+    public abstract List<DTOCliente> obtenerClientesDATA();
+    
+    
 }

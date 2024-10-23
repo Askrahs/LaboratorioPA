@@ -165,7 +165,7 @@ public class ControllerMusica implements IControllerMusica {
                  }
              }
             }else{
-        JOptionPane.showMessageDialog(null,"Lista ya existe");
+        throw new ListaYaExisteException ("La lista " + nombre + " ya es existe.");
         }
     } 
 
@@ -715,6 +715,12 @@ public class ControllerMusica implements IControllerMusica {
         return cPersist.obtenerListaPorGenero(generoSeleccionado);
     }   
 
+     @Override
+    public List<DTOLista>   obtenerListaPorClienteDATA(String clienteseleccionado){   
+        return cPersist.obtenerListaPorClienteDATA (clienteseleccionado);
+    }
+   
+    
     @Override
     public List<String> obtenerListaPorCliente(String clienteseleccionado){   
         return cPersist.obtenerListaPorCliente (clienteseleccionado);
@@ -937,4 +943,13 @@ public class ControllerMusica implements IControllerMusica {
    
     }
     }   
+    
+    
+    
+    
+     public List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado){
+         return cPersist.obtenerListaPorGeneroDATALISTA(generoSeleccionado);
+     }
+    
+    
 }

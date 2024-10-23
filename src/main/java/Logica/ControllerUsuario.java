@@ -2,6 +2,8 @@ package Logica;
 
 import Excepciones.*;
 import LogicaDTO.DTOAlbum;
+import LogicaDTO.DTOArtista;
+import LogicaDTO.DTOCliente;
 import LogicaDTO.DTOLista;
 import LogicaDTO.DTOTema;
 import java.util.ArrayList;
@@ -376,6 +378,33 @@ public class ControllerUsuario implements IControllerUsuario {
     public boolean NicknameUsado(String nickname) {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
         return Mu.NicknameUsado(nickname);
+    }
+
+    @Override
+    public List<String> ObtenerNicknamesSuscripciones() {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        return Mu.obtenerNicknamesSuscripciones();
+    }
+
+    @Override
+    public Suscripcion ObtenerSuscripcion(String nickname) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        return Mu.obtenerSuscripcion(nickname);
+    }
+
+    @Override
+    public void ModificarSuscripcion(String nickname, String fecha, String Estado, String Tipo) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        Mu.ModificarSuscripcion( nickname,  fecha,  Estado,  Tipo);
+    }
+    
+    @Override
+    public List<DTOArtista> obtenerArtistasData(){
+            return cPersist.obtenerArtistasData();
+    }
+    
+    public List<DTOCliente> obtenerClientesDATA(){
+         return cPersist.obtenerClienteData();
     }
 
     

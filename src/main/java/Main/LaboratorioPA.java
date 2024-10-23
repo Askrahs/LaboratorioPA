@@ -31,6 +31,8 @@ public class LaboratorioPA {
     private PublicarLista PblLista;
     private ConsultaListadeReproduccion ConList;
     private EliminarTemaListaAlbum EliTemLisAlb;    
+    
+    private EditarSuscripcion EditarSus;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -59,6 +61,8 @@ public class LaboratorioPA {
         SegUsr.setVisible(false);
         DejUsr = new Presentacion.DejarDeSeguirUsuario(ctrlU, principal);
         SegUsr.setVisible(false);
+        
+        
         
         ConCli = new Presentacion.ConsultaCliente(ctrlU, principal);
         ConCli.setVisible(false);
@@ -167,29 +171,6 @@ public class LaboratorioPA {
         });
         menuUsuarios.add(menuItemConCli);
         
-         //AÑADIR FAVORITOS SACAR
-        JMenuItem menuItemconAnia = new JMenuItem("Añado Favorito");
-        menuItemconAnia.addActionListener(new ActionListener(){
-         public void actionPerformed(ActionEvent e) {
-                
-                principal.setVisible(false);
-                AgrTemLisAlb.setVisible(true);
-                
-            }
-        });
-        menuUsuarios.add(menuItemconAnia);
-        
-         //AÑADIR FAVORITOS
-        JMenuItem menuItemconElim = new JMenuItem("Elimino Favorito");
-        menuItemconElim.addActionListener(new ActionListener(){
-         public void actionPerformed(ActionEvent e) {
-                
-                principal.setVisible(false);
-                EliTemLisAlb.setVisible(true);
-                
-            }
-        });
-        menuUsuarios.add(menuItemconElim);
         //CONSULTA ARTISTA
         JMenuItem menuItemConArt = new JMenuItem("Consulta Artista");
         menuItemConArt.addActionListener(new ActionListener() {
@@ -202,6 +183,48 @@ public class LaboratorioPA {
             }
         });
         menuUsuarios.add(menuItemConArt);
+        
+        //AÑADIR FAVORITOS 
+        JMenuItem menuItemconAnia = new JMenuItem("Añado Favorito");
+        menuItemconAnia.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                AgrTemLisAlb.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemconAnia);
+        
+        //AÑADIR FAVORITOS
+        JMenuItem menuItemconElim = new JMenuItem("Elimino Favorito");
+        menuItemconElim.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e) {
+                
+                principal.setVisible(false);
+                EliTemLisAlb.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemconElim);
+        
+        //Suscripcion
+        JMenuItem menuItemEditarSuscripcion = new JMenuItem("Actualizar Suscripcion");
+        menuItemEditarSuscripcion.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                //suscripcion
+                EditarSus = new Presentacion.EditarSuscripcion(ctrlU, principal);
+                
+                
+                principal.setVisible(false);
+                
+                EditarSus.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemEditarSuscripcion);
+        
         
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");
