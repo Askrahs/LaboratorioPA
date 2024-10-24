@@ -158,4 +158,11 @@ public class ControllerPersistencia {
        public List<DTOCliente> obtenerClienteData(){
            return artJpa.findAllClientesData();
        }
+    public List<Album> obtenerTodosLosAlbumsCompletos(){
+        return albJpa.todosLosAlbums();
+    }
+
+    public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre) {
+        return albJpa.albumEsDeXGenero(albumTitulo, artistaNickname, generoNombre);
+    }
 }

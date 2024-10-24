@@ -2,13 +2,13 @@ package LogicaDTO;
 
 import java.util.Set;
 
-public class DTOAlbum {   
+public class DTOAlbum{   
     private String titulo;
     private int anio;
     private String rutaImagen;
     private String artista;
     private Set<String> generos;
-    private Set<DTOTema> temas;     
+    private Set<DTOTema> temas;
     
     public DTOAlbum(String titulo, int anio, String rutaImagen, String artista, Set<String> generos, Set<DTOTema> temas) {
         this.titulo = titulo;
@@ -17,6 +17,10 @@ public class DTOAlbum {
         this.artista = artista;
         this.generos = generos;
         this.temas = temas;
+    }
+
+    public DTOAlbum() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getTitulo() {

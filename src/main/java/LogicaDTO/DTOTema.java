@@ -1,6 +1,6 @@
 package LogicaDTO;
 
-public class DTOTema {
+public class DTOTema{
     private int id;
     private String nombre;
     private String duracion;
@@ -19,6 +19,10 @@ public class DTOTema {
         this.duracion = duracion;
         this.enlace = enlace;
         this.posicion = posicion;
+    }
+
+    public DTOTema() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getNombre() {

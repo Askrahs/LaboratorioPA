@@ -46,4 +46,7 @@ public interface IControllerMusica {
     public abstract void aniadoTemaListaConduenioLista(String nombreUsuario,String nombrelista,String nombreteam,String nombrealb);
     public abstract void aniadoTemaListaPublicaLista(String nombrelista,String nombreteam,String nombrealb);
     public abstract List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado);
+    public abstract List<String> obtenerNombresGeneros();
+    public abstract List<DTOAlbum> obtenerTodosLosAlbums();
+    public abstract boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre);
 }

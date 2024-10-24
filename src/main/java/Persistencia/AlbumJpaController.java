@@ -187,4 +187,29 @@ public class AlbumJpaController {
                 em.close();
             }
     }
+
+    public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre) {
+       EntityManager em = getEntityManager();
+        try {
+            // Crear la consulta JPQL para verificar si el álbum está relacionado con el género
+            String jpql = "SELECT COUNT(a) FROM Album a " +
+                          "JOIN a.generos g " +
+                          "WHERE a.titulo = :tituloAlbum " +
+                          "AND a.artista.nickname = :nicknameArtista " +
+                          "AND g.nombre = :nombreGenero";
+
+            // Ejecutar la consulta
+            Long count = (Long) em.createQuery(jpql)
+                            .setParameter("tituloAlbum", albumTitulo)
+                            .setParameter("nicknameArtista", artistaNickname)
+                            .setParameter("nombreGenero", generoNombre)
+                            .getSingleResult();
+
+            // Si el conteo es mayor a 0, entonces existe esa relación
+            return count > 0;
+
+        } finally {
+            em.close(); // Asegurarse de cerrar el EntityManager
+        }
+    }
 }
