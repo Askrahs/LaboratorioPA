@@ -1,11 +1,11 @@
 package Logica;
 
 import Excepciones.*;
-import java.util.List;
+import Logica.*;
 import LogicaDTO.*;
-import Excepciones.GenroYaExiste;
-import java.util.ArrayList;
 import Persistencia.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -984,11 +984,10 @@ public class ControllerMusica implements IControllerMusica {
 
         return dtoAlbums;
     }
-    }   
+ 
      public List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado){
          return cPersist.obtenerListaPorGeneroDATALISTA(generoSeleccionado);
      }   
-}
     
     @Override
         public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre){
