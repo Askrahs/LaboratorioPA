@@ -272,7 +272,7 @@ public class ManejadorUsuario {
 
     public boolean LoginArtista(String nickname, String contraseña) {
         try {
-            String jpql = "SELECT COUNT(c) FROM Cliente c WHERE c.nickname = :nickname AND c.contraseña = :contraseña";
+            String jpql = "SELECT COUNT(a) FROM Artista a WHERE a.nickname = :nickname AND a.contraseña = :contraseña";
             Long count = em.createQuery(jpql, Long.class)
                     .setParameter("nickname", nickname)
                     .setParameter("contraseña", contraseña)
