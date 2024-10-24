@@ -138,5 +138,11 @@ public class ControllerPersistencia {
     public List<Album> obtenerAlbumsFavoritosDeCliente(String nicknameCliente) {
         return cliJpa.findAlbumsFavoritosDeCliente(nicknameCliente);
     }
-    
+    public List<Album> obtenerTodosLosAlbumsCompletos(){
+        return albJpa.todosLosAlbums();
+    }
+
+    public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre) {
+        return albJpa.albumEsDeXGenero(albumTitulo, artistaNickname, generoNombre);
+    }
 }
