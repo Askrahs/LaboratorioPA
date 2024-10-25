@@ -42,4 +42,6 @@ public interface IControllerUsuario {
     public abstract void ModificarSuscripcion(String nickname, String fecha, String Estado, String Tipo);
     public abstract List<DTOArtista> obtenerArtistasData();
     public abstract List<DTOCliente> obtenerClientesDATA();
+    public abstract void CrearSuscripcion(String nickname,String Tipo);
+    
 }

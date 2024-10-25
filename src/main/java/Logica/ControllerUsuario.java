@@ -409,6 +409,12 @@ public class ControllerUsuario implements IControllerUsuario {
          return cPersist.obtenerClienteData();
     }
 
+    @Override
+    public void CrearSuscripcion(String nickname, String Tipo) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        Mu.CrearSuscripcion( nickname, Tipo);
+    }
+
 
     
 }

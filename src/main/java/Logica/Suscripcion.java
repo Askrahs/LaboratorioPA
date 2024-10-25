@@ -1,9 +1,10 @@
 package Logica;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Suscripcion {
+public class Suscripcion implements Serializable {
 
     public enum EstadoSuscripcion {
         VIGENTE, PENDIENTE, VENCIDA, CANCELADA

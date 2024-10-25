@@ -1,5 +1,6 @@
 package Logica;
 
+import Logica.Suscripcion.EstadoSuscripcion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -307,53 +308,75 @@ public class ManejadorUsuario {
     }
 
     public Suscripcion obtenerSuscripcion(String nickname) {
+        em.clear(); 
         Suscripcion s = em.find(Suscripcion.class, nickname);
+        em.refresh(s); 
         return s;
     }
 
     public void ModificarSuscripcion(String nickname, String fecha, String estadoStr, String tipoStr) {
-    EntityTransaction tx = null;
+        EntityTransaction tx = null;
 
-    try {
-        // Iniciar la transacción
-        tx = em.getTransaction();
-        tx.begin();
+        try {
+            // Iniciar la transacción
+            tx = em.getTransaction();
+            tx.begin();
 
-        // Convertir los strings a los tipos enumerados
-        Suscripcion.EstadoSuscripcion estado = Suscripcion.EstadoSuscripcion.valueOf(estadoStr);
-        Suscripcion.TipoSuscripcion tipo = Suscripcion.TipoSuscripcion.valueOf(tipoStr);
+            // Convertir los strings a los tipos enumerados
+            Suscripcion.EstadoSuscripcion estado = Suscripcion.EstadoSuscripcion.valueOf(estadoStr);
+            Suscripcion.TipoSuscripcion tipo = Suscripcion.TipoSuscripcion.valueOf(tipoStr);
 
-        // Crear el formato de fecha correcto (si fuera necesario realizar algún parseo de fecha)
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fechaFormato = LocalDate.parse(fecha, formatter);
+            // Crear el formato de fecha correcto (si fuera necesario realizar algún parseo de fecha)
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fechaFormato = LocalDate.parse(fecha, formatter);
 
-        // Crear el query de actualización
-        String jpql = "UPDATE Suscripcion s SET s.fecha = :fecha, s.estado = :estado, s.tipo = :tipo WHERE s.clienteNickname = :nickname";
+            // Crear el query de actualización
+            String jpql = "UPDATE Suscripcion s SET s.fecha = :fecha, s.estado = :estado, s.tipo = :tipo WHERE s.clienteNickname = :nickname";
 
-        // Ejecutar el query
-        Query query = em.createQuery(jpql);
-        query.setParameter("fecha", fechaFormato.format(formatter)); // Enviar la fecha en el formato correcto (dd/MM/yyyy)
-        query.setParameter("estado", estado);
-        query.setParameter("tipo", tipo);
-        query.setParameter("nickname", nickname);
+            // Ejecutar el query
+            Query query = em.createQuery(jpql);
+            query.setParameter("fecha", fechaFormato.format(formatter)); // Enviar la fecha en el formato correcto (dd/MM/yyyy)
+            query.setParameter("estado", estado);
+            query.setParameter("tipo", tipo);
+            query.setParameter("nickname", nickname);
 
-        // Realizar la actualización
-        int filasActualizadas = query.executeUpdate();
+            // Realizar la actualización
+            int filasActualizadas = query.executeUpdate();
 
-        // Cometer la transacción
-        tx.commit();
+            // Cometer la transacción
+            tx.commit();
 
-        System.out.println("Filas actualizadas: " + filasActualizadas);
+            System.out.println("Filas actualizadas: " + filasActualizadas);
 
-    } catch (Exception e) {
-        if (tx != null && tx.isActive()) {
-            tx.rollback(); // Hacer rollback si ocurre un error
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback(); // Hacer rollback si ocurre un error
+            }
+            e.printStackTrace();
         }
-        e.printStackTrace();
     }
-}
+
+    public void CrearSuscripcion(String nickname, String Tipo) {
+        Cliente c = obtenerCliente(nickname);
+
+        // Obtener la fecha actual en formato dd/MM/yyyy
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaFormateada = fechaActual.format(formatter);
+        
+        // Convertir el string a TipoSuscripcion
+        Suscripcion.TipoSuscripcion tipoSuscripcion = Suscripcion.TipoSuscripcion.valueOf(Tipo.toUpperCase());
+        
+
+        Suscripcion s = new Suscripcion(EstadoSuscripcion.PENDIENTE, tipoSuscripcion, fechaFormateada, c);
+        try {
+            t.begin();
+            em.persist(s);
+            t.commit();
+        } catch (Exception e) {
+            //si sale mal rollback
+            t.rollback();
+        }
+    }
 
 }
-
-
-
