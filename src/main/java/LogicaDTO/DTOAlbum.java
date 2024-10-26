@@ -1,8 +1,10 @@
 package LogicaDTO;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class DTOAlbum{   
+public class DTOAlbum implements Serializable{   
+    private static final long serialVersionUID = 1L;
     private String titulo;
     private int anio;
     private String rutaImagen;
@@ -71,5 +73,15 @@ public class DTOAlbum{
         this.temas = temas;
     }
     
-    
+     @Override
+    public String toString() {
+        return "DTOAlbum{" +
+                "titulo='" + titulo + '\'' +
+                ", anio=" + anio +
+                ", rutaImagen='" + rutaImagen + '\'' +
+                ", artista='" + artista + '\'' +
+                ", generos=" + generos +
+                ", temas=" + temas +
+                '}';
+    }
 }
