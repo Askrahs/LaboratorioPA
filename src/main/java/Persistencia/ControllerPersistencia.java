@@ -1,12 +1,7 @@
 package Persistencia;
 
-import Logica.Album;
-import Logica.Artista;
-import Logica.Lista;
-import Logica.Tema;
-import LogicaDTO.DTOArtista;
-import LogicaDTO.DTOCliente;
-import LogicaDTO.DTOLista;
+import Logica.*;
+import LogicaDTO.*;
 import java.util.List;
 
 public class ControllerPersistencia {
@@ -165,4 +160,9 @@ public class ControllerPersistencia {
     public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre) {
         return albJpa.albumEsDeXGenero(albumTitulo, artistaNickname, generoNombre);
     }
+
+    public List<Tema> temasDelAlbum(String titulo) {
+        return albJpa.temasDelAlbum(titulo);
+    }
+    
 }

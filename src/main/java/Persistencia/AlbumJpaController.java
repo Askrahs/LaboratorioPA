@@ -1,6 +1,7 @@
 package Persistencia;
 
 import Logica.Album;
+import Logica.Tema;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -166,9 +167,21 @@ public class AlbumJpaController {
     }
     
     public List<Album> todosLosAlbums(){
-         EntityManager em = getEntityManager();
-         List<Album> Albums = em.createQuery("select a from Album a", Album.class).getResultList();
-         return Albums;
+        EntityManager em = getEntityManager();
+    try {
+        // Crear la consulta JPQL con JOIN FETCH para cargar los datos asociados
+        String jpql = "SELECT a FROM Album a " +
+                      "JOIN FETCH a.artista ar " +       // Cargar al artista
+                      "LEFT JOIN FETCH a.generos g " +   // Cargar los géneros
+                      "LEFT JOIN FETCH a.temas t";       // Cargar los temas
+        
+        // Ejecutar la consulta y devolver la lista de álbumes
+        List<Album> albums = em.createQuery(jpql, Album.class).getResultList();
+        return albums;
+
+    } finally {
+        em.close(); // Asegurarse de cerrar el EntityManager
+    }
     }
     
     public Album findAlbumPorDatos(String artista, String nombreA) {
@@ -210,6 +223,23 @@ public class AlbumJpaController {
 
         } finally {
             em.close(); // Asegurarse de cerrar el EntityManager
+        }
+    }
+
+   public List<Tema> temasDelAlbum(String titulo) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT t FROM Tema t " +
+                          "JOIN t.album a " +
+                          "WHERE a.titulo = :tituloAlbum " +
+                          "ORDER BY t.posicion ASC";
+
+            return em.createQuery(jpql, Tema.class)
+                    .setParameter("tituloAlbum", titulo)
+                    .getResultList();
+
+        } finally {
+            em.close();
         }
     }
 }

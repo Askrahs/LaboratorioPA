@@ -1,7 +1,6 @@
 package Logica;
 
 import Excepciones.*;
-import Logica.*;
 import LogicaDTO.*;
 import Persistencia.*;
 import java.util.List;
@@ -226,7 +225,6 @@ public class ControllerMusica implements IControllerMusica {
             generosString.add(gen.getNombre());
         }
         for (Tema tem : a.getTemas()) {
-            //DTOTema(String nombre, String duracion, String enlace, int posicion)
             DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
             tDTO.add(nuevoTDTO);
         }
@@ -993,4 +991,16 @@ public class ControllerMusica implements IControllerMusica {
         public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre){
             return cPersist.albumEsDeXGenero(albumTitulo, artistaNickname, generoNombre);
         }
+        
+    @Override
+    public List<DTOTema> temasDelAlbum(String titulo) {
+        List<Tema> temas = cPersist. temasDelAlbum(titulo);
+        List<DTOTema> listDTOTemas = new ArrayList<>();
+
+        for (Tema t : temas) {
+            DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
+            listDTOTemas.add(dtoTema);
+        }
+        return listDTOTemas;
+    }
 }
