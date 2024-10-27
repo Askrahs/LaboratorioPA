@@ -26,7 +26,6 @@ public interface IControllerUsuario {
     public abstract void agregarAlbumAFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
     public abstract void agregarListaAFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
     public abstract void agregarTemaAFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
-
     public abstract void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
     public abstract void eliminarListaDeFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
     public abstract void eliminarAlbumDeFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
