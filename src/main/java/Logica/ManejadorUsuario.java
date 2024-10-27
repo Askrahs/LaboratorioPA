@@ -308,9 +308,11 @@ public class ManejadorUsuario {
     }
 
     public Suscripcion obtenerSuscripcion(String nickname) {
-        em.clear(); 
+        em.clear();
         Suscripcion s = em.find(Suscripcion.class, nickname);
-        em.refresh(s); 
+        if (s != null) {
+            em.refresh(s);
+        }
         return s;
     }
 
@@ -363,10 +365,9 @@ public class ManejadorUsuario {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String fechaFormateada = fechaActual.format(formatter);
-        
+
         // Convertir el string a TipoSuscripcion
         Suscripcion.TipoSuscripcion tipoSuscripcion = Suscripcion.TipoSuscripcion.valueOf(Tipo.toUpperCase());
-        
 
         Suscripcion s = new Suscripcion(EstadoSuscripcion.PENDIENTE, tipoSuscripcion, fechaFormateada, c);
         try {
