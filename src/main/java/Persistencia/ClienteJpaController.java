@@ -65,4 +65,14 @@ public class ClienteJpaController {
             em.close();
         }
     }
+    
+    public List<Cliente> findAllClienteData() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -308,9 +308,11 @@ public class ManejadorUsuario {
     }
 
     public Suscripcion obtenerSuscripcion(String nickname) {
-        em.clear(); 
+        em.clear();
         Suscripcion s = em.find(Suscripcion.class, nickname);
-        em.refresh(s); 
+        if (s != null) {
+            em.refresh(s);
+        }
         return s;
     }
 

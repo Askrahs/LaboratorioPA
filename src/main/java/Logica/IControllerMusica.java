@@ -50,4 +50,5 @@ public interface IControllerMusica {
     public abstract List<DTOAlbum> obtenerTodosLosAlbums();
     public abstract boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre);
     public abstract List<DTOTema> temasDelAlbum(String titulo);
+    public List<String> ObtengolistasClipriv(String nickcli)throws NoExisteLista;
 }

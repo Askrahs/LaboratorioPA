@@ -1,36 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package LogicaDTO;
 
-/**
- *
- * @author gasto
- */
-public class DTOArtista {
+import java.io.Serializable;
+
+public class DTOArtista implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nickname;
     private String nombre; 
     private String apellido; 
     private String email; 
     private String biografia; 
     private String website;
-
-    public DTOArtista(String nickname, String nombre, String apellido, String mail) {
+    private String imagen;
+    private String fechaNac;
+    
+    public DTOArtista(String nickname, String nombre, String apellido, String email, String biografia, String website, String imagen, String fechaNac) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.email = mail;
+        this.email = email;
+        this.biografia = biografia;
+        this.website = website;
+        this.imagen = imagen;
+        this.fechaNac = fechaNac;
     }
 
-    
-    
-    
-    
     public String getNickname() {
         return nickname;
     }
-
+    
+    public String getfechaNac() {
+        return fechaNac;
+    }
+    
+    public String getImagen() {
+        return imagen;
+    }
+    
     public String getNombre() {
         return nombre;
     }
