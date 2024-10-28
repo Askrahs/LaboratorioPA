@@ -1,6 +1,9 @@
 package LogicaDTO;
 
-public class DTOTema {
+import java.io.Serializable;
+
+public class DTOTema implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nombre;
     private String duracion;
@@ -24,6 +27,7 @@ public class DTOTema {
         this.enlace = enlace;
         this.posicion = posicion;
     }
+    
     public DTOTema(String nombre, String duracion, String enlace, int posicion) {
         this.nombre = nombre;
         this.duracion = duracion;
@@ -39,14 +43,17 @@ public class DTOTema {
         this.artista = artista;
     }
 
+    public DTOTema() {
+
+    }
+
     public String getAlbum() {
         return album;
     }
 
     public void setAlbum(String album) {
         this.album = album;
-    }
-   
+    }  
 
     public String getNombre() {
         return nombre;
@@ -79,5 +86,10 @@ public class DTOTema {
     public void setPosicion(int posicion) {
         this.posicion = posicion;
     }   
-
+    
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre + ", Duración: " + duracion + ", Enlace: " + enlace + ", Posición: " + posicion;
+    }
+    
 }

@@ -2,6 +2,7 @@ package Persistencia;
 
 import Logica.Album;
 import LogicaDTO.DTOAlbum;
+import Logica.Tema;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -168,9 +169,21 @@ public class AlbumJpaController {
     }
     
     public List<Album> todosLosAlbums(){
-         EntityManager em = getEntityManager();
-         List<Album> Albums = em.createQuery("select a from Album a", Album.class).getResultList();
-         return Albums;
+        EntityManager em = getEntityManager();
+    try {
+        // Crear la consulta JPQL con JOIN FETCH para cargar los datos asociados
+        String jpql = "SELECT a FROM Album a " +
+                      "JOIN FETCH a.artista ar " +       // Cargar al artista
+                      "LEFT JOIN FETCH a.generos g " +   // Cargar los géneros
+                      "LEFT JOIN FETCH a.temas t";       // Cargar los temas
+        
+        // Ejecutar la consulta y devolver la lista de álbumes
+        List<Album> albums = em.createQuery(jpql, Album.class).getResultList();
+        return albums;
+
+    } finally {
+        em.close(); // Asegurarse de cerrar el EntityManager
+    }
     }
     
     public Album findAlbumPorDatos(String artista, String nombreA) {
@@ -188,8 +201,7 @@ public class AlbumJpaController {
             } finally {
                 em.close();
             }
-    }
-    
+    }   
     
    public DTOAlbum buscoalbumporArtista(String nombrealbum, String nombreartista) {
     try {
@@ -210,5 +222,47 @@ public class AlbumJpaController {
         System.out.println("No se encontró ningún álbum con el nombre y artista especificados.");
         return null;
     }
-}
+    }
+
+    public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre) {
+       EntityManager em = getEntityManager();
+        try {
+            // Crear la consulta JPQL para verificar si el álbum está relacionado con el género
+            String jpql = "SELECT COUNT(a) FROM Album a " +
+                          "JOIN a.generos g " +
+                          "WHERE a.titulo = :tituloAlbum " +
+                          "AND a.artista.nickname = :nicknameArtista " +
+                          "AND g.nombre = :nombreGenero";
+
+            // Ejecutar la consulta
+            Long count = (Long) em.createQuery(jpql)
+                            .setParameter("tituloAlbum", albumTitulo)
+                            .setParameter("nicknameArtista", artistaNickname)
+                            .setParameter("nombreGenero", generoNombre)
+                            .getSingleResult();
+
+            // Si el conteo es mayor a 0, entonces existe esa relación
+            return count > 0;
+
+        } finally {
+            em.close(); // Asegurarse de cerrar el EntityManager
+        }
+    }
+
+   public List<Tema> temasDelAlbum(String titulo) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT t FROM Tema t " +
+                          "JOIN t.album a " +
+                          "WHERE a.titulo = :tituloAlbum " +
+                          "ORDER BY t.posicion ASC";
+
+            return em.createQuery(jpql, Tema.class)
+                    .setParameter("tituloAlbum", titulo)
+                    .getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -1,32 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package LogicaDTO;
 
-/**
- *
- * @author Santiago
- */
+import java.util.HashSet;
+import java.util.Set;
+
 public class DTOCliente {
-     private String nickname;
+    private String nickname;
     private String nombre;
     private String apellido;
     private String email;
-    private String contraseña;
-    private String rutaImagen;
+    private String imagen;
     private String fechaNac;
+    private Set<String> temasFavoritos;
+    private Set<String> albumsFavoritos;
+    private Set<String> listasFavoritas;
 
-    
-
-    public DTOCliente(String nickname, String nombre, String apellido, String email, String rutaImagen) {
+    // Constructor por defecto
+    public DTOCliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.rutaImagen = rutaImagen;
+        this.imagen = imagen;
+        this.fechaNac = fechaNac;
+        this.temasFavoritos = new HashSet<>();
+        this.albumsFavoritos = new HashSet<>();
+        this.listasFavoritas = new HashSet<>();
     }
 
+    // Constructor con parámetros
+    public DTOCliente(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac,
+                      Set<String> temasFavoritos, Set<String> albumsFavoritos, Set<String> listasFavoritas) {
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.imagen = imagen;
+        this.fechaNac = fechaNac;
+        this.temasFavoritos = temasFavoritos;
+        this.albumsFavoritos = albumsFavoritos;
+        this.listasFavoritas = listasFavoritas;
+    }
+
+    // Getters y setters
     public String getNickname() {
         return nickname;
     }
@@ -59,20 +74,12 @@ public class DTOCliente {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-
-    public String getRutaImagen() {
-        return rutaImagen;
-    }
-
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getFechaNac() {
@@ -82,12 +89,28 @@ public class DTOCliente {
     public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public Set<String> getTemasFavoritos() {
+        return temasFavoritos;
+    }
+
+    public void setTemasFavoritos(Set<String> temasFavoritos) {
+        this.temasFavoritos = temasFavoritos;
+    }
+
+    public Set<String> getAlbumsFavoritos() {
+        return albumsFavoritos;
+    }
+
+    public void setAlbumsFavoritos(Set<String> albumsFavoritos) {
+        this.albumsFavoritos = albumsFavoritos;
+    }
+
+    public Set<String> getListasFavoritas() {
+        return listasFavoritas;
+    }
+
+    public void setListasFavoritas(Set<String> listasFavoritas) {
+        this.listasFavoritas = listasFavoritas;
+    }
 }

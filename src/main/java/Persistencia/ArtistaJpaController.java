@@ -37,17 +37,11 @@ public class ArtistaJpaController {
     
  
     
-    public List<DTOArtista> findAllArtistaData() {
+public List<Artista> findAllArtistaData() {
         EntityManager em = getEntityManager();
         try {
             TypedQuery<Artista> query = em.createQuery("SELECT a FROM Artista a", Artista.class);
-             List<Artista> artistas = query.getResultList();
-            List<DTOArtista> dtoartista = new ArrayList<>();
-            for (Artista art : artistas){
-                dtoartista.add(new DTOArtista(art.getNickname(),art.getNombre(),art.getApellido(),art.getEmail()));
-            }
-            return dtoartista;
-           
+            return query.getResultList();
         } finally {
             em.close();
         }
@@ -61,7 +55,7 @@ public class ArtistaJpaController {
              List<Cliente> artistas = query.getResultList();
             List<DTOCliente> dtocliente = new ArrayList<>();
             for (Cliente cli : artistas){
-                dtocliente.add(new DTOCliente(cli.getNickname(),cli.getNombre(),cli.getApellido(),cli.getRutaImagen(),cli.getEmail()));
+             //   dtocliente.add(new DTOCliente(cli.getNickname(),cli.getNombre(),cli.getApellido(),cli.getRutaImagen(),cli.getEmail()));
             }
             return dtocliente;
            

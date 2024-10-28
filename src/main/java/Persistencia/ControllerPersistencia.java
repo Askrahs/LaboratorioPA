@@ -1,13 +1,7 @@
 package Persistencia;
 
-import Logica.Album;
-import Logica.Artista;
-import Logica.Lista;
-import Logica.Tema;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOArtista;
-import LogicaDTO.DTOCliente;
-import LogicaDTO.DTOLista;
+import Logica.*;
+import LogicaDTO.*;
 import java.util.List;
 
 public class ControllerPersistencia {
@@ -153,15 +147,32 @@ public class ControllerPersistencia {
         return cliJpa.findAlbumsFavoritosDeCliente(nicknameCliente);
     }
     
-       public List<DTOArtista> obtenerArtistasData(){
+    public List<Artista> obtenerArtistasData(){
         return artJpa.findAllArtistaData();
     }
-       
-       public List<DTOCliente> obtenerClienteData(){
-           return artJpa.findAllClientesData();
-       }
-       
-       public DTOAlbum BuscoAlbumartista(String nombreAlbum,String nombreArtista){
-           return albJpa.buscoalbumporArtista(nombreAlbum,nombreArtista);
-       }
+
+    public DTOAlbum BuscoAlbumartista(String nombreAlbum,String nombreArtista){
+        return albJpa.buscoalbumporArtista(nombreAlbum,nombreArtista);
+    }
+
+    public List<Cliente> obtenerClientesData(){
+        return cliJpa.findAllClienteData();
+    }
+    
+    public List<Album> obtenerTodosLosAlbumsCompletos(){
+        return albJpa.todosLosAlbums();
+    }
+
+    public boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre) {
+        return albJpa.albumEsDeXGenero(albumTitulo, artistaNickname, generoNombre);
+    }
+
+    public List<Tema> temasDelAlbum(String titulo) {
+        return albJpa.temasDelAlbum(titulo);
+    }
+    
+    public List<String> findListaPorClientePriv(String clienteSeleccionado) {
+        return listJpa.findListaPorClientePriv(clienteSeleccionado);
+    }
+    
 }

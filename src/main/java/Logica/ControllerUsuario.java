@@ -1,11 +1,7 @@
 package Logica;
 
 import Excepciones.*;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOArtista;
-import LogicaDTO.DTOCliente;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
+import LogicaDTO.*;
 import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
@@ -427,12 +423,58 @@ public class ControllerUsuario implements IControllerUsuario {
 
     @Override
     public List<DTOArtista> obtenerArtistasData(){
-            return cPersist.obtenerArtistasData();
+        List<Artista> artistas = cPersist.obtenerArtistasData(); // Obtiene la lista de Artista
+        List<DTOArtista> dtos = new ArrayList<>(); // Crea una nueva lista para los DTOArtista
+        Artista a;
+        for (int i = 0; i<artistas.size();i++) {
+        a = artistas.get(i);
+        DTOArtista dto = new DTOArtista(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getBiografia(),a.getWebSite(), a.getRutaImagen(), a.getFechaNac());
+        dtos.add(dto);
+    }
+
+    return dtos;
     }
     
     @Override
-    public List<DTOCliente> obtenerClientesDATA(){
-         return cPersist.obtenerClienteData();
+
+    public List<DTOCliente> obtenerClientesData(){
+    List<Cliente> clientes = cPersist.obtenerClientesData(); // Obtiene la lista de Artista
+    List<DTOCliente> dtos = new ArrayList<>(); // Crea una nueva lista para los DTOArtista
+    Cliente c;
+    for (int i = 0; i<clientes.size();i++) {
+        c = clientes.get(i);
+        
+        DTOCliente dto = new DTOCliente(c.getNickname(),c.getNombre(),c.getApellido(),c.getEmail(),c.getRutaImagen(),c.getFechaNac());
+        dtos.add(dto);
+    }
+
+    return dtos;
+    }
+
+    @Override
+    public void CrearSuscripcion(String nickname, String Tipo) {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        Mu.CrearSuscripcion( nickname, Tipo);
+    }
+
+ @Override
+    public DTOArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException{
+       ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Artista a = mu.obtenerArtista(nickname);
+    //( ͡❛ ͜ʖ͡❛ )
+    //String nickname, String nombre, String apellido, String email, String biografia, String website
+    DTOArtista aDTO = new DTOArtista(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getBiografia(), a.getWebSite(), a.getRutaImagen(), a.getFechaNac());
+    return aDTO; 
+    }
+    
+    @Override
+    public DTOCliente ObtenerClienteDTO(String nickname) throws UsuarioNoExisteException {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Cliente a = mu.obtenerCliente(nickname);
+    //( ͡❛ ͜ʖ͡❛ )
+    //String nickname, String nombre, String apellido, String email, String imagen, String fechaNac
+    DTOCliente cDTO = new DTOCliente(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getRutaImagen(), a.getFechaNac());
+    return cDTO;
     }
 
 
@@ -472,11 +514,4 @@ public class ControllerUsuario implements IControllerUsuario {
          }
          return null;
      }
-
-    
-     
-     
-     
- 
-    
 }

@@ -39,7 +39,7 @@ public interface IControllerMusica {
     public abstract List<DTOLista> obtenerListitasfavCliente(String nicknames);
     public abstract List<DTOAlbum> obtenerAlbumsfavCliente(String nicknames);
     public abstract List<String> obtenerListaPorGenero(String generoSeleccionado);
-     public abstract List<DTOLista> obtenerListaPorClienteDATA(String artistaSeleccionado);
+    public abstract List<DTOLista> obtenerListaPorClienteDATA(String artistaSeleccionado);
     public abstract List<String> obtenerListaPorCliente(String artistaSeleccionado);
     public abstract DTOLista consultaListaPorTitulo(String listaSeleccionado);
     public abstract List<DTOLista> obtenerListitas();
@@ -51,4 +51,9 @@ public interface IControllerMusica {
     public abstract List<DTOLista> ObtengoListasPublicasDATA() throws NoExisteLista;
     public abstract DTOLista ObtenerListaporTitulo(String nombrelista)throws NoExisteLista;
     public abstract DTOTema consultaTemaPorTituloYAlbum(String nombreTema, String nombreAlbum, String nombreArtista);
+    public abstract List<String> obtenerNombresGeneros();
+    public abstract List<DTOAlbum> obtenerTodosLosAlbums();
+    public abstract boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre);
+    public abstract List<DTOTema> temasDelAlbum(String titulo);
+    public abstract List<String> ObtengolistasClipriv(String nickcli)throws NoExisteLista;
 }
