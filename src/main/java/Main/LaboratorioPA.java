@@ -229,16 +229,21 @@ public class LaboratorioPA {
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");
         menuBar.add(menuAlbum);
+        
         JMenuItem menuItemRegistrarAlbum = new JMenuItem("Registrar Album");
+        
         JMenuItem menuItemConsultaAlbum = new JMenuItem("Consulta Album");
-        menuItemRegistrarAlbum.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                principal.setVisible(false);
-                AltAlb.setBounds(100,100,800,500);
-                AltAlb.setVisible(true);
-            }
-        });
+        
+//        menuItemRegistrarAlbum.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                
+//                principal.setVisible(false);
+//                AltAlb.setBounds(100,100,800,500);
+//                AltAlb.setVisible(true);
+//            }
+//        });
+//        menuAlbum.add(menuItemRegistrarAlbum);
+        
         menuItemConsultaAlbum.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
@@ -246,7 +251,7 @@ public class LaboratorioPA {
                 ConAlb.setVisible(true);
             }
         });
-        menuAlbum.add(menuItemRegistrarAlbum);
+        
         menuAlbum.add(menuItemConsultaAlbum);
 
         //Opcion submenu Lista
