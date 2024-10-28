@@ -1003,4 +1003,19 @@ public class ControllerMusica implements IControllerMusica {
         }
         return listDTOTemas;
     }
+    
+    @Override
+    public List<String> ObtengolistasClipriv(String nickcli) throws NoExisteLista {
+    // Obtenemos las listas privadas del cliente, que deberían ser objetos de tipo Lista o similar
+    List<String> listas = cPersist.findListaPorClientePriv(nickcli);
+    List<String> dtoListas = new ArrayList<>();
+
+    // Iteramos sobre la lista de objetos de tipo Lista
+    for (String l : listas) {
+        dtoListas.add(l);
+    }
+
+    return dtoListas;
+}
+    
 }

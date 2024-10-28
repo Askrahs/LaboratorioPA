@@ -40,7 +40,8 @@ public interface IControllerUsuario {
     public abstract Suscripcion ObtenerSuscripcion(String nickname);
     public abstract void ModificarSuscripcion(String nickname, String fecha, String Estado, String Tipo);
     public abstract List<DTOArtista> obtenerArtistasData();
-    public abstract List<DTOCliente> obtenerClientesDATA();
+    public abstract List<DTOCliente> obtenerClientesData();
     public abstract void CrearSuscripcion(String nickname,String Tipo);
-    
+    public abstract DTOArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException;
+    public abstract DTOCliente ObtenerClienteDTO(String nickname) throws UsuarioNoExisteException;
 }
