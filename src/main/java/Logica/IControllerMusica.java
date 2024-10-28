@@ -10,7 +10,7 @@ public interface IControllerMusica {
     public abstract void AltaGenero (String nombregen, String nombrepadre) throws GenroYaExiste;
     public abstract void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean espirvada) throws ListaYaExisteException;
     public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException, ListaYaEsPublicaException;
-    public abstract void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste;
+    //public abstract void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste;
     public abstract void ModificoPadre(String nombrenodo, String nombrepadrenuevo);
     public abstract DefaultMutableTreeNode DameTodoslosgeneros();
     public abstract void EliminoGenero(String nombregen);
@@ -31,6 +31,7 @@ public interface IControllerMusica {
     public abstract void EliminotemaLista(String nombrelista, String nombretema, String nombreAlbum);
     public abstract void EliminoTemaListaConduenio(String nombreUsuario,String nombrelista,String nombreteam,String nombreAlbum);
     public abstract List<DTOTema> obtenerTemitas();
+    public abstract List<DTOTema> obtenerTemitasDATA();
     public abstract List<DTOLista> ObtengoListasPublicas() throws NoExisteLista;
     public abstract List<DTOAlbum> obtenerAlbums();
     public abstract DTOLista consultaListaPorTituloyGenero(String listaSeleccionada, String genero);
@@ -46,4 +47,8 @@ public interface IControllerMusica {
     public abstract void aniadoTemaListaConduenioLista(String nombreUsuario,String nombrelista,String nombreteam,String nombrealb);
     public abstract void aniadoTemaListaPublicaLista(String nombrelista,String nombreteam,String nombrealb);
     public abstract List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado);
+    public abstract List <DTOTema> TemasdeListasDTO(String nombrelista);
+    public abstract List<DTOLista> ObtengoListasPublicasDATA() throws NoExisteLista;
+    public abstract DTOLista ObtenerListaporTitulo(String nombrelista)throws NoExisteLista;
+    public abstract DTOTema consultaTemaPorTituloYAlbum(String nombreTema, String nombreAlbum, String nombreArtista);
 }

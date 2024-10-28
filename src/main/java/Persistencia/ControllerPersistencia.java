@@ -4,6 +4,7 @@ import Logica.Album;
 import Logica.Artista;
 import Logica.Lista;
 import Logica.Tema;
+import LogicaDTO.DTOAlbum;
 import LogicaDTO.DTOArtista;
 import LogicaDTO.DTOCliente;
 import LogicaDTO.DTOLista;
@@ -96,6 +97,7 @@ public class ControllerPersistencia {
     }
     
     
+    
     public List<String> obtenerListaPorGenero(String generoSeleccionado) {
         return listJpa.findListaPorGenero(generoSeleccionado);
     }
@@ -157,5 +159,9 @@ public class ControllerPersistencia {
        
        public List<DTOCliente> obtenerClienteData(){
            return artJpa.findAllClientesData();
+       }
+       
+       public DTOAlbum BuscoAlbumartista(String nombreAlbum,String nombreArtista){
+           return albJpa.buscoalbumporArtista(nombreAlbum,nombreArtista);
        }
 }

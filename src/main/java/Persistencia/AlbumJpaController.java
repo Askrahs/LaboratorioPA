@@ -1,6 +1,7 @@
 package Persistencia;
 
 import Logica.Album;
+import LogicaDTO.DTOAlbum;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -8,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
 
 public class AlbumJpaController {
 
@@ -187,4 +189,26 @@ public class AlbumJpaController {
                 em.close();
             }
     }
+    
+    
+   public DTOAlbum buscoalbumporArtista(String nombrealbum, String nombreartista) {
+    try {
+        EntityManager em = getEntityManager();
+        Album album = em.createQuery(
+            "SELECT al FROM Album al JOIN al.artista ar " +
+            "WHERE al.titulo = :nombrealbum AND ar.nickname = :nombreartista", Album.class)
+            .setParameter("nombrealbum", nombrealbum)
+            .setParameter("nombreartista", nombreartista)
+            .getSingleResult();
+        String Artista = album.getArtista().getNickname();
+        // Transformar el álbum encontrado en un DTOAlbum y devolverlo
+        DTOAlbum dtoAlbum = new DTOAlbum(album.getTitulo(),album.getAnio(),album.getRutaImagen(),Artista);
+        
+
+        return dtoAlbum;
+    } catch (NoResultException e) {
+        System.out.println("No se encontró ningún álbum con el nombre y artista especificados.");
+        return null;
+    }
+}
 }

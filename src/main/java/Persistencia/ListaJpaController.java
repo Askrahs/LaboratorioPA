@@ -2,7 +2,6 @@ package Persistencia;
 
 import Logica.Lista;
 import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
 
 public class ListaJpaController {
 
@@ -131,20 +131,24 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
     }
 
     public List<DTOLista> findListaPorClienteDATA(String clienteSeleccionado) {
+  
         EntityManager em = getEntityManager();
+        em.clear();
         try {
-            TypedQuery<Lista> query = em.createQuery(
-                "SELECT l FROM Lista l WHERE l.duenio.nickname = :nombre", Lista.class);
-            query.setParameter("nombre", clienteSeleccionado);
-            List<Lista> listas = query.getResultList();
-            List<DTOLista> DTOlistas = new ArrayList<>();
-            
+           TypedQuery<Lista> query = em.createQuery(
+               "SELECT l FROM Lista l WHERE  l.esPrivada = 0 and l.duenio.nickname = :nombre", Lista.class);
+           query.setParameter("nombre", clienteSeleccionado);
+           List<Lista> listas = query.getResultList();
+           List<DTOLista> DTOlistas = new ArrayList<>();
+           
+           
            
             for (Lista lis : listas){
-                if(lis.getEsPrivada()==false){
+               
                 DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
-                }
+                
             }
+           
             
             return DTOlistas;
            

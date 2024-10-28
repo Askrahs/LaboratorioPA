@@ -10,13 +10,31 @@ public class DTOLista {
     private DTOGenero genero;
     private DTOUsuario duenio;
     private List<DTOTema> temas;
+    private String duenioString;
+    private String nombregenero;
+    
+    //nombre ruta gene duenio
 
-    
-    
-    public DTOLista(String nombre, String rutaImagen, String generoOCreador) {
+    public DTOLista(String nombre, String rutaImagen, Boolean esPrivada, String genero, String duenioString) {
         this.nombre = nombre;
         this.rutaImagen = rutaImagen;
+        this.esPrivada = esPrivada;
+        this.nombregenero = genero;
+        this.duenioString = duenioString;
     }
+
+   
+    
+    
+    
+    
+    public DTOLista(String nombre, String rutaImagen, String artista) {
+        this.nombre = nombre;
+        this.rutaImagen = rutaImagen;
+        this.duenioString = artista;
+    }
+    
+    
 
     public DTOLista(String nombre, String rutaImagen) {
         this.nombre = nombre;
@@ -92,5 +110,21 @@ public class DTOLista {
 
     public void setTemas(List<DTOTema> temas) {
         this.temas = temas;
+    }
+    
+     public String getDuenioString() {
+        return duenioString;
+    }
+
+    public void setDuenioString(String duenioString) {
+        this.duenioString = duenioString;
+    }
+
+    public String getNombregenero() {
+        return nombregenero;
+    }
+
+    public void setNombregenero(String nombregenero) {
+        this.nombregenero = nombregenero;
     }
 }

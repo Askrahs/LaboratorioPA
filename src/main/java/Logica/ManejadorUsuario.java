@@ -1,7 +1,11 @@
 package Logica;
 
+import LogicaDTO.DTOAlbum;
+import LogicaDTO.DTOLista;
+import LogicaDTO.DTOTema;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 public class ManejadorUsuario {
 
@@ -230,6 +235,89 @@ public class ManejadorUsuario {
         }
     }
 
+    public List<DTOLista> obtenerListasCliDATA(String nickname) {
+   // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
+    String jpql = "SELECT li FROM Cliente c JOIN c.listasFavoritas li WHERE c.nickname = :nickname";
+    List<Lista> ListasFavoritos = em.createQuery(jpql, Lista.class)
+                                      .setParameter("nickname", nickname)
+                                      .getResultList();
+
+    // Inicializa la lista para almacenar los DTOs
+    List<DTOLista> listasDto = new ArrayList<>();
+
+    // Itera sobre los álbumes obtenidos
+    for (Lista lis : ListasFavoritos) {
+        // Obtiene los datos necesarios
+        String titulo = lis.getNombre();
+        Cliente cli = this.obtenerCliente(nickname);
+        
+        String rutaImagen = lis.getRutaImagen();
+         String artistaNickname;
+        if(cli!=null){
+         artistaNickname =  cli.getNombre();
+                }else{
+         artistaNickname ="Desconocido";
+        }
+        // Crea un nuevo DTOAlbum y lo agrega a la lista
+        listasDto.add(new DTOLista(titulo, rutaImagen, artistaNickname));
+    }
+    
+    return listasDto;
+    }
+
+
+    public List<DTOAlbum> obtenerAlbumsCliDATA(String clienteNickname) {
+    // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
+    String jpql = "SELECT af FROM Cliente c JOIN c.albumsFavoritos af JOIN af.artista a WHERE c.nickname = :nickname";
+    List<Album> albumsFavoritos = em.createQuery(jpql, Album.class)
+                                      .setParameter("nickname", clienteNickname)
+                                      .getResultList();
+
+    // Inicializa la lista para almacenar los DTOs
+    List<DTOAlbum> albumsDto = new ArrayList<>();
+
+    // Itera sobre los álbumes obtenidos
+    for (Album album : albumsFavoritos) {
+        // Obtiene los datos necesarios
+        String titulo = album.getTitulo();
+        int anio = album.getAnio();
+        String rutaImagen = album.getRutaImagen();
+        String artistaNickname = album.getArtista() != null ? album.getArtista().getNickname() : "Desconocido";
+
+        // Crea un nuevo DTOAlbum y lo agrega a la lista
+        albumsDto.add(new DTOAlbum(titulo, anio, rutaImagen, artistaNickname));
+    }
+
+    return albumsDto;
+}
+
+  public List<DTOTema> obtenerTemasCliDATA(String nickname) {
+    // JPQL para obtener los temas favoritos del cliente
+    String jpql = "SELECT t FROM Cliente c JOIN c.temasFavoritos t WHERE c.nickname = :nickname";
+    
+    // Ejecutar la consulta y obtener la lista de temas
+    List<Tema> nombreTemas = em.createQuery(jpql, Tema.class)
+                                .setParameter("nickname", nickname)
+                                .getResultList();
+
+    // Inicializa la lista para almacenar los DTOs
+    List<DTOTema> nombreTemasdto = new ArrayList<>(); // Asegúrate de inicializarla
+    String nombreAlbum;
+    String nombreartista;
+    // Itera sobre los temas obtenidos
+    for (Tema tem : nombreTemas) {
+        // Crea un nuevo DTOTema y lo agrega a la lista
+        nombreAlbum = tem.getAlbum().getTitulo();
+         nombreartista = tem.getAlbum().getArtista().getNickname();
+     
+        nombreTemasdto.add(new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(),nombreAlbum,nombreartista));
+    }
+
+    return nombreTemasdto; // Devuelve la lista de DTOs
+}
+
+
+    
     public List<String> obtenerListasCli(String nickname) {
         List<String> nombresListas;
         String jpql = "SELECT l.nombre FROM Cliente c JOIN c.listasFavoritas l WHERE c.nickname = :nickname";

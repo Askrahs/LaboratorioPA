@@ -232,7 +232,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                 ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
                 Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
                 jLabelImagen.setIcon(new ImageIcon(image));       
-                String carpetaDestino = "src/recursos/imagenes/";
+                String carpetaDestino = "./img/";
                 rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText()  + ".jpg";
                 File destino = new File(rutadestino);
                 File directorio = new File(carpetaDestino);

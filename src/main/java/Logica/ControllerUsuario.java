@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
     ControllerPersistencia cPersist = new ControllerPersistencia();
@@ -333,7 +334,31 @@ public class ControllerUsuario implements IControllerUsuario {
     throw new ElementoNoValidoException("El tema no está en los favoritos del cliente.");
     }
 }
-
+    @Override
+ public  List<DTOLista> ObtenerListasClienteDATA(String nickname){
+     ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+    
+        List<DTOLista> nombresListas = Mu.obtenerListasCliDATA(nickname);
+        
+        
+        
+        return nombresListas;
+ }
+    @Override
+    public  List<DTOAlbum> ObtenerAlbumsClienteDATA(String nickname){
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        List<DTOAlbum> nombresAlbums = Mu.obtenerAlbumsCliDATA(nickname);
+       
+        return nombresAlbums;
+    }
+    @Override
+    public  List<DTOTema> ObtenerTemasClienteDATA(String nickname){
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        
+        List<DTOTema> nombresTemas = Mu.obtenerTemasCliDATA(nickname);
+      
+        return nombresTemas;
+    }
     @Override
     public List<String> ObtenerListasCliente(String nickname) {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
@@ -405,10 +430,53 @@ public class ControllerUsuario implements IControllerUsuario {
             return cPersist.obtenerArtistasData();
     }
     
+    @Override
     public List<DTOCliente> obtenerClientesDATA(){
          return cPersist.obtenerClienteData();
     }
 
 
+     
+    @Override
+    public  DTOTema ObtenerElTemadelAlbumdelArtista(String nickname, String NombreAlbum ,String NombreTema) throws UsuarioNoExisteException, ArtistaSinAlbums{     ManejadorUsuario manu = ManejadorUsuario.getinstance();
+         ControllerMusica ctrlM = new ControllerMusica();
+         Artista art = manu.obtenerArtista(nickname);
+         if(art!=null){
+          Collection<Album> albums = art.getPublicados();
+                    if(!albums.isEmpty()){
+                        for(Album ali : albums){
+                            if(ali.getTitulo().equalsIgnoreCase(NombreAlbum)){
+                                List <DTOTema> tom = ctrlM.ObtengoTemasdeAlbum(NombreAlbum);
+                                if(!tom.isEmpty()){
+                                    for(DTOTema t:tom){
+                                        if(t.getNombre().equalsIgnoreCase(NombreTema)){
+                                            return t;
+                                        }
+                                                
+                                    }
+                                }else{
+                                    
+                                }
+                            }
+                        }
+                 
+             }else{
+                 throw new ArtistaSinAlbums("El atista no tiene albums.");
+             
+                    }
+                    
+                     
+         }else{
+              throw new UsuarioNoExisteException("El usuario no existe.");
+              
+         }
+         return null;
+     }
+
+    
+     
+     
+     
+ 
     
 }

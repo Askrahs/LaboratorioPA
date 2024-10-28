@@ -18,7 +18,13 @@ public class DTOAlbum {
         this.generos = generos;
         this.temas = temas;
     }
-
+    
+    public DTOAlbum(String titulo, int anio, String rutaImagen, String artista){
+        this.titulo = titulo;
+        this.anio = anio;
+        this.rutaImagen = rutaImagen;
+        this.artista = artista;
+}
     public String getTitulo() {
         return titulo;
     }

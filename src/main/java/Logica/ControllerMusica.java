@@ -4,6 +4,7 @@ import Excepciones.*;
 import java.util.List;
 import LogicaDTO.*;
 import Excepciones.GenroYaExiste;
+import Logica.ManejadorLista;
 import java.util.ArrayList;
 import Persistencia.*;
 import java.util.HashSet;
@@ -365,7 +366,60 @@ public class ControllerMusica implements IControllerMusica {
              return dtolista;          
         }
     
+    @Override
+    public  DTOLista ObtenerListaporTitulo(String nombrelista)throws NoExisteLista{
+            Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
+
+        // Verifica si la lista existe antes de intentar convertirla
+        if (lis != null) {
+        String nombre = lis.getNombre();
+           String rutaImagen = lis.getRutaImagen();
+
+          // Obtén el nickname del dueño, si existe
+             String duenioNickname = (lis.getDuenio() != null) ? lis.getDuenio().getNickname() : "Desconocido";
+
+         // Crea el DTOLista con los datos obtenidos de la lista
+             DTOLista pom = new DTOLista(nombre, rutaImagen, duenioNickname);
+              return pom;
+        } else {
+               // Manejo en caso de que no se encuentre la lista
+          throw new NoExisteLista("La lista no existe.");
+        
+}
+    }
+        
+       public DTOTema consultaTemaPorTituloYAlbum(String nombreTema, String nombreAlbum, String nombreArtista){
+       
+           String nombrEAlbum;
+           String nombreartista;
+            DTOTema tre = null;
+         
+           DTOAlbum alb = cPersist.BuscoAlbumartista(nombreAlbum, nombreArtista);
+            
+           List<Tema> temis = cPersist.ObtengotemaPorAlbum(alb.getTitulo());
+           
+           for(Tema te:temis){
+               if(te.getNombre().equalsIgnoreCase(nombreTema)){
+                 nombrEAlbum = te.getAlbum().getTitulo();
+                 
+         nombreartista = te.getAlbum().getArtista().getNickname();
+     
+       tre = new DTOTema(te.getNombre(), te.getDuracion(), te.getEnlace(),nombrEAlbum,nombreartista);
+               }
+           }
+           if(tre!=null){
+              
+               return tre;
+               
+           }else{
+               return null;
+           }
+    }
+
     
+            
+            
+            
     @Override
     public void aniadoTemaListaPublica(String nombrelista, String nombreteam,String nombrealb){
         
@@ -617,7 +671,16 @@ public class ControllerMusica implements IControllerMusica {
     
     }
    
+    @Override
+     public  List <DTOTema> TemasdeListasDTO(String nombrelista){
+         
+        ManejadorLista manlis = ManejadorLista.getInstance();
+
+        List <DTOTema> temos = manlis.temasdelalistadto(nombrelista);
     
+             return temos;          
+        }
+     
     @Override
     public List <DTOTema> TemasdeListas(String nombrelista){
  
@@ -670,6 +733,24 @@ public class ControllerMusica implements IControllerMusica {
              return dtotema;          
         }
  
+    
+    @Override
+     public  List<DTOTema> obtenerTemitasDATA(){
+         List<Tema> temas = cPersist.findTemitas();
+    List<DTOTema> dtoTemas = new ArrayList<>();
+    String nombreartista;
+    
+    
+    for (Tema t : temas) {
+        String nombralb = t.getAlbum().getTitulo();
+        nombreartista = t.getAlbum().getArtista().getNickname();
+        DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(),nombralb,nombreartista);
+        dtoTemas.add(dtoTema);
+    }
+    return dtoTemas;
+}
+     
+    
     @Override
     public List<DTOTema> obtenerTemitas() {
     List<Tema> temas = cPersist.findTemitas();
@@ -681,10 +762,35 @@ public class ControllerMusica implements IControllerMusica {
     }
     return dtoTemas;
 }
-    public void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste{
+  
 
+    @Override
+    public List<DTOLista> ObtengoListasPublicasDATA(){
+        ManejadorLista man = ManejadorLista.getInstance();
+        List<Lista> lista = man.todaslistaspublica();
+        List<DTOLista> dtolista = new ArrayList<>();
+        String nick;
+        for (Lista losta : lista) {
+             if (losta.getDuenio() == null) {
+                  // Valor predeterminado cuando no hay dueño
+                  nick = "Desconocido";
+             
+                } else {
+                
+                 nick = losta.getDuenio().getNickname();
+              }
+            
+            DTOLista datolista = new DTOLista(losta.getNombre(),losta.getRutaImagen(),nick);
+            dtolista.add(datolista);
+        }
+       
+    return dtolista;
     }
-
+    
+    
+    
+    
+    
     @Override
     public List<DTOLista> ObtengoListasPublicas() throws NoExisteLista {
         ManejadorLista man = ManejadorLista.getInstance();
@@ -882,6 +988,7 @@ public class ControllerMusica implements IControllerMusica {
         }
     }
     
+    @Override
     public  void aniadoTemaListaPublicaLista(String nombrelista,String nombreteam,String nombrealistadeltema){
        
         ManejadorLista manlis = ManejadorLista.getInstance();
@@ -950,6 +1057,7 @@ public class ControllerMusica implements IControllerMusica {
      public List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado){
          return cPersist.obtenerListaPorGeneroDATALISTA(generoSeleccionado);
      }
-    
-    
+
+  
+   
 }

@@ -1,5 +1,7 @@
 package Logica;
 
+import LogicaDTO.DTOTema;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -124,6 +126,42 @@ public class ManejadorLista {
             addLista(L);
         }
         
+        
+    public List<DTOTema> temasdelalistadto(String nombrelista) {
+    // Busca la lista por su nombre
+    Lista lis = this.ExisteLista(nombrelista);
+
+    // Si la lista no existe, devuelve null
+    if (lis == null) {
+        return null;
+    }
+
+    // Realiza la consulta para obtener los temas relacionados a la lista
+    List<Tema> temas = em.createQuery(
+     
+    "SELECT t FROM Lista l JOIN l.temas t WHERE l.nombre = :nombrelista", Tema.class)
+    .setParameter("nombrelista", nombrelista)
+    .getResultList();
+
+    // Crea una lista para almacenar los DTOTema
+    List<DTOTema> temasDTO = new ArrayList<>();
+
+ 
+    String nombreartista;
+    String nombrealbum;
+    // Convierte cada tema a DTOTema
+    for (Tema tema : temas) {
+        nombrealbum = tema.getAlbum().getTitulo();
+        nombreartista = tema.getAlbum().getArtista().getNickname();
+        
+        DTOTema dto = new DTOTema(tema.getNombre(), tema.getDuracion(), tema.getEnlace(),nombrealbum,nombreartista);//String nombre, String duracion, String enlace, int posicion
+        temasDTO.add(dto);
+    }
+
+    // Retorna la lista de DTOTema
+    return temasDTO;
+}
+
         
         public List<Tema> temasdelalista(String nombrelista){
             Lista lis = this.ExisteLista(nombrelista);

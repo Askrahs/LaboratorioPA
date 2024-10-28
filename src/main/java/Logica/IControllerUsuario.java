@@ -26,7 +26,6 @@ public interface IControllerUsuario {
     public abstract void agregarAlbumAFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
     public abstract void agregarListaAFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
     public abstract void agregarTemaAFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
-
     public abstract void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException;
     public abstract void eliminarListaDeFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException;
     public abstract void eliminarAlbumDeFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException;
@@ -42,4 +41,9 @@ public interface IControllerUsuario {
     public abstract void ModificarSuscripcion(String nickname, String fecha, String Estado, String Tipo);
     public abstract List<DTOArtista> obtenerArtistasData();
     public abstract List<DTOCliente> obtenerClientesDATA();
+    public abstract List<DTOLista> ObtenerListasClienteDATA(String nickname);
+    public abstract List<DTOAlbum> ObtenerAlbumsClienteDATA(String nickname);
+    public abstract List<DTOTema> ObtenerTemasClienteDATA(String nickname);
+    public abstract DTOTema ObtenerElTemadelAlbumdelArtista(String nickname, String NombreAlbum ,String NombreTema) throws UsuarioNoExisteException, ArtistaSinAlbums;
+   
 }

@@ -6,6 +6,16 @@ public class DTOTema {
     private String duracion;
     private String enlace;
     private int posicion;
+    private String album;
+    private String artista;
+
+    public String getArtista() {
+        return artista;
+    }
+
+    public void setArtista(String artista) {
+        this.artista = artista;
+    }
 
     public DTOTema(int id, String nombre, String duracion, String enlace, int posicion) {
         this.id=id;
@@ -20,6 +30,23 @@ public class DTOTema {
         this.enlace = enlace;
         this.posicion = posicion;
     }
+
+    public DTOTema(String nombre, String duracion, String enlace, String album, String artista) {
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.enlace = enlace;
+        this.album = album;
+        this.artista = artista;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+   
 
     public String getNombre() {
         return nombre;
