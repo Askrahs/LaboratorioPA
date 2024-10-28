@@ -172,7 +172,7 @@ public class AlbumJpaController {
         EntityManager em = getEntityManager();
     try {
         // Crear la consulta JPQL con JOIN FETCH para cargar los datos asociados
-        String jpql = "SELECT a FROM Album a " +
+        String jpql = "SELECT DISTINCT a FROM Album a " +
                       "JOIN FETCH a.artista ar " +       // Cargar al artista
                       "LEFT JOIN FETCH a.generos g " +   // Cargar los géneros
                       "LEFT JOIN FETCH a.temas t";       // Cargar los temas

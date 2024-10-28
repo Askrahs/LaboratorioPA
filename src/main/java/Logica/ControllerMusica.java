@@ -231,7 +231,7 @@ public class ControllerMusica implements IControllerMusica {
     public DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado) {
         Album a = cPersist.consultaAlbumPorTitulo(albumSeleccionado);
         Set<String> generosString = new HashSet<>();
-        Set<DTOTema> tDTO = new HashSet<>();
+        Set<DTOTema> tDTO = new HashSet<>();     
         for (Genero gen : a.getGeneros()) {
             generosString.add(gen.getNombre());
         }
@@ -1032,8 +1032,8 @@ public class ControllerMusica implements IControllerMusica {
             }else{
             JOptionPane.showMessageDialog(null,"La lista no existe");
             }
-        }  
-    } 
+        } 
+    }
 
     @Override
     public List<String> obtenerNombresGeneros() {
