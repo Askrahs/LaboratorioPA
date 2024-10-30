@@ -368,11 +368,16 @@ public class AltaUsuario extends javax.swing.JFrame {
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
 
-            String ruta = null;
+            String carpetaDestino = null;
             //RUTA IMAGEN 
             if (archivoSeleccionado != null) {
-                 ruta = "FotoUsr_" + nombre + ".jpg";
-                File destino = new File(ruta);
+                carpetaDestino = "src/recursos/imagenes/";
+                rutaDestino = carpetaDestino + "FotoUsr_" + nick + ".jpg";
+                File destino = new File(rutaDestino);
+                File directorio = new File(carpetaDestino);
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }       
                 try {
                     Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException ex) {
@@ -387,7 +392,7 @@ public class AltaUsuario extends javax.swing.JFrame {
                 String web = txtWebsite.getText();
                 
                 try {
-                    ctrlU.registrarArtista(nick, nombre, apellido, email, ruta, fecha, siguiendo, seguidores, bio, web, contraseña);
+                    ctrlU.registrarArtista(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores, bio, web, contraseña);
                     limpiar();
                     JOptionPane.showMessageDialog(this, "El Artista se ha creado con éxito", "Registrar Artista", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR
@@ -399,7 +404,7 @@ public class AltaUsuario extends javax.swing.JFrame {
                 //datos clientes
                 
                 try {
-                    ctrlU.registrarCliente(nick, nombre, apellido, email, ruta, fecha, siguiendo, seguidores, contraseña);
+                    ctrlU.registrarCliente(nick, nombre, apellido, email, rutaDestino, fecha, siguiendo, seguidores, contraseña);
                     limpiar();
                     JOptionPane.showMessageDialog(this, "El Cliente se ha creado con éxito", "Registrar Cliente", JOptionPane.INFORMATION_MESSAGE);
                 } catch (UsuarioYaExisteException ex) { //MENSAJE DE ERROR

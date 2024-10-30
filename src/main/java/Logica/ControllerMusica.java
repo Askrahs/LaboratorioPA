@@ -153,29 +153,27 @@ public class ControllerMusica implements IControllerMusica {
         ManejadorUsuario usrman = ManejadorUsuario.getinstance();
         // ( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario
         // duenio)
-        // JOptionPane.showMessageDialog(null,"Nombre ingresado: "+nombre);
         Lista los = ml.ExisteLista(nombre);
 
         if (los == null) {// si existe lista
 
             if (genero.isEmpty()) {
-
-                if (usrman.obtenerUsuario(duenio) != null) {// si usuario existe
-
+                             if (usrman.obtenerCliente(nombre) != null) {// si usuario existe
+                     
                     ml.creolista(nombre, genero, duenio, ruta, privada);
 
                 }
             } else {
                 Genero gen = mangen.Existegenbasedatoss(genero);
                 if (gen != null) { // si es false existe
-
+   
                     ml.creolista(nombre, genero, duenio, ruta, privada);
                 } else {
                     JOptionPane.showMessageDialog(null, "Genero no existe");
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Lista ya existe");
+            throw new ListaYaExisteException("La Lista ya existe");
         }
     }
 
@@ -230,18 +228,22 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado) {
         Album a = cPersist.consultaAlbumPorTitulo(albumSeleccionado);
-        Set<String> generosString = new HashSet<>();
-        Set<DTOTema> tDTO = new HashSet<>();     
-        for (Genero gen : a.getGeneros()) {
-            generosString.add(gen.getNombre());
+        if (a != null) {
+            Set<String> generosString = new HashSet<>();
+            Set<DTOTema> tDTO = new HashSet<>();
+            for (Genero gen : a.getGeneros()) {
+                generosString.add(gen.getNombre());
+            }
+            for (Tema tem : a.getTemas()) {
+                DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+                tDTO.add(nuevoTDTO);
+            }
+            DTOAlbum aDTO = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(),
+                    generosString, tDTO);
+            return aDTO;
+        } else {
+            return null;
         }
-        for (Tema tem : a.getTemas()) {
-            DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
-            tDTO.add(nuevoTDTO);
-        }
-        DTOAlbum aDTO = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(),
-                generosString, tDTO);
-        return aDTO;
     }
 
     @Override
