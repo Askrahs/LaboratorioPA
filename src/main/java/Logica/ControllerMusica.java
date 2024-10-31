@@ -230,18 +230,22 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado) {
         Album a = cPersist.consultaAlbumPorTitulo(albumSeleccionado);
-        Set<String> generosString = new HashSet<>();
-        Set<DTOTema> tDTO = new HashSet<>();     
-        for (Genero gen : a.getGeneros()) {
-            generosString.add(gen.getNombre());
+        if (a != null) {
+            Set<String> generosString = new HashSet<>();
+            Set<DTOTema> tDTO = new HashSet<>();
+            for (Genero gen : a.getGeneros()) {
+                generosString.add(gen.getNombre());
+            }
+            for (Tema tem : a.getTemas()) {
+                DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+                tDTO.add(nuevoTDTO);
+            }
+            DTOAlbum aDTO = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(),
+                    generosString, tDTO);
+            return aDTO;
+        } else {
+            return null;
         }
-        for (Tema tem : a.getTemas()) {
-            DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
-            tDTO.add(nuevoTDTO);
-        }
-        DTOAlbum aDTO = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(),
-                generosString, tDTO);
-        return aDTO;
     }
 
     @Override
