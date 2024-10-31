@@ -97,7 +97,7 @@ public class ManejadorLista {
         t.begin();
         em.merge(lis);
         t.commit();
-        JOptionPane.showMessageDialog(null, "Tema añadido con exito a la lista");
+        
     }
 
     public List<Lista> todaslistas() {
@@ -194,62 +194,73 @@ public class ManejadorLista {
             t.rollback();
         }
     }
-    
+
     public List<DTOLista> buscarListas(String query) {
 
         List<DTOLista> DTOl = new ArrayList<>();
         String dueño = null;
         String genero = null;
-        
-        List<Lista> listas =em.createQuery("SELECT l FROM Lista l LEFT JOIN l.genero g WHERE l.nombre LIKE :query OR g.nombre LIKE :query ", Lista.class)
-        .setParameter("query", "%" + query + "%").getResultList();
-        
+
+        List<Lista> listas = em.createQuery("SELECT l FROM Lista l LEFT JOIN l.genero g WHERE l.nombre LIKE :query OR g.nombre LIKE :query ", Lista.class)
+                .setParameter("query", "%" + query + "%").getResultList();
+
         for (Lista l : listas) {
             //controles por si son listas publicas o por defecto.
-            if (l.getDuenio() != null){ dueño = l.getDuenio().getNickname(); }
-            if (l.getGenero() != null){ genero = l.getGenero().toString(); }
-            
-            DTOLista listadto = new DTOLista(l.getNombre(),l.getRutaImagen(), l.getEsPrivada() ,genero,dueño);
+            if (l.getDuenio() != null) {
+                dueño = l.getDuenio().getNickname();
+            }
+            if (l.getGenero() != null) {
+                genero = l.getGenero().toString();
+            }
+
+            DTOLista listadto = new DTOLista(l.getNombre(), l.getRutaImagen(), l.getEsPrivada(), genero, dueño);
             DTOl.add(listadto);
         }
         return DTOl;
     }
-    
+
     public List<DTOAlbum> buscarAlbums(String query) {
         List<DTOAlbum> DTOa = new ArrayList<>();
-        
+
         List<Album> albums = em.createQuery("SELECT a FROM Album a WHERE a.titulo LIKE :query", Album.class)
                 .setParameter("query", "%" + query + "%")
                 .getResultList();
-       
+
         for (Album a : albums) {
             Set<Genero> g = a.getGeneros();
             Set<String> generos = new HashSet<>();
             for (Genero genero : g) {
-                if (g != null){
+                if (g != null) {
                     generos.add(genero.getNombre());
                 }
             }
-            
+
             DTOAlbum albumdto = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(), generos, null);
             DTOa.add(albumdto);
         }
         return DTOa;
     }
-    
+
     public List<DTOTema> buscarTemas(String query) {
         List<DTOTema> DTOt = new ArrayList<>();
-        
+
         List<Tema> temas = em.createQuery("SELECT t FROM Tema t WHERE t.nombre LIKE :query", Tema.class)
                 .setParameter("query", "%" + query + "%")
                 .getResultList();
-        
+
         for (Tema t : temas) {
             DTOTema temadto = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), 0);
-            DTOt.add(temadto); 
+            DTOt.add(temadto);
         }
-        
+
         return DTOt;
     }
-    
+
+    public String obtengoAlbumDelTema(String nombreTema) {
+        Tema tema = em.createQuery("SELECT t FROM Tema t WHERE t.nombre = :nombreTema", Tema.class)
+                .setParameter("nombreTema", nombreTema)
+                .getSingleResult();
+        return tema.getAlbum().getTitulo();
+    }
+
 }

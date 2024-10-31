@@ -433,7 +433,7 @@ public class ControllerMusica implements IControllerMusica {
                     }
                 }
                 if (!tem.getNombre().equals(nombreteam)) {
-                    JOptionPane.showMessageDialog(null, "El Tema no existe");
+                    
                     return;
                 }
                 List<Tema> temalis = manlis.temasdelalista(nombrelista);
@@ -442,7 +442,7 @@ public class ControllerMusica implements IControllerMusica {
                 for (int i = 0; i < temalis.size(); i++) {
                     tom = temalis.get(i);
                     if (tom.getId() == tem.getId()) {
-                        JOptionPane.showMessageDialog(null, "El Tema ya existe");
+                        
                         return;
                     }
                 }
@@ -458,10 +458,10 @@ public class ControllerMusica implements IControllerMusica {
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "La lista es privada");
+                
             }
         } else {
-            JOptionPane.showMessageDialog(null, "El album no existe");
+            
         }
 
     }
