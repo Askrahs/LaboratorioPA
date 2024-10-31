@@ -146,36 +146,49 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     // A la espera de la otra parte del codigo
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada)
-            throws ListaYaExisteException {
+        throws ListaYaExisteException, GeneroNoExiste{
 
-        ManejadorLista ml = ManejadorLista.getInstance();
-        ManejadorGenero mangen = ManejadorGenero.getInstance();
-        ManejadorUsuario usrman = ManejadorUsuario.getinstance();
-        // ( String nombre, String rutaImagen, Boolean estado, Genero genero, Usuario
-        // duenio)
-        Lista los = ml.ExisteLista(nombre);
+    ManejadorLista ml = ManejadorLista.getInstance();
+    ManejadorGenero mangen = ManejadorGenero.getInstance();
+    ManejadorUsuario usrman = ManejadorUsuario.getinstance();
 
-        if (los == null) {// si existe lista
+    Lista los = ml.ExisteLista(nombre);
+    JOptionPane.showMessageDialog(null, "Ruta de la imagen: " + ruta);
 
-            if (genero.isEmpty()) {
-                             if (usrman.obtenerCliente(nombre) != null) {// si usuario existe
+    // Verificar si la lista ya existe
+    if (los == null) {
+        
+        // Verificar que el usuario existe
+        if (usrman.obtenerCliente(duenio) != null) {
+            
+           
+
+            // Crear la lista pasando `ruta`, que puede ser null si no se cargó una imagen
+            ml.creolista(nombre, genero, duenio, ruta, privada);
+
+            JOptionPane.showMessageDialog(null, "Lista creada con éxito");
+        } else {
+            Genero gen = null;
+
+            // Verificar que el género existe si se especificó uno
+            if (!genero.isEmpty()) {
+                gen = mangen.Existegenbasedatoss(genero);
+                if (gen == null) {
+                     throw new GeneroNoExiste("El Genero no existe.");
                      
+                }else{
                     ml.creolista(nombre, genero, duenio, ruta, privada);
 
-                }
-            } else {
-                Genero gen = mangen.Existegenbasedatoss(genero);
-                if (gen != null) { // si es false existe
-   
-                    ml.creolista(nombre, genero, duenio, ruta, privada);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Genero no existe");
+                    JOptionPane.showMessageDialog(null, "Lista creada con éxito"); 
+                   
                 }
             }
-        } else {
-            throw new ListaYaExisteException("La Lista ya existe");
+            
         }
+    } else {
+        throw new ListaYaExisteException("La Lista ya existe");
     }
+}
 
     @Override
     public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException,
