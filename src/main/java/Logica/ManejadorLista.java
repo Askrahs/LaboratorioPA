@@ -118,7 +118,6 @@ public class ManejadorLista {
 
     //(nombre, genero, duenio,ruta,privada)
     public void creolista(String nombre, String genero, String duenio, String ruta, boolean privada) {
-        JOptionPane.showMessageDialog(null,"LLEGUE AL CREOLISTA");
         ManejadorGenero mang = ManejadorGenero.getInstance();
         ManejadorUsuario manu = ManejadorUsuario.getinstance();
         Genero g = mang.Existegenbasedatoss(genero);
@@ -175,7 +174,6 @@ public class ManejadorLista {
             em.merge(lis);  // Actualizar la lista
             t.commit();
         }
-        JOptionPane.showMessageDialog(null, "Tema Removido con exito a la lista");
     }
 
     public void publicolista(boolean Privada, Lista lista) {
@@ -197,7 +195,7 @@ public class ManejadorLista {
         String dueño = null;
         String genero = null;
         
-        List<Lista> listas =em.createQuery("SELECT l FROM Lista l WHERE l.nombre LIKE :query", Lista.class)
+        List<Lista> listas =em.createQuery("SELECT l FROM Lista l LEFT JOIN l.genero g WHERE l.nombre LIKE :query OR g.nombre LIKE :query ", Lista.class)
         .setParameter("query", "%" + query + "%").getResultList();
         
         for (Lista l : listas) {
