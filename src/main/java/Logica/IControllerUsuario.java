@@ -48,4 +48,5 @@ public interface IControllerUsuario {
     public abstract void CrearSuscripcion(String nickname,String Tipo);
     public abstract DTOArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException;
     public abstract DTOCliente ObtenerClienteDTO(String nickname) throws UsuarioNoExisteException;
+    public abstract boolean usuarioSigueA(String seguidor, String seguido);
 }

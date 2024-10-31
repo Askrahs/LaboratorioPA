@@ -514,4 +514,13 @@ public class ControllerUsuario implements IControllerUsuario {
          }
          return null;
      }
+    
+    @Override
+        public boolean usuarioSigueA(String seguidor, String seguido){
+            ManejadorUsuario mu = ManejadorUsuario.getinstance();
+            Cliente cli = mu.obtenerCliente(seguidor);
+            Collection<Usuario> siguiendo = cli.getSiguiendo();
+            Usuario user = mu.obtenerUsuario(seguido);
+        return siguiendo.contains(user);
+        }
 }
