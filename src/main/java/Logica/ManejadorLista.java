@@ -34,17 +34,23 @@ public class ManejadorLista {
         return instancia;
     }
 
-    public void addLista(Lista lista) {
-        try {
-            t.begin();
-            em.persist(lista);
-            t.commit();
-        } catch (Exception e) {
-            if (t != null && t.isActive()) {
-                t.rollback(); // Asegurarte de hacer rollback solo si la transacción está activa
-            }
+   public void addLista(Lista lista) {
+    EntityTransaction transaction = em.getTransaction();
+    try {
+        transaction.begin();
+        em.persist(lista);
+        transaction.commit();
+    } catch (Exception e) {
+        if (transaction.isActive()) {
+            transaction.rollback();  // Asegura el rollback solo si la transacción está activa
+        }
+        e.printStackTrace();  // Para ver cualquier error que pueda estar ocurriendo
+    } finally {
+        if (em.isOpen()) {
+            em.clear();  // Limpia el contexto para evitar retener un estado intermedio no deseado
         }
     }
+}
 
     public Lista ExisteLista(String nombrelista) {
 

@@ -1,6 +1,7 @@
 package Presentacion;
 
 
+import Excepciones.GeneroNoExiste;
 import Excepciones.ListaYaExisteException;
 import Logica.IControllerMusica;
 import java.awt.Image;
@@ -63,7 +64,11 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         jToggleButtonAceptar.setText("Aceptar");
         jToggleButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButtonAceptarActionPerformed(evt);
+                try {
+                    jToggleButtonAceptarActionPerformed(evt);
+                } catch (GeneroNoExiste ex) {
+                    Logger.getLogger(AltaListaReproduccion.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -200,7 +205,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_jCheckBoxPrivadaActionPerformed
 
-    private void jToggleButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAceptarActionPerformed
+    private void jToggleButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) throws GeneroNoExiste {//GEN-FIRST:event_jToggleButtonAceptarActionPerformed
     String nombre = this.jTextFieldNombreLista.getText().trim();
     String genero = this.jTextFieldGenero.getText().trim();
     String duenio = this.jTextFieldDuenio.getText().trim();
@@ -306,10 +311,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
         return true;
     }
 
-    // Permite borrar el contenido de un formulario antes de cerrarlo.
-    // Recordar que las ventanas no se destruyen, sino que simplemente 
-    // se ocultan, por lo que conviene borrar la información para que 
-    // no aparezca al mostrarlas nuevamente.
+
     private void limpiarFormulario() {
     jTextFieldNombreLista.setText("");
     jTextFieldGenero.setText("");
