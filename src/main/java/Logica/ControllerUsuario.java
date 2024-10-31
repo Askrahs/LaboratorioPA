@@ -523,4 +523,5 @@ public class ControllerUsuario implements IControllerUsuario {
             Usuario user = mu.obtenerUsuario(seguido);
         return siguiendo.contains(user);
         }
+        
 }
