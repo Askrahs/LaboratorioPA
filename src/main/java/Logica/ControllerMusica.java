@@ -1135,4 +1135,11 @@ public class ControllerMusica implements IControllerMusica {
             throws UsuariosNoExisten, ListaNoexisteException, NoesDueñodelaLista, TemaNoExiste {
 
     }
+    
+    
+    @Override
+    public List<DTOLista> obtenerListaPorCliPRIVADAS(String Cliente){
+        return cPersist.obtenerListaPorClientePRIVADAS(Cliente);
+        
+    }
 }

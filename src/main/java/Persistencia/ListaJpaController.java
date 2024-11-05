@@ -249,4 +249,31 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
         }
     }
     
+    public List<DTOLista> findListaPorClientePRIVADAS(String clienteSeleccionado) {
+  
+        EntityManager em = getEntityManager();
+        em.clear();
+        try {
+           TypedQuery<Lista> query = em.createQuery(
+               "SELECT l FROM Lista l WHERE  l.esPrivada = 1 and l.duenio.nickname = :nombre", Lista.class);
+           query.setParameter("nombre", clienteSeleccionado);
+           List<Lista> listas = query.getResultList();
+           List<DTOLista> DTOlistas = new ArrayList<>();
+           
+           
+           
+            for (Lista lis : listas){
+               
+                DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
+                
+            }
+           
+            
+            return DTOlistas;
+           
+        } finally {
+            em.close();
+        }
+    }
+    
 }

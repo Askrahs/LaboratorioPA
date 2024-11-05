@@ -175,4 +175,8 @@ public class ControllerPersistencia {
         return listJpa.findListaPorClientePriv(clienteSeleccionado);
     }
     
+    public List<DTOLista> obtenerListaPorClientePRIVADAS(String clienteSeleccionado) {
+        return listJpa.findListaPorClientePRIVADAS(clienteSeleccionado);
+    }
+    
 }
