@@ -184,7 +184,6 @@ public class ManejadorLista {
 
     public void publicolista(boolean Privada, Lista lista) {
         lista.setEsPrivada(Privada);
-        lista.removeDuenio();
         try {
             t.begin();
             em.merge(lista);
