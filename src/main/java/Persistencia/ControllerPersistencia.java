@@ -175,4 +175,7 @@ public class ControllerPersistencia {
         return listJpa.findListaPorClientePriv(clienteSeleccionado);
     }
     
+    public List<String> findArtistasBorrados(){
+        return artJpa.findArtistasBorrados();
+    }
 }

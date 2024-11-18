@@ -8,9 +8,18 @@ public class DTOTema implements Serializable{
     private String nombre;
     private String duracion;
     private String enlace;
+    private String archivo;
     private int posicion;
     private String album;
     private String artista;
+
+    public String getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(String archivo) {
+        this.archivo = archivo;
+    }
 
     public String getArtista() {
         return artista;
@@ -20,14 +29,23 @@ public class DTOTema implements Serializable{
         this.artista = artista;
     }
 
-    public DTOTema(int id, String nombre, String duracion, String enlace, int posicion) {
+    public DTOTema(int id, String nombre, String duracion, String enlace, String archivo, int posicion) {
         this.id=id;
         this.nombre = nombre;
         this.duracion = duracion;
         this.enlace = enlace;
         this.posicion = posicion;
+        this.archivo = archivo;
     }
     
+        public DTOTema(String nombre, String duracion, String enlace, String archivo, int posicion) {
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.enlace = enlace;
+        this.posicion = posicion;
+        this.archivo = archivo;
+    }
+        
     public DTOTema(String nombre, String duracion, String enlace, int posicion) {
         this.nombre = nombre;
         this.duracion = duracion;
