@@ -8,6 +8,8 @@ import javax.persistence.OneToMany;
 public class Artista extends Usuario{
     private String biografia;
     private String webSite;
+    private boolean activo;
+    private String fechaEliminacion;
     
     @OneToMany(mappedBy = "artista")
     protected Collection<Album> publicados; 
@@ -15,11 +17,30 @@ public class Artista extends Usuario{
     public  Artista(){
     }
 
-    public Artista(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String webSite,String contraseña) {
+    public Artista(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String webSite,String contraseña,boolean activo) {
         super(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores, contraseña);
         this.biografia = biografia;
         this.webSite = webSite;
+        this.activo = activo;
+        this.fechaEliminacion = null;
     }
+
+    public String getFechaEliminacion() {
+        return fechaEliminacion;
+    }
+
+    public void setFechaEliminacion(String fechaEliminacion) {
+        this.fechaEliminacion = fechaEliminacion;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
     public String getBiografia() {
         return biografia;
     }

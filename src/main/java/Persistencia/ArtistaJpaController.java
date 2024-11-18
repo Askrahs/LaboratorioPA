@@ -35,8 +35,6 @@ public class ArtistaJpaController {
         }
     }
     
- 
-    
 public List<Artista> findAllArtistaData() {
         EntityManager em = getEntityManager();
         try {
@@ -63,4 +61,15 @@ public List<Artista> findAllArtistaData() {
             em.close();
         }
     }
+    
+    public List<String> findArtistasBorrados() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<String> query = em.createQuery("SELECT a.nickname FROM Artista a WHERE a.activo = false", String.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+        
 }

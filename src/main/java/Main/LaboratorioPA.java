@@ -31,7 +31,7 @@ public class LaboratorioPA {
     private PublicarLista PblLista;
     private ConsultaListadeReproduccion ConList;
     private EliminarTemaListaAlbum EliTemLisAlb;    
-    
+    private BajaArtista BajaArt;  
     private EditarSuscripcion EditarSus;
 
     public static void main(String[] args) {
@@ -62,15 +62,12 @@ public class LaboratorioPA {
         DejUsr = new Presentacion.DejarDeSeguirUsuario(ctrlU, principal);
         SegUsr.setVisible(false);
         
-        
-        
         ConCli = new Presentacion.ConsultaCliente(ctrlU, principal);
         ConCli.setVisible(false);
         AgrTemLisAlb = new Presentacion.AgregarTemaListaÁlbum(ctrlM,ctrlU,principal);
         AgrTemLisAlb.setVisible(false);
         EliTemLisAlb = new Presentacion.EliminarTemaListaAlbum(ctrlM, ctrlU, principal);
-        EliTemLisAlb.setVisible(false);
-        
+        EliTemLisAlb.setVisible(false);     
         
         ConList = new Presentacion.ConsultaListadeReproduccion(ctrlU, ctrlM, principal);
         ConList.setVisible(false);
@@ -92,6 +89,8 @@ public class LaboratorioPA {
         TiposAniaTemList.setVisible(false);
         
         //principal.getContentPane().add(AU);   //SI ES UN JINTERNALFRAME.   
+        BajaArt = new Presentacion.BajaArtista(ctrlU,ctrlM,principal);
+        BajaArt.setVisible(false);
     }
 
     public void iniciar() {
@@ -225,6 +224,18 @@ public class LaboratorioPA {
         });
         menuUsuarios.add(menuItemEditarSuscripcion);
         
+        //Suscripcion
+        JMenuItem menuItemBajaArtista = new JMenuItem("Consulta Artistas Dados de Baja");
+        menuItemBajaArtista.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                //suscripcion
+                BajaArt = new Presentacion.BajaArtista(ctrlU, ctrlM, principal);              
+                principal.setVisible(false);               
+                BajaArt.setVisible(true);               
+            }
+        });
+        menuUsuarios.add(menuItemBajaArtista);
         
         //Opcion submenu Album
         JMenu menuAlbum = new JMenu("Albums");

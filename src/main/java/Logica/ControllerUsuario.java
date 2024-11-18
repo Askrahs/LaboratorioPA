@@ -524,4 +524,8 @@ public class ControllerUsuario implements IControllerUsuario {
         return siguiendo.contains(user);
         }
         
+        @Override
+        public List<String> obtenerNickArtistasBorrados(){
+            return cPersist.findArtistasBorrados();
+        }
 }

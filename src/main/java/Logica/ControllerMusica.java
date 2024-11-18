@@ -131,7 +131,7 @@ public class ControllerMusica implements IControllerMusica {
         Album alb = new Album(art, albumDTO.getTitulo(), generosAlb, albumDTO.getAnio(), null,
                 albumDTO.getRutaImagen());
         for (DTOTema dtoTema : temas) {
-            Tema nuevoTema = new Tema(dtoTema.getNombre(), dtoTema.getDuracion(), dtoTema.getEnlace(),
+            Tema nuevoTema = new Tema(dtoTema.getNombre(), dtoTema.getDuracion(), dtoTema.getEnlace(), dtoTema.getArchivo(),
                     dtoTema.getPosicion(), alb);
             temasAlb.add(nuevoTema);
         }
@@ -673,7 +673,7 @@ public class ControllerMusica implements IControllerMusica {
 
         for (int i = 0; i < temos.size(); i++) {
             tem = temos.get(i);
-            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(),
+            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getArchivo(),
                     tem.getPosicion());
             dtotema.add(datotemo);
         }
