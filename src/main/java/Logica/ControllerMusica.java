@@ -75,26 +75,7 @@ public class ControllerMusica implements IControllerMusica {
         }
     }
 
-    @Override
-    public void ModificoPadre(String nombrenodo, String nombrepadrenuevo) {
-        ManejadorGenero man = ManejadorGenero.getInstance();
-        JOptionPane.showMessageDialog(null, "llegue0");
-        if (man.EncuentroGenerobool(nombrepadrenuevo) != true) {
-            JOptionPane.showMessageDialog(null, "llegue1");
-            if (man.EncuentroGenerobool(nombrenodo) != true) {
-                JOptionPane.showMessageDialog(null, "llegue2");
-                DefaultMutableTreeNode nod = man.EncuentroGenero(nombrenodo);
-                DefaultMutableTreeNode nodpapi = man.EncuentroGenero(nombrepadrenuevo);
-                man.lepongopadre(nod, nodpapi);
-            }
-        } else {
-            try {
-                throw new GenroYaExiste("El Genero " + nombrepadrenuevo + " no esta ingresado");
-            } catch (GenroYaExiste ex) {
-                Logger.getLogger(ControllerMusica.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+   
 
     @Override
     public DefaultMutableTreeNode DameTodoslosgeneros() {
@@ -1135,4 +1116,77 @@ public class ControllerMusica implements IControllerMusica {
             throws UsuariosNoExisten, ListaNoexisteException, NoesDueñodelaLista, TemaNoExiste {
 
     }
+    
+    
+    public  boolean existeGenero(String genero){
+        ManejadorGenero manG = ManejadorGenero.getInstance();
+        
+       Genero g = manG.Existegenbasedatoss(genero);
+        
+       if ( g ==null ){
+           return false;
+       }else{
+           return true;
+       }
+    }
+    
+    
+    public boolean obtenerPadre(String nombreGenero){
+        ManejadorGenero manG = ManejadorGenero.getInstance();
+        
+        Genero gun = manG.Existegenbasedatoss(nombreGenero);
+        
+        if (gun == null){
+            return false;
+        }
+        return true;
+        
+        
+    }
+       public  boolean espublicasiono(String nombreUsuario, String NombreLista){
+           ManejadorUsuario usrM = ManejadorUsuario.getinstance();
+           
+          Cliente cli = usrM.obtenerCliente(nombreUsuario);
+          
+          if(cli!=null){
+              
+              ManejadorLista manL = ManejadorLista.getInstance();
+              Lista lis = manL.ExisteLista(NombreLista);
+              if(lis!=null){
+              if(lis.getEsPrivada()==true){
+                  return true;
+          }else{
+                System.out.println("NO ES PUBLICA");
+                 return false;
+          }
+           
+       }else{
+                System.out.println("NO EXISTE LISTA");
+                 return false;
+          }
+          
+    }else{
+               System.out.println("NO EXISTE USUARIO");
+        return false;
+          }
+       }
+       
+       public boolean sumaDescarga(DTOTema t){
+           
+           
+           List<Tema> temos = cPersist.findTemitas();
+           
+           for(Tema tem : temos){
+               if(tem.getNombre().equalsIgnoreCase(t.getNombre())&&tem.getAlbum().getTitulo().equalsIgnoreCase(t.getAlbum())){
+                   
+                    return cPersist.sumaDescarga(tem);
+               }
+           }
+           
+          
+          return false;
+       }
+       
+       
+       
 }

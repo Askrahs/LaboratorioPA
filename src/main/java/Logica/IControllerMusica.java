@@ -11,7 +11,6 @@ public interface IControllerMusica {
     public abstract void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada)throws ListaYaExisteException, GeneroNoExiste;
     public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException, ListaNoexisteException, OperacionNoPermitidaException, ListaYaEsPublicaException;
     //public abstract void AgregarTemaLista(String nombreusuario,String nombrelista, String nombretema)throws UsuariosNoExisten, ListaNoexisteException,NoesDueñodelaLista, TemaNoExiste;
-    public abstract void ModificoPadre(String nombrenodo, String nombrepadrenuevo);
     public abstract DefaultMutableTreeNode DameTodoslosgeneros();
     public abstract void EliminoGenero(String nombregen);
     public abstract List<String> obtenerAlbumsPorGenero(String generoSeleccionado);
@@ -56,4 +55,9 @@ public interface IControllerMusica {
     public abstract boolean albumEsDeXGenero(String albumTitulo, String artistaNickname, String generoNombre);
     public abstract List<DTOTema> temasDelAlbum(String titulo);
     public abstract List<String> ObtengolistasClipriv(String nickcli)throws NoExisteLista;
+    public abstract boolean existeGenero(String genero);
+    public abstract boolean obtenerPadre(String nombreGenero);
+    public abstract boolean espublicasiono(String nombreUsuario, String NombreLista);
+    public abstract boolean sumaDescarga(DTOTema t);
+    
 }

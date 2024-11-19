@@ -175,4 +175,9 @@ public class ControllerPersistencia {
         return listJpa.findListaPorClientePriv(clienteSeleccionado);
     }
     
+    public boolean sumaDescarga(Tema t){
+        return temJpa.sumoDescarga(t);
+    }
+           
+    
 }
