@@ -74,7 +74,7 @@ public class LaboratorioPA {
         
         ConList = new Presentacion.ConsultaListadeReproduccion(ctrlU, ctrlM, principal);
         ConList.setVisible(false);
-        PblLista = new Presentacion.PublicarLista(ctrlM, principal);
+        PblLista = new Presentacion.PublicarLista(ctrlM, principal, ctrlU);
         PblLista.setVisible(false);
         AltAlb = new Presentacion.AltaAlbum(ctrlM, principal);
         AltAlb.setVisible(false);
