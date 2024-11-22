@@ -201,4 +201,8 @@ public class ControllerPersistencia {
         listJpa.darDeBajaTemasDeLista(albumIds);
     }
 
+    public boolean temaValido(Tema t) {
+        return temJpa.temaValido(t);
+    }
+
 }

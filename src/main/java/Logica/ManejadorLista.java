@@ -20,6 +20,8 @@ public class ManejadorLista {
     private EntityManagerFactory emf;
     private EntityManager em;
     private EntityTransaction t;
+    private IControllerUsuario ctrlU = new ControllerUsuario();
+    private IControllerMusica ctrlM = new ControllerMusica();
 
     public ManejadorLista() {
         emf = Persistence.createEntityManagerFactory("EspotifyBD");
@@ -226,16 +228,18 @@ public class ManejadorLista {
                 .getResultList();
 
         for (Album a : albums) {
-            Set<Genero> g = a.getGeneros();
-            Set<String> generos = new HashSet<>();
-            for (Genero genero : g) {
-                if (g != null) {
-                    generos.add(genero.getNombre());
-                }
-            }
+                if(ctrlU.artistaActivo(a.getArtista().getNickname())){
+                    Set<Genero> g = a.getGeneros();
+                    Set<String> generos = new HashSet<>();
+                    for (Genero genero : g) {
+                        if (g != null) {
+                            generos.add(genero.getNombre());
+                        }
+                    }
 
-            DTOAlbum albumdto = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(), generos, null);
-            DTOa.add(albumdto);
+                    DTOAlbum albumdto = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(), generos, null);
+                    DTOa.add(albumdto);
+            }
         }
         return DTOa;
     }
@@ -248,8 +252,10 @@ public class ManejadorLista {
                 .getResultList();
 
         for (Tema t : temas) {
-            DTOTema temadto = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), 0);
-            DTOt.add(temadto);
+            if(ctrlM.temaValido(t)){
+                DTOTema temadto = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), 0);
+                DTOt.add(temadto);
+            }
         }
 
         return DTOt;

@@ -57,4 +57,5 @@ public interface IControllerMusica {
     public abstract List<DTOTema> temasDelAlbum(String titulo);
     public abstract List<String> ObtengolistasClipriv(String nickcli)throws NoExisteLista;
     public abstract List<DTOLista> obtenerListaPorCliPRIVADAS(String Cliente);
+    public abstract boolean temaValido(Tema t);
 }

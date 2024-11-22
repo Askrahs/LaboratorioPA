@@ -1141,4 +1141,8 @@ public class ControllerMusica implements IControllerMusica {
         return cPersist.obtenerListaPorClientePRIVADAS(Cliente);
 
     }
+        @Override
+        public boolean temaValido(Tema t){
+            return cPersist.temaValido(t);
+        }
 }

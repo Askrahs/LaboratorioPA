@@ -1,6 +1,8 @@
 package Persistencia;
 
 import Logica.Album;
+import Logica.ControllerUsuario;
+import Logica.IControllerUsuario;
 import Logica.Tema;
 import Persistencia.exceptions.*;
 import javax.persistence.EntityManager;
@@ -16,6 +18,7 @@ import javax.persistence.TypedQuery;
 public class TemaJpaController {
 
     private EntityManagerFactory emf = null;
+    private IControllerUsuario ctrlU = new ControllerUsuario();
 
     public TemaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -215,6 +218,25 @@ public class TemaJpaController {
                 em.getTransaction().rollback();
             }
             throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean temaValido(Tema t) {
+        EntityManager em = getEntityManager();
+        try {
+            // Consulta para obtener el artista del álbum al que pertenece el tema
+            String query = "SELECT a.artista.nickname FROM Tema t JOIN t.album a WHERE t.id = :temaId";
+            String nicknameArtista = em.createQuery(query, String.class)
+                                       .setParameter("temaId", t.getId())
+                                       .getSingleResult();
+
+            // Verificar si el artista está activo
+            return ctrlU.artistaActivo(nicknameArtista);
+        } catch (NoResultException e) {
+            // Si el tema no tiene álbum o no se encuentra el artista
+            return false;
         } finally {
             em.close();
         }
