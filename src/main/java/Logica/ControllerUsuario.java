@@ -7,6 +7,7 @@ import Persistencia.ControllerPersistencia;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
@@ -538,6 +539,17 @@ public class ControllerUsuario implements IControllerUsuario {
             String fechaString = fechaActual.toString();
             a.setActivo(false);
             a.setFechaEliminacion(fechaString);
-            cPersist.darDeBajaArtista(a);
+            cPersist.darDeBajaArtista(a);     
+            
+            Set<Integer> albumIds = cPersist.obtenerTodosLosIDAlbumsDelArtista(nickname);
+            cPersist.darDeBajaAlbumsyTemasCliente(albumIds);
+            cPersist.darDeBajaTemasDeLista(albumIds);
+        }
+        
+        @Override
+        public Boolean artistaActivo(String nickname){
+            ManejadorUsuario mu = ManejadorUsuario.getinstance();
+            Artista a = mu.obtenerArtista(nickname);
+            return a.isActivo();
         }
 }

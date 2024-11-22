@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
@@ -187,6 +188,36 @@ public class TemaJpaController {
             } finally {
                 em.close();
             }
+    }
+
+    public void darDeBajaTemasCliente(Set<Integer> albumIds) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Obtener IDs de los temas asociados a los álbumes
+            String temasQuery = "SELECT t.id FROM Tema t WHERE t.album.id IN :albumIds";
+            List<Integer> temaIds = em.createQuery(temasQuery, Integer.class)
+                                      .setParameter("albumIds", albumIds)
+                                      .getResultList();
+
+            if (!temaIds.isEmpty()) {
+                // Eliminar vínculos en la tabla cliente_tema_favorito
+                String deleteQuery = "DELETE FROM cliente_tema_favorito WHERE tema_id IN :temaIds";
+                em.createNativeQuery(deleteQuery)
+                  .setParameter("temaIds", temaIds)
+                  .executeUpdate();
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
     }
     
 }

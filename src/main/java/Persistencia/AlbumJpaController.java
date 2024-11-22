@@ -3,12 +3,15 @@ package Persistencia;
 import Logica.Album;
 import LogicaDTO.DTOAlbum;
 import Logica.Tema;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
@@ -261,6 +264,44 @@ public class AlbumJpaController {
                     .setParameter("tituloAlbum", titulo)
                     .getResultList();
 
+        } finally {
+            em.close();
+        }
+    }
+
+    public Set<Integer> obtenerTodosLosIDAlbumsDelArtista(String nickname) {
+        EntityManager em = getEntityManager();
+        try {
+            return new HashSet<>(em.createQuery(
+                "SELECT a.id FROM Album a WHERE a.artista.nickname = :nickname", Integer.class)
+                .setParameter("nickname", nickname)
+                .getResultList());
+        } finally {
+            em.close();
+        }
+    }
+
+    public void darDeBajaAlbumsCliente(Set<Integer> albumIds) {
+        if (albumIds == null || albumIds.isEmpty()) {
+            return; // No hay nada que borrar
+        }
+       EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Eliminar registros de la tabla cliente_album_favorito basados solo en album_id
+            String sql = "DELETE FROM cliente_album_favorito WHERE album_id IN :albumIds";
+            Query query = em.createNativeQuery(sql);
+            query.setParameter("albumIds", albumIds);
+
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e; // Relanzar la excepción
         } finally {
             em.close();
         }

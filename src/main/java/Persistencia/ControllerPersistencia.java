@@ -3,6 +3,7 @@ package Persistencia;
 import Logica.*;
 import LogicaDTO.*;
 import java.util.List;
+import java.util.Set;
 
 public class ControllerPersistencia {
     AlbumJpaController albJpa = new AlbumJpaController();
@@ -186,4 +187,18 @@ public class ControllerPersistencia {
     public List<DTOLista> obtenerListaPorClientePRIVADAS(String clienteSeleccionado) {
         return listJpa.findListaPorClientePRIVADAS(clienteSeleccionado);
     }
+
+    public Set<Integer> obtenerTodosLosIDAlbumsDelArtista(String nickname) {
+        return albJpa.obtenerTodosLosIDAlbumsDelArtista(nickname);
+    }
+
+    public void darDeBajaAlbumsyTemasCliente(Set<Integer> albumIds) {
+         albJpa.darDeBajaAlbumsCliente(albumIds);
+         temJpa.darDeBajaTemasCliente(albumIds);
+    }
+
+    public void darDeBajaTemasDeLista(Set<Integer> albumIds) {
+        listJpa.darDeBajaTemasDeLista(albumIds);
+    }
+
 }

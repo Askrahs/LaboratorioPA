@@ -51,4 +51,5 @@ public interface IControllerUsuario {
     public abstract boolean usuarioSigueA(String seguidor, String seguido);
     public abstract List<String> obtenerNickArtistasBorrados();
     public abstract void darDeBajaArtista(String nickname);
+    public abstract Boolean artistaActivo(String nickname);
 }

@@ -4,6 +4,7 @@ import Logica.Lista;
 import LogicaDTO.DTOLista;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
@@ -271,6 +272,36 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
 
             return DTOlistas;
 
+        } finally {
+            em.close();
+        }
+    }
+
+    public void darDeBajaTemasDeLista(Set<Integer> albumIds) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Obtener IDs de temas asociados con los álbumes del artista
+            String temasQuery = "SELECT t.id FROM Tema t WHERE t.album.id IN :albumIds";
+            List<Integer> temaIds = em.createQuery(temasQuery, Integer.class)
+                                      .setParameter("albumIds", albumIds)
+                                      .getResultList();
+
+            if (!temaIds.isEmpty()) {
+                // Eliminar vínculos en la tabla Lista_Temas
+                String deleteQuery = "DELETE FROM Lista_Temas WHERE Tema_Id IN :temaIds";
+                em.createNativeQuery(deleteQuery)
+                  .setParameter("temaIds", temaIds)
+                  .executeUpdate();
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e; // Relanzar la excepción
         } finally {
             em.close();
         }
