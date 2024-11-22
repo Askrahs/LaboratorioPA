@@ -182,4 +182,8 @@ public class ControllerPersistencia {
     public void darDeBajaArtista(Artista a) {
         artJpa.darDeBajaArtista(a);
     }
+    
+    public List<DTOLista> obtenerListaPorClientePRIVADAS(String clienteSeleccionado) {
+        return listJpa.findListaPorClientePRIVADAS(clienteSeleccionado);
+    }
 }
