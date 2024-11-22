@@ -4,6 +4,7 @@ import Excepciones.*;
 import LogicaDTO.*;
 import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -527,5 +528,16 @@ public class ControllerUsuario implements IControllerUsuario {
         @Override
         public List<String> obtenerNickArtistasBorrados(){
             return cPersist.findArtistasBorrados();
+        }
+        
+        @Override
+        public void darDeBajaArtista(String nickname){
+            ManejadorUsuario mu = ManejadorUsuario.getinstance();
+            Artista a = mu.obtenerArtista(nickname);
+            LocalDate fechaActual = LocalDate.now();
+            String fechaString = fechaActual.toString();
+            a.setActivo(false);
+            a.setFechaEliminacion(fechaString);
+            cPersist.darDeBajaArtista(a);
         }
 }

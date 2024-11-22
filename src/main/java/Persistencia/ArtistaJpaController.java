@@ -2,6 +2,7 @@ package Persistencia;
 
 import Logica.Artista;
 import Logica.Cliente;
+import Logica.Usuario;
 import LogicaDTO.DTOArtista;
 import LogicaDTO.DTOCliente;
 import LogicaDTO.DTOLista;
@@ -67,6 +68,23 @@ public List<Artista> findAllArtistaData() {
         try {
             TypedQuery<String> query = em.createQuery("SELECT a.nickname FROM Artista a WHERE a.activo = false", String.class);
             return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void darDeBajaArtista(Artista a) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            a = em.merge(a);
+            for (Usuario seguidor : a.getSeguidores()) {
+                seguidor.getSiguiendo().remove(a);
+            }
+            a.getSeguidores().clear();
+            
+            em.merge(a);
+            em.getTransaction().commit();
         } finally {
             em.close();
         }

@@ -178,4 +178,8 @@ public class ControllerPersistencia {
     public List<String> findArtistasBorrados(){
         return artJpa.findArtistasBorrados();
     }
+
+    public void darDeBajaArtista(Artista a) {
+        artJpa.darDeBajaArtista(a);
+    }
 }

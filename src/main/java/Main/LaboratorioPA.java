@@ -60,18 +60,16 @@ public class LaboratorioPA {
         SegUsr = new Presentacion.SeguirUsuario(ctrlU, principal);
         SegUsr.setVisible(false);
         DejUsr = new Presentacion.DejarDeSeguirUsuario(ctrlU, principal);
-        SegUsr.setVisible(false);
-        
+        SegUsr.setVisible(false);       
         ConCli = new Presentacion.ConsultaCliente(ctrlU, principal);
         ConCli.setVisible(false);
         AgrTemLisAlb = new Presentacion.AgregarTemaListaÁlbum(ctrlM,ctrlU,principal);
         AgrTemLisAlb.setVisible(false);
         EliTemLisAlb = new Presentacion.EliminarTemaListaAlbum(ctrlM, ctrlU, principal);
-        EliTemLisAlb.setVisible(false);     
-        
+        EliTemLisAlb.setVisible(false);            
         ConList = new Presentacion.ConsultaListadeReproduccion(ctrlU, ctrlM, principal);
         ConList.setVisible(false);
-        PblLista = new Presentacion.PublicarLista(ctrlM, principal);
+        PblLista = new Presentacion.PublicarLista(ctrlM, principal, ctrlU);
         PblLista.setVisible(false);
         AltAlb = new Presentacion.AltaAlbum(ctrlM, principal);
         AltAlb.setVisible(false);
