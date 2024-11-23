@@ -20,6 +20,8 @@ public class Tema implements Serializable{
     private String enlace;
     private String archivo;
     private int posicion;
+    private int descarga;
+    private int reproduccion;
     
     @ManyToOne
     private Album album;
@@ -41,6 +43,22 @@ public class Tema implements Serializable{
 
     public void setArchivo(String archivo) {
         this.archivo = archivo;
+    }
+
+    public int getDescarga() {
+        return descarga;
+    }
+
+    public void setDescarga(int Descarga) {
+        this.descarga = Descarga;
+    }
+
+    public int getReproduccion() {
+        return reproduccion;
+    }
+
+    public void setReproduccion(int Reproduccion) {
+        this.reproduccion = Reproduccion;
     }
     
     public int getId() {

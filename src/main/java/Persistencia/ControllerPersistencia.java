@@ -205,4 +205,8 @@ public class ControllerPersistencia {
         return temJpa.temaValido(t);
     }
 
+    public boolean sumaDescarga(Tema t){
+        return temJpa.sumoDescarga(t);
+    }
+
 }

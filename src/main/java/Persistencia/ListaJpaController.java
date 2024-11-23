@@ -146,7 +146,7 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
            
             for (Lista lis : listas){
                
-                DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
+                DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen(), lis.getDuenio().getNickname()));
                 
             }
            

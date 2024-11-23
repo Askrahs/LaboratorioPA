@@ -31,16 +31,16 @@ public class ControllerMusica implements IControllerMusica {
                 Generoall = null;
             } else {
                 if (mg.EncuentroGenerobool(nombrepadre) == true) {// Si no existe genero padre lo creo, poniendo por
-                                                                  // default al padre como el nodo Generos
+                    // default al padre como el nodo Generos
 
                     JOptionPane.showMessageDialog(null, "El nodo padre no existe");
                     return;
 
                 }
                 DefaultMutableTreeNode nodopadre = mg.EncuentroGenero(nombrepadre);// Creo una variable
-                                                                                   // DefaultMutableTreeNode que va a
-                                                                                   // señar al nodo padre del nodo nuevo
-                                                                                   // que quiero crear
+                // DefaultMutableTreeNode que va a
+                // señar al nodo padre del nodo nuevo
+                // que quiero crear
 
                 mg.AñadoGenero(nombregen, nodopadre);// Creo el nuevo genero y lo añado al arbol;
                 JOptionPane.showMessageDialog(null, "Se Creo el genero Correctamente");
@@ -72,27 +72,6 @@ public class ControllerMusica implements IControllerMusica {
             }
             JOptionPane.showMessageDialog(null, "El Genero ya existe");
             throw new GenroYaExiste("El genero ya existe");
-        }
-    }
-
-    @Override
-    public void ModificoPadre(String nombrenodo, String nombrepadrenuevo) {
-        ManejadorGenero man = ManejadorGenero.getInstance();
-        JOptionPane.showMessageDialog(null, "llegue0");
-        if (man.EncuentroGenerobool(nombrepadrenuevo) != true) {
-            JOptionPane.showMessageDialog(null, "llegue1");
-            if (man.EncuentroGenerobool(nombrenodo) != true) {
-                JOptionPane.showMessageDialog(null, "llegue2");
-                DefaultMutableTreeNode nod = man.EncuentroGenero(nombrenodo);
-                DefaultMutableTreeNode nodpapi = man.EncuentroGenero(nombrepadrenuevo);
-                man.lepongopadre(nod, nodpapi);
-            }
-        } else {
-            try {
-                throw new GenroYaExiste("El Genero " + nombrepadrenuevo + " no esta ingresado");
-            } catch (GenroYaExiste ex) {
-                Logger.getLogger(ControllerMusica.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
@@ -146,46 +125,43 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     // A la espera de la otra parte del codigo
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada)
-        throws ListaYaExisteException, GeneroNoExiste{
+            throws ListaYaExisteException, GeneroNoExiste {
 
-    ManejadorLista ml = ManejadorLista.getInstance();
-    ManejadorGenero mangen = ManejadorGenero.getInstance();
-    ManejadorUsuario usrman = ManejadorUsuario.getinstance();
+        ManejadorLista ml = ManejadorLista.getInstance();
+        ManejadorGenero mangen = ManejadorGenero.getInstance();
+        ManejadorUsuario usrman = ManejadorUsuario.getinstance();
 
-    Lista los = ml.ExisteLista(nombre);
+        Lista los = ml.ExisteLista(nombre);
 
-    // Verificar si la lista ya existe
-    if (los == null) {
-        
-        // Verificar que el usuario existe
-        if (usrman.obtenerCliente(duenio) != null) {
-            
-           
+        // Verificar si la lista ya existe
+        if (los == null) {
 
-            // Crear la lista pasando `ruta`, que puede ser null si no se cargó una imagen
-            ml.creolista(nombre, genero, duenio, ruta, privada);
+            // Verificar que el usuario existe
+            if (usrman.obtenerCliente(duenio) != null) {
 
-        } else {
-            Genero gen = null;
+                // Crear la lista pasando `ruta`, que puede ser null si no se cargó una imagen
+                ml.creolista(nombre, genero, duenio, ruta, privada);
 
-            // Verificar que el género existe si se especificó uno
-            if (!genero.isEmpty()) {
-                gen = mangen.Existegenbasedatoss(genero);
-                if (gen == null) {
-                     throw new GeneroNoExiste("El Genero no existe.");
-                     
-                }else{
-                    ml.creolista(nombre, genero, duenio, ruta, privada);
+            } else {
+                Genero gen = null;
 
-                   
+                // Verificar que el género existe si se especificó uno
+                if (!genero.isEmpty()) {
+                    gen = mangen.Existegenbasedatoss(genero);
+                    if (gen == null) {
+                        throw new GeneroNoExiste("El Genero no existe.");
+
+                    } else {
+                        ml.creolista(nombre, genero, duenio, ruta, privada);
+
+                    }
                 }
+
             }
-            
+        } else {
+            throw new ListaYaExisteException("La Lista ya existe");
         }
-    } else {
-        throw new ListaYaExisteException("La Lista ya existe");
     }
-}
 
     @Override
     public void publicarLista(String nombreUsuario, String nombreLista) throws UsuarioNoExisteException,
@@ -309,7 +285,7 @@ public class ControllerMusica implements IControllerMusica {
                             return;
                         } else {
                             for (int i = 0; i < temaslista.size(); i++) {// Me fijo tema por tema dentro de los temas de
-                                                                         // la lista
+                                // la lista
                                 iteratema = temaslista.get(i);
                                 if (iteratema.getNombre().equalsIgnoreCase(nombreTema)) {
                                     // retorna que ya existe
@@ -433,7 +409,7 @@ public class ControllerMusica implements IControllerMusica {
                     }
                 }
                 if (!tem.getNombre().equals(nombreteam)) {
-                    
+
                     return;
                 }
                 List<Tema> temalis = manlis.temasdelalista(nombrelista);
@@ -442,7 +418,7 @@ public class ControllerMusica implements IControllerMusica {
                 for (int i = 0; i < temalis.size(); i++) {
                     tom = temalis.get(i);
                     if (tom.getId() == tem.getId()) {
-                        
+
                         return;
                     }
                 }
@@ -458,10 +434,10 @@ public class ControllerMusica implements IControllerMusica {
                 }
 
             } else {
-                
+
             }
         } else {
-            
+
         }
 
     }
@@ -995,56 +971,56 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public  void aniadoTemaListaPublicaLista(String nombrelista,String nombreteam,String nombrealistadeltema){  
+    public void aniadoTemaListaPublicaLista(String nombrelista, String nombreteam, String nombrealistadeltema) {
         ManejadorLista manlis = ManejadorLista.getInstance();
         Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
-        Lista lis2 = cPersist.consultaListaPorTitulo(nombrealistadeltema);     
-        if(lis!=null){           
-            if(lis.getEsPrivada()!=true){ 
-                if(lis.getEsPrivada()!=true){                   
-                    List <Tema> temaslis = lis.getTemas();
-                    if(temaslis==null){
-                        List <Tema> tems = lis2.getTemas();
+        Lista lis2 = cPersist.consultaListaPorTitulo(nombrealistadeltema);
+        if (lis != null) {
+            if (lis.getEsPrivada() != true) {
+                if (lis.getEsPrivada() != true) {
+                    List<Tema> temaslis = lis.getTemas();
+                    if (temaslis == null) {
+                        List<Tema> tems = lis2.getTemas();
                         Tema tem;
-                        Iterator <Tema> temass =tems.iterator();
-                        while (temass.hasNext()){
+                        Iterator<Tema> temass = tems.iterator();
+                        while (temass.hasNext()) {
                             tem = temass.next();
-                            if(tem.getNombre().equalsIgnoreCase(nombreteam)){
+                            if (tem.getNombre().equalsIgnoreCase(nombreteam)) {
                                 manlis.aniadotemalista(nombrelista, tem);
                                 return;
                             }
                         }
-                    }else{                        
-                        List <Tema> tems = lis2.getTemas();
+                    } else {
+                        List<Tema> tems = lis2.getTemas();
                         Tema tem;
                         Tema tom;
-                        Iterator <Tema> temass =tems.iterator();
-                        while (temass.hasNext()){
-                                tem = temass.next();
-                            for(int i=0;i<temaslis.size();i++){
+                        Iterator<Tema> temass = tems.iterator();
+                        while (temass.hasNext()) {
+                            tem = temass.next();
+                            for (int i = 0; i < temaslis.size(); i++) {
                                 tom = temaslis.get(i);
-                                if(tom.getId()==tem.getId()){
-                                    JOptionPane.showMessageDialog(null,"El tema ya existe");
+                                if (tom.getId() == tem.getId()) {
+                                    JOptionPane.showMessageDialog(null, "El tema ya existe");
                                     return;
                                 }
-                                }
                             }
+                        }
                         temass = tems.iterator();
-                        while (temass.hasNext()){
+                        while (temass.hasNext()) {
                             tem = temass.next();
-                            if(tem.getNombre().equalsIgnoreCase(nombreteam)){
+                            if (tem.getNombre().equalsIgnoreCase(nombreteam)) {
                                 manlis.aniadotemalista(nombrelista, tem);
                                 return;
                             }
                         }
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null,"La lista es privada");
+                } else {
+                    JOptionPane.showMessageDialog(null, "La lista es privada");
                 }
-            }else{
-            JOptionPane.showMessageDialog(null,"La lista no existe");
+            } else {
+                JOptionPane.showMessageDialog(null, "La lista no existe");
             }
-        } 
+        }
     }
 
     @Override
@@ -1135,14 +1111,70 @@ public class ControllerMusica implements IControllerMusica {
             throws UsuariosNoExisten, ListaNoexisteException, NoesDueñodelaLista, TemaNoExiste {
 
     }
-    
+
     @Override
-    public List<DTOLista> obtenerListaPorCliPRIVADAS(String Cliente){
+    public List<DTOLista> obtenerListaPorCliPRIVADAS(String Cliente) {
         return cPersist.obtenerListaPorClientePRIVADAS(Cliente);
 
     }
-        @Override
-        public boolean temaValido(Tema t){
-            return cPersist.temaValido(t);
+
+    @Override
+    public boolean temaValido(Tema t) {
+        return cPersist.temaValido(t);
+    }
+
+    public boolean existeGenero(String genero) {
+        ManejadorGenero manG = ManejadorGenero.getInstance();
+
+        Genero g = manG.Existegenbasedatoss(genero);
+
+        if (g == null) {
+            return false;
+        } else {
+            return true;
         }
+    }
+
+    public boolean obtenerPadre(String nombreGenero) {
+        ManejadorGenero manG = ManejadorGenero.getInstance();
+        Genero gun = manG.Existegenbasedatoss(nombreGenero);
+        if (gun == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean espublicasiono(String nombreUsuario, String NombreLista) {
+        ManejadorUsuario usrM = ManejadorUsuario.getinstance();
+        Cliente cli = usrM.obtenerCliente(nombreUsuario);
+        if (cli != null) {
+            ManejadorLista manL = ManejadorLista.getInstance();
+            Lista lis = manL.ExisteLista(NombreLista);
+            if (lis != null) {
+                if (lis.getEsPrivada() == true) {
+                    return true;
+                } else {
+                    System.out.println("NO ES PUBLICA");
+                    return false;
+                }
+            } else {
+                System.out.println("NO EXISTE LISTA");
+                return false;
+            }
+        } else {
+            System.out.println("NO EXISTE USUARIO");
+            return false;
+        }
+    }
+
+    public boolean sumaDescarga(DTOTema t) {
+        List<Tema> temos = cPersist.findTemitas();
+        for (Tema tem : temos) {
+            if (tem.getNombre().equalsIgnoreCase(t.getNombre()) && tem.getAlbum().getTitulo().equalsIgnoreCase(t.getAlbum())) {
+                return cPersist.sumaDescarga(tem);
+            }
+        }
+        return false;
+    }
+
 }

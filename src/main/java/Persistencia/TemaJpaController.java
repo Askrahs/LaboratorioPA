@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
 
 public class TemaJpaController {
 
@@ -241,5 +242,33 @@ public class TemaJpaController {
             em.close();
         }
     }
+    
+    public boolean sumoDescarga(Tema t) {
+    EntityManager em = getEntityManager();
+    try {
+        em.getTransaction().begin();
+        // Recupera el tema desde la base de datos
+        Tema temaActualizado = em.find(Tema.class, t.getId());
+        if (temaActualizado != null) {
+            // Incrementa el contador de descargas
+            temaActualizado.setDescarga(temaActualizado.getDescarga() + 1);
+            em.merge(temaActualizado); // Asegura que los cambios sean persistidos
+            em.getTransaction().commit();
+            return true; // Operación exitosa
+        } else {
+            em.getTransaction().rollback();
+            return false; // Tema no encontrado
+        }
+    } catch (Exception e) {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        e.printStackTrace();
+        return false; // Error durante la operación
+    } finally {
+        em.close();
+    }
+}
+
     
 }
