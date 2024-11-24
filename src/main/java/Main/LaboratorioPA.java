@@ -33,6 +33,7 @@ public class LaboratorioPA {
     private EliminarTemaListaAlbum EliTemLisAlb;    
     
     private EditarSuscripcion EditarSus;
+    private Presentacion.RegistroAcceso RegAcc;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -224,6 +225,23 @@ public class LaboratorioPA {
             }
         });
         menuUsuarios.add(menuItemEditarSuscripcion);
+        
+        //REGISTRO ACCESO
+        JMenuItem menuItemRegAcceso = new JMenuItem("Registro Accesos");
+        menuItemRegAcceso.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                //suscripcion
+                RegAcc = new Presentacion.RegistroAcceso(ctrlU, principal);
+                
+                
+                principal.setVisible(false);
+                
+                RegAcc.setVisible(true);
+                
+            }
+        });
+        menuUsuarios.add(menuItemRegAcceso);
         
         
         //Opcion submenu Album
