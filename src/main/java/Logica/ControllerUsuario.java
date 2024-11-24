@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import Persistencia.ControllerPersistencia;
 import java.util.Collection;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
     ControllerPersistencia cPersist = new ControllerPersistencia();
@@ -523,5 +522,19 @@ public class ControllerUsuario implements IControllerUsuario {
             Usuario user = mu.obtenerUsuario(seguido);
         return siguiendo.contains(user);
         }
+
+    @Override
+    public List<RegistroAcceso> obtenerTodosLosRegistros() {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.obtenerTodosLosRegistros();
+    }
+
+    @Override
+    public void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        mu.crearRegistro(ipUsuario, urlAcceso, browserUsuario, soUsuario);
+    }
+        
+        
         
 }

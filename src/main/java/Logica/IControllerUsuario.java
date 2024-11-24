@@ -49,5 +49,7 @@ public interface IControllerUsuario {
     public abstract DTOArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException;
     public abstract DTOCliente ObtenerClienteDTO(String nickname) throws UsuarioNoExisteException;
     public abstract boolean usuarioSigueA(String seguidor, String seguido);
+    public abstract List<RegistroAcceso> obtenerTodosLosRegistros();
+    public abstract void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario);
 
 }
