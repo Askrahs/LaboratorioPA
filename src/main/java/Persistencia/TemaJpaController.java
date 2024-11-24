@@ -190,6 +190,35 @@ public class TemaJpaController {
             }
     }
     
+    
+    public boolean sumoRepro(Tema t){
+    EntityManager em = getEntityManager();
+    try {
+        JOptionPane.showMessageDialog(null,"LLEGUE A EL REPRODU");
+        em.getTransaction().begin();
+        // Recupera el tema desde la base de datos
+        Tema temaActualizado = em.find(Tema.class, t.getId());
+        if (temaActualizado != null) {
+            // Incrementa el contador de descargas
+            temaActualizado.setReproduccion(temaActualizado.getReproduccion() + 1);
+            em.merge(temaActualizado); // Asegura que los cambios sean persistidos
+            em.getTransaction().commit();
+            return true; // Operación exitosa
+        } else {
+            em.getTransaction().rollback();
+            return false; // Tema no encontrado
+        }
+    } catch (Exception e) {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        e.printStackTrace();
+        return false; // Error durante la operación
+    } finally {
+        em.close();
+    }
+    }
+    
     public boolean sumoDescarga(Tema t) {
     EntityManager em = getEntityManager();
     try {
@@ -217,5 +246,25 @@ public class TemaJpaController {
     }
 }
 
+    public int CantidadListasConTema(int temaId) {
+         EntityManager em = getEntityManager();
+    // Implementación ejemplo: contar cuántas listas incluyen el tema con ID temaId
+    return em.createQuery(
+            "SELECT COUNT(l) FROM Lista l JOIN l.temas t WHERE t.id = :temaId", Long.class)
+            .setParameter("temaId", temaId)
+            .getSingleResult()
+            .intValue();
+}
     
+    
+    public int CantidadFavoritosConTema(int temaId) {
+        EntityManager em = getEntityManager();
+    // Contar cuántos clientes tienen este tema como favorito
+    return em.createQuery(
+            "SELECT COUNT(c) FROM Cliente c JOIN c.temasFavoritos t WHERE t.id = :temaId", Long.class)
+            .setParameter("temaId", temaId)
+            .getSingleResult()
+            .intValue();
+
+    }
 }

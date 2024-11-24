@@ -654,8 +654,7 @@ public class ControllerMusica implements IControllerMusica {
 
         for (int i = 0; i < temos.size(); i++) {
             tem = temos.get(i);
-            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(),
-                    tem.getPosicion());
+            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion(), 0);
             dtotema.add(datotemo);
         }
         return dtotema;
@@ -1187,6 +1186,52 @@ public class ControllerMusica implements IControllerMusica {
           return false;
        }
        
+       public boolean sumaReproduccion(DTOTema t){
+           
+           
+           List<Tema> temos = cPersist.findTemitas();
+           
+           for(Tema tem : temos){
+               if(tem.getNombre().equalsIgnoreCase(t.getNombre())&&tem.getAlbum().getTitulo().equalsIgnoreCase(t.getAlbum())){
+                   
+                    return cPersist.sumaReproduccion(tem);
+               }
+           }
+           
+          
+          return false;
+       }
        
+       public List<DTOTema> promedioTemas() {
+    // Obtener la lista de temas
+    List<Tema> temas = cPersist.findTemitas();
+
+    // Crear una lista para los DTOs
+    List<DTOTema> dtoTemas = new ArrayList<>();
+
+    // Calcular el puntaje para cada tema y crear los DTOs
+    for (Tema tema : temas) {
+        // Obtener los valores necesarios para calcular el puntaje
+        int descargas = tema.getDescarga(); // Método que retorna las descargas del tema
+        int reproducciones = tema.getReproduccion(); // Método que retorna las reproducciones del tema
+        int listasCon = cPersist.findCantidadListasConTema(tema.getId()); // Método que retorna las listas que contienen el tema
+        int favoritosCon = cPersist.findCantidadFavoritosConTema(tema.getId()); // Método que retorna los favoritos que incluyen el tema
+
+        // Calcular el puntaje basado en la fórmula
+        double puntaje = descargas * 0.2 + reproducciones * 0.3 + listasCon * 0.2 + favoritosCon * 0.3;
+
+        // Crear un DTO con la información del tema y el puntaje
+        DTOTema dtoTema = new DTOTema(tema.getId(), tema.getNombre(), tema.getDuracion(),tema.getEnlace(),tema.getPosicion() ,puntaje);
+
+        // Agregar el DTO a la lista
+        dtoTemas.add(dtoTema);
+    }
+
+    // Ordenar los DTOs por puntaje en orden descendente (opcional, si necesitas el orden)
+    dtoTemas.sort((a, b) -> Double.compare(b.getPuntaje(), a.getPuntaje()));
+
+    // Devolver todos los temas con sus puntajes
+    return dtoTemas;
+}
        
 }

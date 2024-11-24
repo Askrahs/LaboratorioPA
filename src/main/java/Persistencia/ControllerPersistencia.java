@@ -178,6 +178,16 @@ public class ControllerPersistencia {
     public boolean sumaDescarga(Tema t){
         return temJpa.sumoDescarga(t);
     }
-           
+     
+    public boolean sumaReproduccion(Tema tem){
+        return temJpa.sumoRepro(tem);
+    }
+    
+    public int findCantidadFavoritosConTema(int temaId){
+      return temJpa.CantidadFavoritosConTema(temaId);
+}
+    public int findCantidadListasConTema(int tamId){
+     return temJpa.CantidadListasConTema(tamId);
+       }
     
 }
