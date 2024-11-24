@@ -525,6 +525,20 @@ public class ControllerUsuario implements IControllerUsuario {
             Usuario user = mu.obtenerUsuario(seguido);
         return siguiendo.contains(user);
         }
+
+    @Override
+    public List<RegistroAcceso> obtenerTodosLosRegistros() {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.obtenerTodosLosRegistros();
+    }
+
+    @Override
+    public void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        mu.crearRegistro(ipUsuario, urlAcceso, browserUsuario, soUsuario);
+    }
+        
+        
         
         @Override
         public List<String> obtenerNickArtistasBorrados(){

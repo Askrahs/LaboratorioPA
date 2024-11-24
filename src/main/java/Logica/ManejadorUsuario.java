@@ -5,6 +5,7 @@ import LogicaDTO.DTOLista;
 import LogicaDTO.DTOTema;
 import Logica.Suscripcion.EstadoSuscripcion;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,10 +15,9 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.swing.JOptionPane;
+import Logica.RegistroAcceso;
 
 public class ManejadorUsuario {
 
@@ -468,5 +468,42 @@ public class ManejadorUsuario {
             t.rollback();
         }
     }
+  
+    public List<RegistroAcceso> obtenerTodosLosRegistros() {
+        List<RegistroAcceso> registros;
+        String jpql = "SELECT r FROM RegistroAcceso r ORDER BY r.fechaAcceso DESC"; // Ordenar por fecha de acceso, del más reciente al más antiguo
+        registros = em.createQuery(jpql, RegistroAcceso.class).getResultList();
+        return registros;
+    }
 
+    void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario){
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            Logica.RegistroAcceso registro = new RegistroAcceso();
+            registro.setIpUsuario(ipUsuario);
+            registro.setUrlAcceso(urlAcceso);
+            registro.setBrowserUsuario(browserUsuario);
+            registro.setSoUsuario(soUsuario);
+            
+            // Obtener la fecha actual en formato dd/MM/yyyy
+            LocalDate fechaActual = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String fechaFormateada = fechaActual.format(formatter);
+
+            registro.setFechaAcceso(fechaFormateada); // Registrar la fecha actual
+
+            em.persist(registro); // Guardar en la base de datos
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 }

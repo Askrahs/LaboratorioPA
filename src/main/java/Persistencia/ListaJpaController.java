@@ -251,7 +251,6 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
     }
     
     public List<DTOLista> findListaPorClientePRIVADAS(String clienteSeleccionado) {
-
         EntityManager em = getEntityManager();
         em.clear();
         try {
@@ -260,18 +259,10 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
            query.setParameter("nombre", clienteSeleccionado);
            List<Lista> listas = query.getResultList();
            List<DTOLista> DTOlistas = new ArrayList<>();
-
-
-
             for (Lista lis : listas){
-
                 DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
-
             }
-
-
             return DTOlistas;
-
         } finally {
             em.close();
         }
@@ -281,27 +272,22 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-
-            // Obtener IDs de temas asociados con los álbumes del artista
             String temasQuery = "SELECT t.id FROM Tema t WHERE t.album.id IN :albumIds";
             List<Integer> temaIds = em.createQuery(temasQuery, Integer.class)
                                       .setParameter("albumIds", albumIds)
                                       .getResultList();
-
             if (!temaIds.isEmpty()) {
-                // Eliminar vínculos en la tabla Lista_Temas
                 String deleteQuery = "DELETE FROM Lista_Temas WHERE Tema_Id IN :temaIds";
                 em.createNativeQuery(deleteQuery)
                   .setParameter("temaIds", temaIds)
                   .executeUpdate();
             }
-
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Relanzar la excepción
+            throw e;
         } finally {
             em.close();
         }
