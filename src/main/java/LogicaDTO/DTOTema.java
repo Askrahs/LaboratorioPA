@@ -57,7 +57,7 @@ public class DTOTema implements Serializable{
         this.puntaje = puntaje;
     }
     
-        public DTOTema(String nombre, String duracion, String enlace, String archivo, int posicion) {
+        public DTOTema(int id, String nombre, String duracion, String enlace, String archivo, int posicion) {
         this.nombre = nombre;
         this.duracion = duracion;
         this.enlace = enlace;

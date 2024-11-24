@@ -223,7 +223,7 @@ public class LaboratorioPA {
         });
         menuUsuarios.add(menuItemEditarSuscripcion);
         
-        //Suscripcion
+
         JMenuItem menuItemBajaArtista = new JMenuItem("Consulta Artistas Dados de Baja");
         menuItemBajaArtista.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

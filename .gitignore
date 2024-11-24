@@ -1,3 +1,4 @@
 pom.xml
 persistence.xml
 /target
+/ServidorCentral/nbproject/private/

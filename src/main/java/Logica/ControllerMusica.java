@@ -15,10 +15,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class ControllerMusica implements IControllerMusica {
 
-    public ControllerMusica() {
+     private final ControllerPersistencia cPersist;
+    private final ControllerUsuario ctrlU;
+    // Constructor con inyección de dependencias
+    public ControllerMusica(ControllerPersistencia cPersist, ControllerUsuario ctrlU) {
+        this.cPersist = cPersist;
+        this.ctrlU=ctrlU;
     }
-
-    ControllerPersistencia cPersist = new ControllerPersistencia();
 
     @Override
     public void AltaGenero(String nombregen, String nombrepadre) throws GenroYaExiste {
@@ -127,7 +130,7 @@ public class ControllerMusica implements IControllerMusica {
     public void altaListaReproduccion(String nombre, String genero, String duenio, String ruta, boolean privada)
             throws ListaYaExisteException, GeneroNoExiste {
 
-        ManejadorLista ml = ManejadorLista.getInstance();
+        ManejadorLista ml = ManejadorLista.obtenerInstancia(this, ctrlU);
         ManejadorGenero mangen = ManejadorGenero.getInstance();
         ManejadorUsuario usrman = ManejadorUsuario.getinstance();
 
@@ -168,7 +171,7 @@ public class ControllerMusica implements IControllerMusica {
             ListaNoexisteException, OperacionNoPermitidaException, ListaYaEsPublicaException {
         ManejadorUsuario manejadorU = ManejadorUsuario.getinstance();
         Usuario usuario = manejadorU.obtenerUsuario(nombreUsuario);
-        ManejadorLista Ml = ManejadorLista.getInstance();
+        ManejadorLista Ml = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lista = Ml.ExisteLista(nombreLista);
         if (usuario == null || !(usuario instanceof Cliente)) {
             throw new UsuarioNoExisteException("El usuario " + nombreUsuario + " no existe o no es un cliente.");
@@ -258,7 +261,7 @@ public class ControllerMusica implements IControllerMusica {
         Album a = cPersist.consultaAlbumPorTitulo(nombreAlbum);
         ManejadorUsuario usr = ManejadorUsuario.getinstance();
 
-        ManejadorLista L = ManejadorLista.getInstance();
+        ManejadorLista L = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lo = L.ExisteLista(nombreLista);
         Cliente C = usr.obtenerCliente(nombreUsuario);
         Usuario U = lo.getDuenio();
@@ -338,7 +341,7 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public List<DTOLista> Obtengolistasconduenio() throws NoExisteLista {
 
-        ManejadorLista man = ManejadorLista.getInstance();
+        ManejadorLista man = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista losta;
         List<Lista> lista;
         lista = man.todaslistasconduenio();
@@ -357,7 +360,7 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public List<DTOLista> Obtengolistassinduenio() throws NoExisteLista {
 
-        ManejadorLista man = ManejadorLista.getInstance();
+        ManejadorLista man = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista losta;
         List<Lista> lista;
         lista = man.todaslistassinduenio();
@@ -374,7 +377,7 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public List<DTOLista> Obtengolistas() throws NoExisteLista {
 
-        ManejadorLista man = ManejadorLista.getInstance();
+        ManejadorLista man = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista losta;
         List<Lista> lista;
         lista = man.todaslistas();
@@ -391,7 +394,7 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public void aniadoTemaListaPublica(String nombrelista, String nombreteam, String nombrealb) {
 
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
         Album alb = cPersist.BuscoAlbumtemalis(nombrealb);
 
@@ -464,7 +467,7 @@ public class ControllerMusica implements IControllerMusica {
         }
 
         Tema iteratem;
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lis = manlis.ExisteLista(nombreLista);
         List<Tema> temos = lis.getTemas();
         if (lis != null) {
@@ -522,7 +525,7 @@ public class ControllerMusica implements IControllerMusica {
             return;
         }
         Tema iteratem;
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lis = manlis.ExisteLista(nombreLista);
         List<Tema> temos = lis.getTemas();
         ManejadorUsuario USR = ManejadorUsuario.getinstance();
@@ -570,7 +573,7 @@ public class ControllerMusica implements IControllerMusica {
         ManejadorUsuario manusr = ManejadorUsuario.getinstance();
         Cliente Cli = manusr.obtenerCliente(nombreUsuario);
 
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
         Album alb = cPersist.BuscoAlbumtemalis(nombrealb);
 
@@ -633,7 +636,7 @@ public class ControllerMusica implements IControllerMusica {
 
     @Override
     public List<DTOTema> TemasdeListasDTO(String nombrelista) {
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         List<DTOTema> temos = manlis.temasdelalistadto(nombrelista);
         return temos;
     }
@@ -641,7 +644,7 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public List<DTOTema> TemasdeListas(String nombrelista) {
 
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         List<Tema> temos = manlis.temasdelalista(nombrelista);
 
         Tema tem;
@@ -649,8 +652,7 @@ public class ControllerMusica implements IControllerMusica {
 
         for (int i = 0; i < temos.size(); i++) {
             tem = temos.get(i);
-            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getArchivo(),
-                    tem.getPosicion());
+            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getArchivo(),  tem.getPosicion());
             dtotema.add(datotemo);
         }
         return dtotema;
@@ -730,7 +732,7 @@ public class ControllerMusica implements IControllerMusica {
 
     @Override
     public List<DTOLista> ObtengoListasPublicasDATA() {
-        ManejadorLista man = ManejadorLista.getInstance();
+        ManejadorLista man = ManejadorLista.obtenerInstancia(this, ctrlU);
         List<Lista> lista = man.todaslistaspublica();
         List<DTOLista> dtolista = new ArrayList<>();
         String nick;
@@ -753,7 +755,7 @@ public class ControllerMusica implements IControllerMusica {
 
     @Override
     public List<DTOLista> ObtengoListasPublicas() throws NoExisteLista {
-        ManejadorLista man = ManejadorLista.getInstance();
+        ManejadorLista man = ManejadorLista.obtenerInstancia(this, ctrlU);
         List<Lista> lista = man.todaslistaspublica();
         List<DTOLista> dtolista = new ArrayList<>();
         for (Lista losta : lista) {
@@ -907,7 +909,7 @@ public class ControllerMusica implements IControllerMusica {
     @Override
     public void aniadoTemaListaConduenioLista(String nombreUsuario, String nombrelista, String nombreteam,
             String nombreListadeltema) {
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
         ManejadorUsuario manusr = ManejadorUsuario.getinstance();
         Cliente Cli = manusr.obtenerCliente(nombreUsuario);
@@ -972,7 +974,7 @@ public class ControllerMusica implements IControllerMusica {
 
     @Override
     public void aniadoTemaListaPublicaLista(String nombrelista, String nombreteam, String nombrealistadeltema) {
-        ManejadorLista manlis = ManejadorLista.getInstance();
+        ManejadorLista manlis = ManejadorLista.obtenerInstancia(this, ctrlU);
         Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
         Lista lis2 = cPersist.consultaListaPorTitulo(nombrealistadeltema);
         if (lis != null) {
@@ -1148,7 +1150,7 @@ public class ControllerMusica implements IControllerMusica {
         ManejadorUsuario usrM = ManejadorUsuario.getinstance();
         Cliente cli = usrM.obtenerCliente(nombreUsuario);
         if (cli != null) {
-            ManejadorLista manL = ManejadorLista.getInstance();
+            ManejadorLista manL = ManejadorLista.obtenerInstancia(this, ctrlU);
             Lista lis = manL.ExisteLista(NombreLista);
             if (lis != null) {
                 if (lis.getEsPrivada() == true) {

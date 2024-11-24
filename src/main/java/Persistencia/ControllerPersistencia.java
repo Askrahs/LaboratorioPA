@@ -4,13 +4,40 @@ import Logica.*;
 import LogicaDTO.*;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class ControllerPersistencia {
-    AlbumJpaController albJpa = new AlbumJpaController();
-    ArtistaJpaController artJpa = new ArtistaJpaController();
-    TemaJpaController temJpa = new TemaJpaController();
-    ListaJpaController listJpa = new ListaJpaController();
-    ClienteJpaController cliJpa = new ClienteJpaController();
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    private final AlbumJpaController albJpa;
+    private final ArtistaJpaController artJpa;
+    private final TemaJpaController temJpa;
+    private final ListaJpaController listJpa;
+    private final ClienteJpaController cliJpa;
+
+    public ControllerPersistencia(AlbumJpaController albJpa, ArtistaJpaController artJpa,
+                                  TemaJpaController temJpa, ListaJpaController listJpa,
+                                  ClienteJpaController cliJpa) {
+        this.albJpa = albJpa;
+        this.artJpa = artJpa;
+        this.temJpa = temJpa;
+        this.listJpa = listJpa;
+        this.cliJpa = cliJpa;
+        this.emf = Persistence.createEntityManagerFactory("EspotifyBD");
+        this.em = emf.createEntityManager();
+    }
+
+    public ControllerPersistencia() {
+        emf = Persistence.createEntityManagerFactory("EspotifyBD");
+        em = emf.createEntityManager();
+        albJpa = new AlbumJpaController();
+        artJpa = new ArtistaJpaController();
+        temJpa = new TemaJpaController();
+        listJpa = new ListaJpaController();
+        cliJpa = new ClienteJpaController();
+    }
 
     public void altaAlbum(Album album) throws Exception {
         albJpa.create(album);

@@ -11,8 +11,16 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
-    ControllerPersistencia cPersist = new ControllerPersistencia();
-    
+   
+    private final ControllerPersistencia cPersist;
+    private final ControllerMusica ctrlM;
+
+    // Constructor con inyección de dependencias
+    public ControllerUsuario(ControllerPersistencia cPersist, ControllerMusica ctrlM) {
+        this.cPersist = cPersist;
+        this.ctrlM=ctrlM;
+    }
+   
     @Override
     public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String contraseña) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
@@ -483,7 +491,6 @@ public class ControllerUsuario implements IControllerUsuario {
      
     @Override
     public  DTOTema ObtenerElTemadelAlbumdelArtista(String nickname, String NombreAlbum ,String NombreTema) throws UsuarioNoExisteException, ArtistaSinAlbums{     ManejadorUsuario manu = ManejadorUsuario.getinstance();
-         ControllerMusica ctrlM = new ControllerMusica();
          Artista art = manu.obtenerArtista(nickname);
          if(art!=null){
           Collection<Album> albums = art.getPublicados();

@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 public class TemaJpaController {
 
     private EntityManagerFactory emf = null;
-    private IControllerUsuario ctrlU = new ControllerUsuario();
+    private IControllerUsuario ctrlU;
 
     public TemaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
