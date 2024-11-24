@@ -235,10 +235,11 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                 ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
                 Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
                 jLabelImagen.setIcon(new ImageIcon(image));       
+                //TODO AJUSTAR RUTAS
                 String carpetaDestino = "src/recursos/imagenes/";
                 rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText()  + ".jpg";
-                String carpetaDestino = "C:/Users/Santiago/Desktop/yoquese/LaboratorioWeb/build/web/FOTOLISTA/";
-                rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText() + ".jpg";
+                //String carpetaDestino = "C:/Users/Santiago/Desktop/yoquese/LaboratorioWeb/build/web/FOTOLISTA/";
+                //rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText() + ".jpg";
                 File destino = new File(rutadestino);
                 File directorio = new File(carpetaDestino);
                 if (!directorio.exists()) {
