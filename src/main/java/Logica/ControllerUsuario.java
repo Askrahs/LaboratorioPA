@@ -208,8 +208,6 @@ public class ControllerUsuario implements IControllerUsuario {
     public List<String> obtenerClientes(){
             return cPersist.obtenerClientes();
     }
-    
-    
 
     @Override
     public void agregarTemaAFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException {
@@ -225,7 +223,7 @@ public class ControllerUsuario implements IControllerUsuario {
         Mu.addTemafavoritos(c, t);
     }
 
-        @Override
+    @Override
     public void agregarListaAFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
     Cliente c = Mu.obtenerCliente(nickname);
@@ -252,7 +250,6 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         Mu.addAlbumfavoritos(c, a);
     }
-    
     
     @Override
     public void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException {
@@ -340,8 +337,9 @@ public class ControllerUsuario implements IControllerUsuario {
     throw new ElementoNoValidoException("El tema no está en los favoritos del cliente.");
     }
 }
+    
     @Override
- public  List<DTOLista> ObtenerListasClienteDATA(String nickname){
+    public  List<DTOLista> ObtenerListasClienteDATA(String nickname){
      ManejadorUsuario Mu = ManejadorUsuario.getinstance();
     
         List<DTOLista> nombresListas = Mu.obtenerListasCliDATA(nickname);
@@ -350,6 +348,7 @@ public class ControllerUsuario implements IControllerUsuario {
         
         return nombresListas;
  }
+ 
     @Override
     public  List<DTOAlbum> ObtenerAlbumsClienteDATA(String nickname){
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
@@ -357,6 +356,7 @@ public class ControllerUsuario implements IControllerUsuario {
        
         return nombresAlbums;
     }
+    
     @Override
     public  List<DTOTema> ObtenerTemasClienteDATA(String nickname){
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
@@ -365,6 +365,7 @@ public class ControllerUsuario implements IControllerUsuario {
       
         return nombresTemas;
     }
+    
     @Override
     public List<String> ObtenerListasCliente(String nickname) {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
@@ -378,7 +379,14 @@ public class ControllerUsuario implements IControllerUsuario {
         List<String> nombresAlbums = Mu.obtenerAlbumsCli(nickname);
         return nombresAlbums;
     }
-
+    
+    @Override
+    public List<String> ObtenerRankingDeSeguidores() {
+        ManejadorUsuario Mu = ManejadorUsuario.getinstance();
+        List<String> nombresUsers = Mu.obtenerRankingdeSeguidores();
+        return nombresUsers;
+    }
+    
     @Override
     public List<String> ObtenerTemasCliente(String nickname) {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
@@ -429,8 +437,6 @@ public class ControllerUsuario implements IControllerUsuario {
         Mu.ModificarSuscripcion( nickname,  fecha,  Estado,  Tipo);
     }
     
-  
-
     @Override
     public List<DTOArtista> obtenerArtistasData(){
         List<Artista> artistas = cPersist.obtenerArtistasData(); // Obtiene la lista de Artista
@@ -446,7 +452,6 @@ public class ControllerUsuario implements IControllerUsuario {
     }
     
     @Override
-
     public List<DTOCliente> obtenerClientesData(){
     List<Cliente> clientes = cPersist.obtenerClientesData(); // Obtiene la lista de Artista
     List<DTOCliente> dtos = new ArrayList<>(); // Crea una nueva lista para los DTOArtista
@@ -467,7 +472,7 @@ public class ControllerUsuario implements IControllerUsuario {
         Mu.CrearSuscripcion( nickname, Tipo);
     }
 
- @Override
+    @Override
     public DTOArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException{
        ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Artista a = mu.obtenerArtista(nickname);
@@ -487,8 +492,6 @@ public class ControllerUsuario implements IControllerUsuario {
     return cDTO;
     }
 
-
-     
     @Override
     public  DTOTema ObtenerElTemadelAlbumdelArtista(String nickname, String NombreAlbum ,String NombreTema) throws UsuarioNoExisteException, ArtistaSinAlbums{     ManejadorUsuario manu = ManejadorUsuario.getinstance();
          Artista art = manu.obtenerArtista(nickname);
@@ -525,7 +528,7 @@ public class ControllerUsuario implements IControllerUsuario {
      }
     
     @Override
-        public boolean usuarioSigueA(String seguidor, String seguido){
+    public boolean usuarioSigueA(String seguidor, String seguido){
             ManejadorUsuario mu = ManejadorUsuario.getinstance();
             Cliente cli = mu.obtenerCliente(seguidor);
             Collection<Usuario> siguiendo = cli.getSiguiendo();
