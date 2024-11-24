@@ -54,4 +54,6 @@ public interface IControllerUsuario {
     public abstract Boolean artistaActivo(String nickname);
     public abstract List<RegistroAcceso> obtenerTodosLosRegistros();
     public abstract void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario);
+    public abstract List<RegistroAcceso> obtenerTodosLosRegistros();
+    public abstract void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario);
 }

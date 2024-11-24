@@ -537,9 +537,7 @@ public class ControllerUsuario implements IControllerUsuario {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         mu.crearRegistro(ipUsuario, urlAcceso, browserUsuario, soUsuario);
     }
-        
-        
-        
+    
         @Override
         public List<String> obtenerNickArtistasBorrados(){
             return cPersist.findArtistasBorrados();
