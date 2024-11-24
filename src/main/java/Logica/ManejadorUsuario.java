@@ -14,10 +14,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.swing.JOptionPane;
 
 public class ManejadorUsuario {
 
@@ -238,88 +236,85 @@ public class ManejadorUsuario {
     }
 
     public List<DTOLista> obtenerListasCliDATA(String nickname) {
-   // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
-    String jpql = "SELECT li FROM Cliente c JOIN c.listasFavoritas li WHERE c.nickname = :nickname";
-    List<Lista> ListasFavoritos = em.createQuery(jpql, Lista.class)
-                                      .setParameter("nickname", nickname)
-                                      .getResultList();
+        // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
+        String jpql = "SELECT li FROM Cliente c JOIN c.listasFavoritas li WHERE c.nickname = :nickname";
+        List<Lista> ListasFavoritos = em.createQuery(jpql, Lista.class)
+                .setParameter("nickname", nickname)
+                .getResultList();
 
-    // Inicializa la lista para almacenar los DTOs
-    List<DTOLista> listasDto = new ArrayList<>();
+        // Inicializa la lista para almacenar los DTOs
+        List<DTOLista> listasDto = new ArrayList<>();
 
-    // Itera sobre los álbumes obtenidos
-    for (Lista lis : ListasFavoritos) {
-        // Obtiene los datos necesarios
-        String titulo = lis.getNombre();
-        Cliente cli = this.obtenerCliente(nickname);
-        
-        String rutaImagen = lis.getRutaImagen();
-         String artistaNickname;
-        if(cli!=null){
-         artistaNickname =  cli.getNombre();
-                }else{
-         artistaNickname ="Desconocido";
+        // Itera sobre los álbumes obtenidos
+        for (Lista lis : ListasFavoritos) {
+            // Obtiene los datos necesarios
+            String titulo = lis.getNombre();
+            Cliente cli = this.obtenerCliente(nickname);
+
+            String rutaImagen = lis.getRutaImagen();
+            String artistaNickname;
+            if (cli != null) {
+                artistaNickname = cli.getNombre();
+            } else {
+                artistaNickname = "Desconocido";
+            }
+            // Crea un nuevo DTOAlbum y lo agrega a la lista
+            listasDto.add(new DTOLista(titulo, rutaImagen, artistaNickname));
         }
-        // Crea un nuevo DTOAlbum y lo agrega a la lista
-        listasDto.add(new DTOLista(titulo, rutaImagen, artistaNickname));
-    }
-    
-    return listasDto;
-    }
 
+        return listasDto;
+    }
 
     public List<DTOAlbum> obtenerAlbumsCliDATA(String clienteNickname) {
-    // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
-    String jpql = "SELECT af FROM Cliente c JOIN c.albumsFavoritos af JOIN af.artista a WHERE c.nickname = :nickname";
-    List<Album> albumsFavoritos = em.createQuery(jpql, Album.class)
-                                      .setParameter("nickname", clienteNickname)
-                                      .getResultList();
+        // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
+        String jpql = "SELECT af FROM Cliente c JOIN c.albumsFavoritos af JOIN af.artista a WHERE c.nickname = :nickname";
+        List<Album> albumsFavoritos = em.createQuery(jpql, Album.class)
+                .setParameter("nickname", clienteNickname)
+                .getResultList();
 
-    // Inicializa la lista para almacenar los DTOs
-    List<DTOAlbum> albumsDto = new ArrayList<>();
+        // Inicializa la lista para almacenar los DTOs
+        List<DTOAlbum> albumsDto = new ArrayList<>();
 
-    // Itera sobre los álbumes obtenidos
-    for (Album album : albumsFavoritos) {
-        // Obtiene los datos necesarios
-        String titulo = album.getTitulo();
-        int anio = album.getAnio();
-        String rutaImagen = album.getRutaImagen();
-        String artistaNickname = album.getArtista() != null ? album.getArtista().getNickname() : "Desconocido";
+        // Itera sobre los álbumes obtenidos
+        for (Album album : albumsFavoritos) {
+            // Obtiene los datos necesarios
+            String titulo = album.getTitulo();
+            int anio = album.getAnio();
+            String rutaImagen = album.getRutaImagen();
+            String artistaNickname = album.getArtista() != null ? album.getArtista().getNickname() : "Desconocido";
 
-        // Crea un nuevo DTOAlbum y lo agrega a la lista
-        albumsDto.add(new DTOAlbum(titulo, anio, rutaImagen, artistaNickname));
+            // Crea un nuevo DTOAlbum y lo agrega a la lista
+            albumsDto.add(new DTOAlbum(titulo, anio, rutaImagen, artistaNickname));
+        }
+
+        return albumsDto;
     }
 
-    return albumsDto;
-}
+    public List<DTOTema> obtenerTemasCliDATA(String nickname) {
+        // JPQL para obtener los temas favoritos del cliente
+        String jpql = "SELECT t FROM Cliente c JOIN c.temasFavoritos t WHERE c.nickname = :nickname";
 
-  public List<DTOTema> obtenerTemasCliDATA(String nickname) {
-    // JPQL para obtener los temas favoritos del cliente
-    String jpql = "SELECT t FROM Cliente c JOIN c.temasFavoritos t WHERE c.nickname = :nickname";
-    
-    // Ejecutar la consulta y obtener la lista de temas
-    List<Tema> nombreTemas = em.createQuery(jpql, Tema.class)
-                                .setParameter("nickname", nickname)
-                                .getResultList();
+        // Ejecutar la consulta y obtener la lista de temas
+        List<Tema> nombreTemas = em.createQuery(jpql, Tema.class)
+                .setParameter("nickname", nickname)
+                .getResultList();
 
-    // Inicializa la lista para almacenar los DTOs
-    List<DTOTema> nombreTemasdto = new ArrayList<>(); // Asegúrate de inicializarla
-    String nombreAlbum;
-    String nombreartista;
-    // Itera sobre los temas obtenidos
-    for (Tema tem : nombreTemas) {
-        // Crea un nuevo DTOTema y lo agrega a la lista
-        nombreAlbum = tem.getAlbum().getTitulo();
-         nombreartista = tem.getAlbum().getArtista().getNickname();
-     
-        nombreTemasdto.add(new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(),nombreAlbum,nombreartista));
+        // Inicializa la lista para almacenar los DTOs
+        List<DTOTema> nombreTemasdto = new ArrayList<>(); // Asegúrate de inicializarla
+        String nombreAlbum;
+        String nombreartista;
+        // Itera sobre los temas obtenidos
+        for (Tema tem : nombreTemas) {
+            // Crea un nuevo DTOTema y lo agrega a la lista
+            nombreAlbum = tem.getAlbum().getTitulo();
+            nombreartista = tem.getAlbum().getArtista().getNickname();
+
+            nombreTemasdto.add(new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), nombreAlbum, nombreartista));
+        }
+
+        return nombreTemasdto; // Devuelve la lista de DTOs
     }
 
-    return nombreTemasdto; // Devuelve la lista de DTOs
-}
-
-
-    
     public List<String> obtenerListasCli(String nickname) {
         List<String> nombresListas;
         String jpql = "SELECT l.nombre FROM Cliente c JOIN c.listasFavoritas l WHERE c.nickname = :nickname";
@@ -394,6 +389,18 @@ public class ManejadorUsuario {
         String jpql = "SELECT s.cliente.nickname FROM Suscripcion s"; //si tiene el cliente
         nicknames = em.createQuery(jpql, String.class).getResultList();
         return nicknames;
+    }
+
+    public List<String> obtenerRankingdeSeguidores() {
+        List<String> resultados;
+        try {
+            String sql = "SELECT siguiendo_id FROM usuario_siguiendo GROUP BY siguiendo_id ORDER BY COUNT(*) DESC;";
+            resultados = em.createNativeQuery(sql).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultados = new ArrayList<>();
+        }
+        return resultados;
     }
 
     public Suscripcion obtenerSuscripcion(String nickname) {
