@@ -61,4 +61,7 @@ public interface IControllerMusica {
     public abstract boolean obtenerPadre(String nombreGenero);
     public abstract boolean espublicasiono(String nombreUsuario, String NombreLista);
     public abstract boolean sumaDescarga(DTOTema t);
+    public abstract boolean sumaReproduccion(DTOTema t);
+    public abstract List<DTOTema> promedioTemas(); 
+    
 }
