@@ -11,16 +11,10 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
-   
-    private final ControllerPersistencia cPersist;
-    private final ControllerMusica ctrlM;
-
-    // Constructor con inyección de dependencias
-    public ControllerUsuario(ControllerPersistencia cPersist, ControllerMusica ctrlM) {
-        this.cPersist = cPersist;
-        this.ctrlM=ctrlM;
-    }
-   
+    public ControllerUsuario() {}
+    IControllerMusica ctrlM = new ControllerMusica();
+    ControllerPersistencia cPersist = new ControllerPersistencia();
+    
     @Override
     public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String contraseña) throws UsuarioYaExisteException, EmailYaExiste {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();

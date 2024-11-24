@@ -15,28 +15,22 @@ import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 public class ManejadorLista {
-    private static ManejadorLista instancia = null;
+     private static ManejadorLista instancia = null;
     private EntityManagerFactory emf;
     private EntityManager em;
     private EntityTransaction t;
-    private final IControllerMusica ctrlM;
-    private final IControllerUsuario ctrlU;
+    private IControllerUsuario ctrlU = new ControllerUsuario();
+    private IControllerMusica ctrlM = new ControllerMusica();
 
-    private ManejadorLista(IControllerMusica ctrlM, IControllerUsuario ctrlU) {
-        this.ctrlM = ctrlM;
-        this.ctrlU = ctrlU;
-
-        // Inicialización de EntityManager y EntityTransaction
-        this.emf = Persistence.createEntityManagerFactory("EspotifyBD");
-        this.em = emf.createEntityManager();
-        this.t = em.getTransaction();
+    public ManejadorLista() {
+        emf = Persistence.createEntityManagerFactory("EspotifyBD");
+        em = emf.createEntityManager();
+        t = em.getTransaction(); //se usa para las consultas y commits/rollbacks
     }
 
-    // Método público para obtener la instancia única (Singleton)
-    public static ManejadorLista obtenerInstancia(IControllerMusica ctrlM, IControllerUsuario ctrlU) {
+    public static ManejadorLista getInstance() {
         if (instancia == null) {
-            // Si no existe una instancia, se crea pasando los controladores como parámetros
-            instancia = new ManejadorLista(ctrlM, ctrlU);
+            instancia = new ManejadorLista();
         }
         return instancia;
     }
