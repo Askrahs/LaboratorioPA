@@ -8,12 +8,12 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import javax.swing.JOptionPane;
 
 public class ControllerUsuario implements IControllerUsuario {
     public ControllerUsuario() {}
     IControllerMusica ctrlM = new ControllerMusica();
     ControllerPersistencia cPersist = new ControllerPersistencia();
+    
     
     @Override
     public void registrarCliente(String nickname, String nombre, String apellido, String Email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String contraseña) throws UsuarioYaExisteException, EmailYaExiste {
@@ -150,7 +150,7 @@ public class ControllerUsuario implements IControllerUsuario {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Artista a = null;
         a = mu.obtenerArtista(nickname);
-        if (a == null) {
+        if (a == null || !a.isActivo()) {
             throw new UsuarioNoExisteException("El Artista seleccionado no existe...");
         }
         return a;
@@ -176,6 +176,7 @@ public class ControllerUsuario implements IControllerUsuario {
         List<String> titulos = new ArrayList<>();
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Artista artista = mu.obtenerArtista(nickname);
+        if(artista.isActivo()){
         Collection<Album> albums = artista.getPublicados();
         for (Album a : albums) {
             titulos.add(a.getTitulo());
@@ -184,7 +185,8 @@ public class ControllerUsuario implements IControllerUsuario {
             throw new ArtistaSinAlbums("Artista sin Albums");
         }
           return titulos;
-          
+        }
+        return null;
     }
 
     @Override
@@ -204,7 +206,7 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     @Override
-    public void agregarTemaAFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException {
+    public void agregarTemaAFavoritos(String nickname, DtoTema tema) throws ElementoNoValidoException {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
         Cliente c = Mu.obtenerCliente(nickname);
         Tema t = cPersist.findTemaPorDatos(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion());
@@ -218,21 +220,36 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     @Override
-    public void agregarListaAFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException {
+    public void agregarListaAFavoritos(String nickname, DtoLista lista) throws ElementoNoValidoException {
+
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-    Cliente c = Mu.obtenerCliente(nickname);
-    Lista l = cPersist.consultaListaPorTitulo(lista.getNombre());
-    if (l == null) {
-        throw new ElementoNoValidoException("La lista no existe.");
-    }
-    if (c.getAlbumsFavoritos() != null && c.getAlbumsFavoritos().contains(l)) {
-        throw new ElementoNoValidoException("El Album ya está en los favoritos.");
-    }
-    Mu.addListafavoritos(c, l);
+
+        Cliente c = Mu.obtenerCliente(nickname);
+
+        Lista l = cPersist.consultaListaPorTitulo(lista.getNombre());
+        List<Lista> listasfav = cPersist.obtenerListasFavoritasDeCliente(nickname);
+
+        if (listasfav.isEmpty()) {
+
+            Mu.addListafavoritos(c, l);
+            return;
+        }
+
+        for (Lista lis : listasfav) {
+            if (lis == l) {
+
+                throw new ElementoNoValidoException("La ya está en los favoritos.");
+            }
+        }
+        if (l == null) {
+
+            throw new ElementoNoValidoException("La lista no existe.");
+        }
+        Mu.addListafavoritos(c, l);
     }
 
     @Override
-    public void agregarAlbumAFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException {
+    public void agregarAlbumAFavoritos(String nickname, DtoAlbum album) throws ElementoNoValidoException {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
         Cliente c = Mu.obtenerCliente(nickname);
         Album a = cPersist.findAlbumPorDatos(album.getArtista(), album.getTitulo());
@@ -246,11 +263,11 @@ public class ControllerUsuario implements IControllerUsuario {
     }
     
     @Override
-    public void eliminarTemaDeFavoritos(String nickname, DTOTema tema) throws ElementoNoValidoException {
+    public void eliminarTemaDeFavoritos(String nickname, DtoTema tema) throws ElementoNoValidoException {
     ManejadorUsuario Mu = ManejadorUsuario.getinstance();
     Cliente c = Mu.obtenerCliente(nickname);
     
-    // Verificar si el DTOTema proporcionado es válido
+    // Verificar si el DtoTema proporcionado es válido
     if (tema == null) {
         throw new ElementoNoValidoException("El tema proporcionado es inválido.");
     }
@@ -278,11 +295,11 @@ public class ControllerUsuario implements IControllerUsuario {
 }
 
     @Override
-    public void eliminarListaDeFavoritos(String nickname, DTOLista lista) throws ElementoNoValidoException {
+    public void eliminarListaDeFavoritos(String nickname, DtoLista lista) throws ElementoNoValidoException {
     ManejadorUsuario Mu = ManejadorUsuario.getinstance();
     Cliente c = Mu.obtenerCliente(nickname);
     
-    // Verificar si el DTOLista proporcionado es válido
+    // Verificar si el DtoLista proporcionado es válido
     if (lista == null) {
         throw new ElementoNoValidoException("La lista proporcionada es inválida.");
     }
@@ -307,7 +324,7 @@ public class ControllerUsuario implements IControllerUsuario {
 }
 
     @Override
-    public void eliminarAlbumDeFavoritos(String nickname, DTOAlbum album) throws ElementoNoValidoException {
+    public void eliminarAlbumDeFavoritos(String nickname, DtoAlbum album) throws ElementoNoValidoException {
     ManejadorUsuario Mu = ManejadorUsuario.getinstance();
     Cliente c = Mu.obtenerCliente(nickname);
 
@@ -333,10 +350,10 @@ public class ControllerUsuario implements IControllerUsuario {
 }
     
     @Override
-    public  List<DTOLista> ObtenerListasClienteDATA(String nickname){
+    public  List<DtoLista> ObtenerListasClienteDATA(String nickname){
      ManejadorUsuario Mu = ManejadorUsuario.getinstance();
     
-        List<DTOLista> nombresListas = Mu.obtenerListasCliDATA(nickname);
+        List<DtoLista> nombresListas = Mu.obtenerListasCliDATA(nickname);
         
         
         
@@ -344,18 +361,18 @@ public class ControllerUsuario implements IControllerUsuario {
  }
  
     @Override
-    public  List<DTOAlbum> ObtenerAlbumsClienteDATA(String nickname){
+    public  List<DtoAlbum> ObtenerAlbumsClienteDATA(String nickname){
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-        List<DTOAlbum> nombresAlbums = Mu.obtenerAlbumsCliDATA(nickname);
+        List<DtoAlbum> nombresAlbums = Mu.obtenerAlbumsCliDATA(nickname);
        
         return nombresAlbums;
     }
     
     @Override
-    public  List<DTOTema> ObtenerTemasClienteDATA(String nickname){
+    public  List<DtoTema> ObtenerTemasClienteDATA(String nickname){
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
         
-        List<DTOTema> nombresTemas = Mu.obtenerTemasCliDATA(nickname);
+        List<DtoTema> nombresTemas = Mu.obtenerTemasCliDATA(nickname);
       
         return nombresTemas;
     }
@@ -398,7 +415,11 @@ public class ControllerUsuario implements IControllerUsuario {
     @Override
     public boolean LoginArtista(String nickname, String contraseña) {
         ManejadorUsuario Mu = ManejadorUsuario.getinstance();
-        return Mu.LoginArtista(nickname, contraseña);
+        if (artistaActivo(nickname)){
+            return Mu.LoginArtista(nickname, contraseña);
+        }else{
+            return false;
+        }
     }
 
     @Override
@@ -432,28 +453,30 @@ public class ControllerUsuario implements IControllerUsuario {
     }
     
     @Override
-    public List<DTOArtista> obtenerArtistasData(){
+    public List<DtoArtista> obtenerArtistasData(){
         List<Artista> artistas = cPersist.obtenerArtistasData(); // Obtiene la lista de Artista
-        List<DTOArtista> dtos = new ArrayList<>(); // Crea una nueva lista para los DTOArtista
+        List<DtoArtista> dtos = new ArrayList<>(); // Crea una nueva lista para los DtoArtista
         Artista a;
         for (int i = 0; i<artistas.size();i++) {
         a = artistas.get(i);
-        DTOArtista dto = new DTOArtista(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getBiografia(),a.getWebSite(), a.getRutaImagen(), a.getFechaNac());
+        if(a.isActivo()){
+        DtoArtista dto = new DtoArtista(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getBiografia(),a.getWebSite(), a.getRutaImagen(), a.getFechaNac());
         dtos.add(dto);
+        }
     }
 
     return dtos;
     }
     
     @Override
-    public List<DTOCliente> obtenerClientesData(){
+    public List<DtoCliente> obtenerClientesData(){
     List<Cliente> clientes = cPersist.obtenerClientesData(); // Obtiene la lista de Artista
-    List<DTOCliente> dtos = new ArrayList<>(); // Crea una nueva lista para los DTOArtista
+    List<DtoCliente> dtos = new ArrayList<>(); // Crea una nueva lista para los DtoArtista
     Cliente c;
     for (int i = 0; i<clientes.size();i++) {
         c = clientes.get(i);
         
-        DTOCliente dto = new DTOCliente(c.getNickname(),c.getNombre(),c.getApellido(),c.getEmail(),c.getRutaImagen(),c.getFechaNac());
+        DtoCliente dto = new DtoCliente(c.getNickname(),c.getNombre(),c.getApellido(),c.getEmail(),c.getRutaImagen(),c.getFechaNac());
         dtos.add(dto);
     }
 
@@ -467,36 +490,39 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     @Override
-    public DTOArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException{
+    public DtoArtista ObtenerArtistaDTO(String nickname) throws UsuarioNoExisteException{
        ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Artista a = mu.obtenerArtista(nickname);
     //( ͡❛ ͜ʖ͡❛ )
     //String nickname, String nombre, String apellido, String email, String biografia, String website
-    DTOArtista aDTO = new DTOArtista(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getBiografia(), a.getWebSite(), a.getRutaImagen(), a.getFechaNac());
+    if(a.isActivo()){
+    DtoArtista aDTO = new DtoArtista(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getBiografia(), a.getWebSite(), a.getRutaImagen(), a.getFechaNac());
     return aDTO; 
+    }
+    return null;
     }
     
     @Override
-    public DTOCliente ObtenerClienteDTO(String nickname) throws UsuarioNoExisteException {
+    public DtoCliente ObtenerClienteDTO(String nickname) throws UsuarioNoExisteException {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Cliente a = mu.obtenerCliente(nickname);
     //( ͡❛ ͜ʖ͡❛ )
     //String nickname, String nombre, String apellido, String email, String imagen, String fechaNac
-    DTOCliente cDTO = new DTOCliente(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getRutaImagen(), a.getFechaNac());
+    DtoCliente cDTO = new DtoCliente(a.getNickname(), a.getNombre(), a.getApellido(), a.getEmail(), a.getRutaImagen(), a.getFechaNac());
     return cDTO;
     }
 
     @Override
-    public  DTOTema ObtenerElTemadelAlbumdelArtista(String nickname, String NombreAlbum ,String NombreTema) throws UsuarioNoExisteException, ArtistaSinAlbums{     ManejadorUsuario manu = ManejadorUsuario.getinstance();
+    public  DtoTema ObtenerElTemadelAlbumdelArtista(String nickname, String NombreAlbum ,String NombreTema) throws UsuarioNoExisteException, ArtistaSinAlbums{     ManejadorUsuario manu = ManejadorUsuario.getinstance();
          Artista art = manu.obtenerArtista(nickname);
-         if(art!=null){
+         if(art!=null && art.isActivo()){
           Collection<Album> albums = art.getPublicados();
                     if(!albums.isEmpty()){
                         for(Album ali : albums){
                             if(ali.getTitulo().equalsIgnoreCase(NombreAlbum)){
-                                List <DTOTema> tom = ctrlM.ObtengoTemasdeAlbum(NombreAlbum);
+                                List <DtoTema> tom = ctrlM.ObtengoTemasdeAlbum(NombreAlbum);
                                 if(!tom.isEmpty()){
-                                    for(DTOTema t:tom){
+                                    for(DtoTema t:tom){
                                         if(t.getNombre().equalsIgnoreCase(NombreTema)){
                                             return t;
                                         }
@@ -558,14 +584,61 @@ public class ControllerUsuario implements IControllerUsuario {
             cPersist.darDeBajaArtista(a);     
             
             Set<Integer> albumIds = cPersist.obtenerTodosLosIDAlbumsDelArtista(nickname);
-            cPersist.darDeBajaAlbumsyTemasCliente(albumIds);
-            cPersist.darDeBajaTemasDeLista(albumIds);
+            if(albumIds != null && !albumIds.isEmpty()){
+                cPersist.darDeBajaAlbumsyTemasCliente(albumIds);
+                cPersist.darDeBajaTemasDeLista(albumIds);
+            }
         }
         
         @Override
         public Boolean artistaActivo(String nickname){
             ManejadorUsuario mu = ManejadorUsuario.getinstance();
             Artista a = mu.obtenerArtista(nickname);
-            return a.isActivo();
+            if (a != null){
+            return a.isActivo();    
+            }
+            return false;
         }
+
+    @Override
+    public String ObtenerEstadoSus(String nickname) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.obtenerEstadoSus(nickname);
+    }
+
+    @Override
+    public Boolean ClienteTieneSuscripcion(String nickname) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.ClienteTieneSuscripcion(nickname);
+    }
+
+    @Override
+    public DtoSuscripcion obtenerDTOSuscripcion(String nickname) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.obtenerDTOSuscripcion(nickname);
+    }
+
+    @Override
+    public void GuardarImagenDesdeWeb(byte[] imagenBytes, String nick) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        mu.guardarImagenDesdeWeb(imagenBytes, nick);
+    }
+
+    @Override
+    public void GuardarImagenDesdeWebLista(byte[] imagenBytes, String nick, String nombreLista) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        mu.guardarImagenDesdeWebLista(imagenBytes,  nick, nombreLista);
+    }
+
+    @Override
+    public byte[] cargarImagenCliWeb(String ruta) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.cargarImagenCliWeb(ruta);
+    }
+    
+    public byte[] obtenerMp3(String ruta){
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.obtenerMp3(ruta);
+    }
+        
 }

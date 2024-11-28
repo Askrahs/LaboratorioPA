@@ -1,7 +1,7 @@
 package Persistencia;
 
 import Logica.Lista;
-import LogicaDTO.DTOLista;
+import LogicaDTO.DtoLista;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -99,7 +99,7 @@ public class ListaJpaController {
             }
         }
     }
-public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) {
+public List<DtoLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) {
        
     EntityManager em = getEntityManager();
         try {
@@ -109,9 +109,9 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
             List<Lista> listas = query.getResultList();
             
             
-            List<DTOLista> dtoLista = new ArrayList<>();
+            List<DtoLista> dtoLista = new ArrayList<>();
             for (Lista lis : listas){
-                dtoLista.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
+                dtoLista.add(new DtoLista(lis.getNombre(),lis.getRutaImagen()));
             }
             return dtoLista;
         } finally {
@@ -131,7 +131,7 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
         }
     }
 
-    public List<DTOLista> findListaPorClienteDATA(String clienteSeleccionado) {
+    public List<DtoLista> findListaPorClienteDATA(String clienteSeleccionado) {
   
         EntityManager em = getEntityManager();
         em.clear();
@@ -140,13 +140,13 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
                "SELECT l FROM Lista l WHERE  l.esPrivada = 0 and l.duenio.nickname = :nombre", Lista.class);
            query.setParameter("nombre", clienteSeleccionado);
            List<Lista> listas = query.getResultList();
-           List<DTOLista> DTOlistas = new ArrayList<>();
+           List<DtoLista> DTOlistas = new ArrayList<>();
            
            
            
             for (Lista lis : listas){
                
-                DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen(), lis.getDuenio().getNickname()));
+                DTOlistas.add(new DtoLista(lis.getNombre(),lis.getRutaImagen(), lis.getDuenio().getNickname()));
                 
             }
            
@@ -250,7 +250,7 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
         }
     }
     
-    public List<DTOLista> findListaPorClientePRIVADAS(String clienteSeleccionado) {
+    public List<DtoLista> findListaPorClientePRIVADAS(String clienteSeleccionado) {
         EntityManager em = getEntityManager();
         em.clear();
         try {
@@ -258,9 +258,9 @@ public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) 
                "SELECT l FROM Lista l WHERE  l.esPrivada = 1 and l.duenio.nickname = :nombre", Lista.class);
            query.setParameter("nombre", clienteSeleccionado);
            List<Lista> listas = query.getResultList();
-           List<DTOLista> DTOlistas = new ArrayList<>();
+           List<DtoLista> DTOlistas = new ArrayList<>();
             for (Lista lis : listas){
-                DTOlistas.add(new DTOLista(lis.getNombre(),lis.getRutaImagen()));
+                DTOlistas.add(new DtoLista(lis.getNombre(),lis.getRutaImagen()));
             }
             return DTOlistas;
         } finally {

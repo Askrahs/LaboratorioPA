@@ -5,9 +5,9 @@ import Excepciones.NoExisteLista;
 import Excepciones.NoHayUsuariosEnElSistemaException;
 import Excepciones.UsuarioNoExisteException;
 import Logica.*;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
+import LogicaDTO.DtoAlbum;
+import LogicaDTO.DtoLista;
+import LogicaDTO.DtoTema;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -345,7 +345,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
    
     
     private void jTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTemaActionPerformed
-        List<DTOTema> temitas = ctrlM.obtenerTemitas();
+        List<DtoTema> temitas = ctrlM.obtenerTemitas();
         
         cargarNicknames();
     DefaultListModel<String> listModel;
@@ -356,13 +356,13 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     jListTemas.setModel(listModel);
     }
     listModel.clear();
-    for (DTOTema t : temitas) {
+    for (DtoTema t : temitas) {
         listModel.addElement(t.getNombre());
     }
     }//GEN-LAST:event_jTemaActionPerformed
 
     private void jListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jListaActionPerformed
-        List<DTOLista> listas = null;
+        List<DtoLista> listas = null;
     
     // Obtener listas públicas desde el controlador
     try {
@@ -392,7 +392,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     listModel.clear();
 
     // Agregar cada lista pública al modelo de la JList
-    for (DTOLista l : listas) {
+    for (DtoLista l : listas) {
         listModel.addElement(l.getNombre());  // Aquí agregas el nombre de cada lista pública
     }
     }//GEN-LAST:event_jListaActionPerformed
@@ -424,7 +424,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
 
     private void jAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlbumActionPerformed
     cargarNicknames();
-    List<DTOAlbum> albums = ctrlM.obtenerAlbums();
+    List<DtoAlbum> albums = ctrlM.obtenerAlbums();
     DefaultListModel<String> listModel;
     if (jListAlbums.getModel() instanceof DefaultListModel) {
     listModel = (DefaultListModel<String>) jListAlbums.getModel();
@@ -433,7 +433,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     jListAlbums.setModel(listModel);
     }
     listModel.clear();
-    for (DTOAlbum a : albums) {
+    for (DtoAlbum a : albums) {
     listModel.addElement(a.getTitulo()); // Aquí agregas el título de cada álbum
     }
     }//GEN-LAST:event_jAlbumActionPerformed
@@ -452,7 +452,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     try {
         switch (elementoSeleccionado) {
             case "tema":
-                DTOTema tema = ctrlM.consultaTemaPorTitulo(nombreElemento);
+                DtoTema tema = ctrlM.consultaTemaPorTitulo(nombreElemento);
                 if (tema != null) {
                     ctrlU.agregarTemaAFavoritos(nicknameCLI, tema);
                     JOptionPane.showMessageDialog(this, "Tema agregado a los favoritos.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -462,7 +462,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
                 break;
 
             case "lista":
-                DTOLista lista = ctrlM.consultaListaPorTitulo(nombreElemento);
+                DtoLista lista = ctrlM.consultaListaPorTitulo(nombreElemento);
                 if (lista != null) {
                     ctrlU.agregarListaAFavoritos(nicknameCLI, lista);
                     JOptionPane.showMessageDialog(this, "Lista agregada a los favoritos.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -472,7 +472,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
                 break;
 
             case "album":
-                DTOAlbum album = ctrlM.consultaAlbumPorTitulo(nombreElemento);
+                DtoAlbum album = ctrlM.consultaAlbumPorTitulo(nombreElemento);
                 if (album != null) {
                     ctrlU.agregarAlbumAFavoritos(nicknameCLI, album);
                     JOptionPane.showMessageDialog(this, "Álbum agregado a los favoritos.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -497,7 +497,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     private void jListTemasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListTemasValueChanged
         String temaseleccionado = jListTemas.getSelectedValue();
         if(temaseleccionado != null){
-            DTOTema tema = ctrlM.consultaTemaPorTitulo(temaseleccionado);
+            DtoTema tema = ctrlM.consultaTemaPorTitulo(temaseleccionado);
             if(tema != null){
                 txtNomfav.setText(tema.getNombre());
                 elementoSeleccionado = "tema";
@@ -510,7 +510,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     private void jListAlbumsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListAlbumsValueChanged
         String albumSeleccionado = jListAlbums.getSelectedValue();
         if(albumSeleccionado != null){
-            DTOAlbum albDTO = ctrlM.consultaAlbumPorTitulo(albumSeleccionado);
+            DtoAlbum albDTO = ctrlM.consultaAlbumPorTitulo(albumSeleccionado);
             if(albDTO != null){
             txtNomfav.setText(albDTO.getTitulo());
             elementoSeleccionado = "album";
@@ -523,7 +523,7 @@ public class AgregarTemaListaÁlbum extends javax.swing.JFrame {
     private void jListListasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListListasValueChanged
         String listaselecccionada = jListListas.getSelectedValue();
         if(listaselecccionada != null){
-            DTOLista lista = ctrlM.consultaListaPorTitulo(listaselecccionada);
+            DtoLista lista = ctrlM.consultaListaPorTitulo(listaselecccionada);
             if(lista != null){
                 txtNomfav.setText(lista.getNombre());
                 elementoSeleccionado = "lista";

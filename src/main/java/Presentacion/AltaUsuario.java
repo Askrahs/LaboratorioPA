@@ -2,6 +2,7 @@ package Presentacion;
 
 import Excepciones.*;
 import Logica.*;
+import static Main.LaboratorioPA.CARPETA_IMAGEN;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -368,10 +369,9 @@ public class AltaUsuario extends javax.swing.JFrame {
             String fecha = "";
             fecha = fecha.concat(dia + "/" + mes + "/" + año);
 
-            String carpetaDestino = null;
+            String carpetaDestino = CARPETA_IMAGEN;
             //RUTA IMAGEN 
             if (archivoSeleccionado != null) {
-                carpetaDestino = "src/recursos/imagenes/";
                 rutaDestino = carpetaDestino + "FotoUsr_" + nick + ".jpg";
                 File destino = new File(rutaDestino);
                 File directorio = new File(carpetaDestino);
@@ -449,11 +449,11 @@ public class AltaUsuario extends javax.swing.JFrame {
             ImageIcon icon = new ImageIcon(archivoSeleccionado.getAbsolutePath());
             Image image = icon.getImage().getScaledInstance(JLImagen.getWidth(), JLImagen.getHeight(), Image.SCALE_SMOOTH);
             JLImagen.setIcon(new ImageIcon(image));
-
         }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    
     private void txtDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDiaActionPerformed

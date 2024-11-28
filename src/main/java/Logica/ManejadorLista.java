@@ -1,8 +1,8 @@
 package Logica;
 
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
+import LogicaDTO.DtoAlbum;
+import LogicaDTO.DtoLista;
+import LogicaDTO.DtoTema;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -133,7 +133,7 @@ public class ManejadorLista {
         addLista(L);
     }
 
-    public List<DTOTema> temasdelalistadto(String nombrelista) {
+    public List<DtoTema> temasdelalistadto(String nombrelista) {
         // Busca la lista por su nombre
         Lista lis = this.ExisteLista(nombrelista);
 
@@ -148,21 +148,21 @@ public class ManejadorLista {
                 .setParameter("nombrelista", nombrelista)
                 .getResultList();
 
-        // Crea una lista para almacenar los DTOTema
-        List<DTOTema> temasDTO = new ArrayList<>();
+        // Crea una lista para almacenar los DtoTema
+        List<DtoTema> temasDTO = new ArrayList<>();
 
         String nombreartista;
         String nombrealbum;
-        // Convierte cada tema a DTOTema
+        // Convierte cada tema a DtoTema
         for (Tema tema : temas) {
             nombrealbum = tema.getAlbum().getTitulo();
             nombreartista = tema.getAlbum().getArtista().getNickname();
 
-            DTOTema dto = new DTOTema(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), nombrealbum, nombreartista);//String nombre, String duracion, String enlace, int posicion
+            DtoTema dto = new DtoTema(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), nombrealbum, nombreartista);//String nombre, String duracion, String enlace, int posicion
             temasDTO.add(dto);
         }
 
-        // Retorna la lista de DTOTema
+        // Retorna la lista de DtoTema
         return temasDTO;
     }
 
@@ -195,9 +195,9 @@ public class ManejadorLista {
         }
     }
 
-    public List<DTOLista> buscarListas(String query) {
+    public List<DtoLista> buscarListas(String query) {
 
-        List<DTOLista> DTOl = new ArrayList<>();
+        List<DtoLista> DTOl = new ArrayList<>();
         String dueño = null;
         String genero = null;
 
@@ -213,14 +213,14 @@ public class ManejadorLista {
                 genero = l.getGenero().toString();
             }
 
-            DTOLista listadto = new DTOLista(l.getNombre(), l.getRutaImagen(), l.getEsPrivada(), genero, dueño);
+            DtoLista listadto = new DtoLista(l.getNombre(), l.getRutaImagen(), l.getEsPrivada(), genero, dueño);
             DTOl.add(listadto);
         }
         return DTOl;
     }
 
-    public List<DTOAlbum> buscarAlbums(String query) {
-        List<DTOAlbum> DTOa = new ArrayList<>();
+    public List<DtoAlbum> buscarAlbums(String query) {
+        List<DtoAlbum> DTOa = new ArrayList<>();
 
         List<Album> albums = em.createQuery("SELECT a FROM Album a WHERE a.titulo LIKE :query", Album.class)
                 .setParameter("query", "%" + query + "%")
@@ -236,15 +236,15 @@ public class ManejadorLista {
                         }
                     }
 
-                    DTOAlbum albumdto = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(), generos, null);
+                    DtoAlbum albumdto = new DtoAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(), generos, null);
                     DTOa.add(albumdto);
             }
         }
         return DTOa;
     }
 
-    public List<DTOTema> buscarTemas(String query) {
-        List<DTOTema> DTOt = new ArrayList<>();
+    public List<DtoTema> buscarTemas(String query) {
+        List<DtoTema> DTOt = new ArrayList<>();
 
         List<Tema> temas = em.createQuery("SELECT t FROM Tema t WHERE t.nombre LIKE :query", Tema.class)
                 .setParameter("query", "%" + query + "%")
@@ -252,7 +252,7 @@ public class ManejadorLista {
 
         for (Tema t : temas) {
             if(ctrlM.temaValido(t)){
-                DTOTema temadto = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), 0);
+                DtoTema temadto = new DtoTema(t.getNombre(), t.getDuracion(), t.getEnlace(), 0);
                 DTOt.add(temadto);
             }
         }

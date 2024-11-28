@@ -3,9 +3,9 @@ package Persistencia;
 import Logica.Artista;
 import Logica.Cliente;
 import Logica.Usuario;
-import LogicaDTO.DTOArtista;
-import LogicaDTO.DTOCliente;
-import LogicaDTO.DTOLista;
+import LogicaDTO.DtoArtista;
+import LogicaDTO.DtoCliente;
+import LogicaDTO.DtoLista;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,17 +29,17 @@ public class ArtistaJpaController {
         EntityManager em = getEntityManager();
         try {
             // Consulta solo para devolver los nicknames de los artistas
-            TypedQuery<String> query = em.createQuery("SELECT a.nickname FROM Artista a", String.class);
+             TypedQuery<String> query = em.createQuery("SELECT a.nickname FROM Artista a WHERE a.activo = true", String.class);
             return query.getResultList();
         } finally {
             em.close();
         }
     }
     
-public List<Artista> findAllArtistaData() {
+    public List<Artista> findAllArtistaData() {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Artista> query = em.createQuery("SELECT a FROM Artista a", Artista.class);
+            TypedQuery<Artista> query = em.createQuery("SELECT a FROM Artista a WHERE a.activo = true", Artista.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -47,14 +47,14 @@ public List<Artista> findAllArtistaData() {
     }
     
     
-    public List<DTOCliente> findAllClientesData(){
+    public List<DtoCliente> findAllClientesData(){
        EntityManager em = getEntityManager();
         try {
             TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
              List<Cliente> artistas = query.getResultList();
-            List<DTOCliente> dtocliente = new ArrayList<>();
+            List<DtoCliente> dtocliente = new ArrayList<>();
             for (Cliente cli : artistas){
-             //   dtocliente.add(new DTOCliente(cli.getNickname(),cli.getNombre(),cli.getApellido(),cli.getRutaImagen(),cli.getEmail()));
+             //   dtocliente.add(new DtoCliente(cli.getNickname(),cli.getNombre(),cli.getApellido(),cli.getRutaImagen(),cli.getEmail()));
             }
             return dtocliente;
            

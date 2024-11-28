@@ -95,7 +95,7 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public void altaAlbum(DTOAlbum albumDTO, Set<DTOTema> temas)
+    public void altaAlbum(DtoAlbum albumDTO, Set<DtoTema> temas)
             throws AlbumYaExisteException, UsuarioNoExisteException {
         ManejadorUsuario mart = ManejadorUsuario.getinstance();
         Artista art = mart.obtenerArtista(albumDTO.getArtista());
@@ -107,7 +107,7 @@ public class ControllerMusica implements IControllerMusica {
         Set<Tema> temasAlb = new HashSet<>();
         Album alb = new Album(art, albumDTO.getTitulo(), generosAlb, albumDTO.getAnio(), null,
                 albumDTO.getRutaImagen());
-        for (DTOTema dtoTema : temas) {
+        for (DtoTema dtoTema : temas) {
             Tema nuevoTema = new Tema(dtoTema.getNombre(), dtoTema.getDuracion(), dtoTema.getEnlace(), dtoTema.getArchivo(),
                     dtoTema.getPosicion(), alb);
             temasAlb.add(nuevoTema);
@@ -210,20 +210,19 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public DTOAlbum consultaAlbumPorTitulo(String albumSeleccionado) {
+    public DtoAlbum consultaAlbumPorTitulo(String albumSeleccionado) {
         Album a = cPersist.consultaAlbumPorTitulo(albumSeleccionado);
         if (a != null) {
             Set<String> generosString = new HashSet<>();
-            Set<DTOTema> tDTO = new HashSet<>();
+            Set<DtoTema> tDTO = new HashSet<>();
             for (Genero gen : a.getGeneros()) {
                 generosString.add(gen.getNombre());
             }
             for (Tema tem : a.getTemas()) {
-                DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+                DtoTema nuevoTDTO = new DtoTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(),tem.getArchivo() , tem.getPosicion());                        
                 tDTO.add(nuevoTDTO);
             }
-            DTOAlbum aDTO = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(),
-                    generosString, tDTO);
+            DtoAlbum aDTO = new DtoAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(), a.getArtista().getNickname(),generosString, tDTO);
             return aDTO;
         } else {
             return null;
@@ -231,15 +230,15 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOGenero> Datageneros() {
+    public List<DtoGenero> Datageneros() {
         ManejadorGenero mang = ManejadorGenero.getInstance();
         List<Genero> gen = mang.obtengoListaGenero();
         Genero genunoauno;
-        List<DTOGenero> dtogeneros = new ArrayList<>();
+        List<DtoGenero> dtogeneros = new ArrayList<>();
 
         for (int i = 0; i < gen.size(); i++) {
             genunoauno = gen.get(i);
-            DTOGenero dagenero = new DTOGenero(genunoauno.getNombre(), genunoauno.getNombrepapa());
+            DtoGenero dagenero = new DtoGenero(genunoauno.getNombre(), genunoauno.getNombrepapa());
             dtogeneros.add(dagenero);
         }
         return dtogeneros;
@@ -305,13 +304,13 @@ public class ControllerMusica implements IControllerMusica {
 
     }
 
-    public DTOTema consultaTemaPorTituloYAlbum(String nombreTema, String nombreAlbum, String nombreArtista) {
+    public DtoTema consultaTemaPorTituloYAlbum(String nombreTema, String nombreAlbum, String nombreArtista) {
 
         String nombrEAlbum;
         String nombreartista;
-        DTOTema tre = null;
+        DtoTema tre = null;
 
-        DTOAlbum alb = cPersist.BuscoAlbumartista(nombreAlbum, nombreArtista);
+        DtoAlbum alb = cPersist.BuscoAlbumartista(nombreAlbum, nombreArtista);
 
         List<Tema> temis = cPersist.ObtengotemaPorAlbum(alb.getTitulo());
 
@@ -321,7 +320,7 @@ public class ControllerMusica implements IControllerMusica {
 
                 nombreartista = te.getAlbum().getArtista().getNickname();
 
-                tre = new DTOTema(te.getNombre(), te.getDuracion(), te.getEnlace(), nombrEAlbum, nombreartista);
+                tre = new DtoTema(te.getNombre(), te.getDuracion(), te.getEnlace(), nombrEAlbum, nombreartista);
             }
         }
         if (tre != null) {
@@ -334,53 +333,53 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOLista> Obtengolistasconduenio() throws NoExisteLista {
+    public List<DtoLista> Obtengolistasconduenio() throws NoExisteLista {
 
         ManejadorLista man = ManejadorLista.getInstance();
         Lista losta;
         List<Lista> lista;
         lista = man.todaslistasconduenio();
-        List<DTOLista> dtolista = new ArrayList<>();
+        List<DtoLista> dtolista = new ArrayList<>();
         Usuario usr;
         for (int i = 0; i < lista.size(); i++) {
             losta = lista.get(i);
             usr = losta.getDuenio();
-            DTOUsuario datousr = new DTOUsuario(usr.getNickname());
-            DTOLista datolista = new DTOLista(losta.getNombre(), datousr);
+            DtoUsuario datousr = new DtoUsuario(usr.getNickname());
+            DtoLista datolista = new DtoLista(losta.getNombre(), datousr);
             dtolista.add(datolista);
         }
         return dtolista;
     }
 
     @Override
-    public List<DTOLista> Obtengolistassinduenio() throws NoExisteLista {
+    public List<DtoLista> Obtengolistassinduenio() throws NoExisteLista {
 
         ManejadorLista man = ManejadorLista.getInstance();
         Lista losta;
         List<Lista> lista;
         lista = man.todaslistassinduenio();
-        List<DTOLista> dtolista = new ArrayList<>();
+        List<DtoLista> dtolista = new ArrayList<>();
 
         for (int i = 0; i < lista.size(); i++) {
             losta = lista.get(i);
-            DTOLista datolista = new DTOLista(losta.getNombre());
+            DtoLista datolista = new DtoLista(losta.getNombre());
             dtolista.add(datolista);
         }
         return dtolista;
     }
 
     @Override
-    public List<DTOLista> Obtengolistas() throws NoExisteLista {
+    public List<DtoLista> Obtengolistas() throws NoExisteLista {
 
         ManejadorLista man = ManejadorLista.getInstance();
         Lista losta;
         List<Lista> lista;
         lista = man.todaslistas();
-        List<DTOLista> dtolista = new ArrayList<>();
+        List<DtoLista> dtolista = new ArrayList<>();
 
         for (int i = 0; i < lista.size(); i++) {
             losta = lista.get(i);
-            DTOLista datolista = new DTOLista(losta.getNombre());
+            DtoLista datolista = new DtoLista(losta.getNombre());
             dtolista.add(datolista);
         }
         return dtolista;
@@ -630,33 +629,33 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOTema> TemasdeListasDTO(String nombrelista) {
+    public List<DtoTema> TemasdeListasDTO(String nombrelista) {
         ManejadorLista manlis = ManejadorLista.getInstance();
-        List<DTOTema> temos = manlis.temasdelalistadto(nombrelista);
+        List<DtoTema> temos = manlis.temasdelalistadto(nombrelista);
         return temos;
     }
 
     @Override
-    public List<DTOTema> TemasdeListas(String nombrelista) {
+    public List<DtoTema> TemasdeListas(String nombrelista) {
 
         ManejadorLista manlis = ManejadorLista.getInstance();
         List<Tema> temos = manlis.temasdelalista(nombrelista);
 
         Tema tem;
-        List<DTOTema> dtotema = new ArrayList<>();
+        List<DtoTema> dtotema = new ArrayList<>();
 
         for (int i = 0; i < temos.size(); i++) {
             tem = temos.get(i);
-            DTOTema datotemo = new DTOTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getArchivo(),  tem.getPosicion());
+            DtoTema datotemo = new DtoTema(tem.getId(), tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getArchivo(),  tem.getPosicion());
             dtotema.add(datotemo);
         }
         return dtotema;
     }
 
     @Override
-    public List<DTOAlbum> ObtengoAlbums() {
+    public List<DtoAlbum> ObtengoAlbums() {
         List<Album> Albumes = cPersist.obtenerTodosLosAlbumsCompletos();
-        List<DTOAlbum> dtoalbum = new ArrayList<>();
+        List<DtoAlbum> dtoalbum = new ArrayList<>();
 
         for (Album alb : Albumes) {
             if (alb.getArtista() != null) {
@@ -666,11 +665,11 @@ public class ControllerMusica implements IControllerMusica {
                     generos.add(genero.getNombre());
                 }
 
-                Set<DTOTema> temas = new HashSet<>();
+                Set<DtoTema> temas = new HashSet<>();
                 for (Tema tema : alb.getTemas()) {
-                    temas.add(new DTOTema(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion()));
+                    temas.add(new DtoTema(tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion()));
                 }
-                DTOAlbum datoalbu = new DTOAlbum(
+                DtoAlbum datoalbu = new DtoAlbum(
                         alb.getTitulo(),
                         alb.getAnio(),
                         alb.getRutaImagen(),
@@ -684,52 +683,52 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOTema> obtenerTemitasDATA() {
+    public List<DtoTema> obtenerTemitasDATA() {
         List<Tema> temas = cPersist.findTemitas();
-        List<DTOTema> dtoTemas = new ArrayList<>();
+        List<DtoTema> dtoTemas = new ArrayList<>();
         String nombreartista;
 
         for (Tema t : temas) {
             String nombralb = t.getAlbum().getTitulo();
             nombreartista = t.getAlbum().getArtista().getNickname();
-            DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), nombralb, nombreartista);
+            DtoTema dtoTema = new DtoTema(t.getNombre(), t.getDuracion(), t.getEnlace(), nombralb, nombreartista);
             dtoTemas.add(dtoTema);
         }
         return dtoTemas;
     }
 
     @Override
-    public List<DTOTema> ObtengoTemasdeAlbum(String nombreAlbum) {
+    public List<DtoTema> ObtengoTemasdeAlbum(String nombreAlbum) {
 
         List<Tema> temos = cPersist.ObtengotemaPorAlbum(nombreAlbum);
         Tema tem;
-        List<DTOTema> dtotema = new ArrayList<>();
+        List<DtoTema> dtotema = new ArrayList<>();
 
         for (int i = 0; i < temos.size(); i++) {
             tem = temos.get(i);
-            DTOTema datotemo = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+            DtoTema datotemo = new DtoTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
             dtotema.add(datotemo);
         }
         return dtotema;
     }
 
     @Override
-    public List<DTOTema> obtenerTemitas() {
+    public List<DtoTema> obtenerTemitas() {
         List<Tema> temas = cPersist.findTemitas();
-        List<DTOTema> dtoTemas = new ArrayList<>();
+        List<DtoTema> dtoTemas = new ArrayList<>();
 
         for (Tema t : temas) {
-            DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
+            DtoTema dtoTema = new DtoTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
             dtoTemas.add(dtoTema);
         }
         return dtoTemas;
     }
 
     @Override
-    public List<DTOLista> ObtengoListasPublicasDATA() {
+    public List<DtoLista> ObtengoListasPublicasDATA() {
         ManejadorLista man = ManejadorLista.getInstance();
         List<Lista> lista = man.todaslistaspublica();
-        List<DTOLista> dtolista = new ArrayList<>();
+        List<DtoLista> dtolista = new ArrayList<>();
         String nick;
         for (Lista losta : lista) {
             if (losta.getDuenio() == null) {
@@ -741,7 +740,7 @@ public class ControllerMusica implements IControllerMusica {
                 nick = losta.getDuenio().getNickname();
             }
 
-            DTOLista datolista = new DTOLista(losta.getNombre(), losta.getRutaImagen(), nick);
+            DtoLista datolista = new DtoLista(losta.getNombre(), losta.getRutaImagen(), nick);
             dtolista.add(datolista);
         }
 
@@ -749,26 +748,26 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOLista> ObtengoListasPublicas() throws NoExisteLista {
+    public List<DtoLista> ObtengoListasPublicas() throws NoExisteLista {
         ManejadorLista man = ManejadorLista.getInstance();
         List<Lista> lista = man.todaslistaspublica();
-        List<DTOLista> dtolista = new ArrayList<>();
+        List<DtoLista> dtolista = new ArrayList<>();
         for (Lista losta : lista) {
-            DTOLista datolista = new DTOLista(losta.getNombre());
+            DtoLista datolista = new DtoLista(losta.getNombre());
             dtolista.add(datolista);
         }
         return dtolista;
     }
 
     @Override
-    public List<DTOAlbum> obtenerAlbums() {
+    public List<DtoAlbum> obtenerAlbums() {
         List<Album> albums = cPersist.todosLosAlbums();
-        List<DTOAlbum> dtoAlbums = new ArrayList<>();
+        List<DtoAlbum> dtoAlbums = new ArrayList<>();
 
         for (Album a : albums) {
             // String titulo, int anio, String rutaImagen, String artista, Set<String>
             // generos, Set<DTOTema> temas
-            DTOAlbum dtoAlbum = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(),
+            DtoAlbum dtoAlbum = new DtoAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(),
                     a.getArtista().getNickname(), null, null);
             dtoAlbums.add(dtoAlbum);
         }
@@ -781,7 +780,7 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOLista> obtenerListaPorClienteDATA(String clienteseleccionado) {
+    public List<DtoLista> obtenerListaPorClienteDATA(String clienteseleccionado) {
         return cPersist.obtenerListaPorClienteDATA(clienteseleccionado);
     }
 
@@ -791,7 +790,7 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public DTOLista ObtenerListaporTitulo(String nombrelista) throws NoExisteLista {
+    public DtoLista ObtenerListaporTitulo(String nombrelista) throws NoExisteLista {
         Lista lis = cPersist.consultaListaPorTitulo(nombrelista);
 
         // Verifica si la lista existe antes de intentar convertirla
@@ -802,8 +801,8 @@ public class ControllerMusica implements IControllerMusica {
             // Obtén el nickname del dueño, si existe
             String duenioNickname = (lis.getDuenio() != null) ? lis.getDuenio().getNickname() : "Desconocido";
 
-            // Crea el DTOLista con los datos obtenidos de la lista
-            DTOLista pom = new DTOLista(nombre, rutaImagen, duenioNickname);
+            // Crea el DtoLista con los datos obtenidos de la lista
+            DtoLista pom = new DtoLista(nombre, rutaImagen, duenioNickname);
             return pom;
         } else {
             // Manejo en caso de que no se encuentre la lista
@@ -813,81 +812,81 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public DTOLista consultaListaPorTitulo(String listaSeleccionada) {
+    public DtoLista consultaListaPorTitulo(String listaSeleccionada) {
         Lista l = cPersist.consultaListaPorTitulo(listaSeleccionada);
-        List<DTOTema> tDTO = new ArrayList<>();
+        List<DtoTema> tDTO = new ArrayList<>();
         for (Tema tem : l.getTemas()) {
-            DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+            DtoTema nuevoTDTO = new DtoTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
             tDTO.add(nuevoTDTO);
         }
-        DTOLista lDTO;
+        DtoLista lDTO;
         if (l.getEsPrivada()) {
-            lDTO = new DTOLista(l.getNombre(), l.getDuenio().getNickname(), tDTO);
+            lDTO = new DtoLista(l.getNombre(), l.getDuenio().getNickname(), tDTO);
         } else {
-            lDTO = new DTOLista(l.getNombre(), l.getRutaImagen(), l.getGenero(), tDTO);
+            lDTO = new DtoLista(l.getNombre(), l.getRutaImagen(), l.getGenero(), tDTO);
         }
         return lDTO;
     }
 
     @Override
-    public DTOLista consultaListaPorTituloyGenero(String listaSeleccionada, String genero) {
+    public DtoLista consultaListaPorTituloyGenero(String listaSeleccionada, String genero) {
         Lista l = cPersist.consultaListaPorTituloyGenero(listaSeleccionada, genero);
-        List<DTOTema> tDTO = new ArrayList<>();
+        List<DtoTema> tDTO = new ArrayList<>();
         for (Tema tem : l.getTemas()) {
-            DTOTema nuevoTDTO = new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
+            DtoTema nuevoTDTO = new DtoTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), tem.getPosicion());
             tDTO.add(nuevoTDTO);
         }
-        DTOLista lDTO;
-        lDTO = new DTOLista(l.getNombre(), l.getRutaImagen(), l.getGenero(), tDTO);
+        DtoLista lDTO;
+        lDTO = new DtoLista(l.getNombre(), l.getRutaImagen(), l.getGenero(), tDTO);
         return lDTO;
     }
 
     @Override
-    public List<DTOTema> obtenerTemitasfavCliente(String nickname) {
+    public List<DtoTema> obtenerTemitasfavCliente(String nickname) {
         List<Tema> temas = cPersist.obtenerTemasFavoritosDeCliente(nickname);
-        List<DTOTema> dtoTemas = new ArrayList<>();
+        List<DtoTema> dtoTemas = new ArrayList<>();
         for (Tema t : temas) {
             // String nombre, String duracion, String enlace, int posicion
-            DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
+            DtoTema dtoTema = new DtoTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
             dtoTemas.add(dtoTema);
         }
         return dtoTemas;
     }
 
     @Override
-    public List<DTOLista> obtenerListitas() {
+    public List<DtoLista> obtenerListitas() {
         List<Lista> listas = cPersist.findListas();
-        List<DTOLista> dtoListas = new ArrayList<>();
+        List<DtoLista> dtoListas = new ArrayList<>();
 
         for (Lista l : listas) {
             // String nombre, String rutaImagen, String generoOCreador)
-            DTOLista dtoLista = new DTOLista(l.getNombre(), l.getRutaImagen(), l.getGenero().getNombre());
+            DtoLista dtoLista = new DtoLista(l.getNombre(), l.getRutaImagen(), l.getGenero().getNombre());
             dtoListas.add(dtoLista);
         }
         return dtoListas;
     }
 
     @Override
-    public List<DTOLista> obtenerListitasfavCliente(String nickname) {
+    public List<DtoLista> obtenerListitasfavCliente(String nickname) {
         List<Lista> listas = cPersist.obtenerListasFavoritasDeCliente(nickname);
-        List<DTOLista> dtoListas = new ArrayList<>();
+        List<DtoLista> dtoListas = new ArrayList<>();
 
         for (Lista l : listas) {
             // Crear el DTO con los datos de la lista favorita
-            DTOLista dtoLista = new DTOLista(l.getNombre(), l.getRutaImagen());
+            DtoLista dtoLista = new DtoLista(l.getNombre(), l.getRutaImagen());
             dtoListas.add(dtoLista);
         }
         return dtoListas;
     }
 
     @Override
-    public List<DTOAlbum> obtenerAlbumsfavCliente(String nickname) {
+    public List<DtoAlbum> obtenerAlbumsfavCliente(String nickname) {
         List<Album> albums = cPersist.obtenerAlbumsFavoritosDeCliente(nickname);
-        List<DTOAlbum> dtoAlbums = new ArrayList<>();
+        List<DtoAlbum> dtoAlbums = new ArrayList<>();
 
         for (Album a : albums) {
             // Crear el DTO con los datos del álbum favorito
-            DTOAlbum dtoAlbum = new DTOAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(),
+            DtoAlbum dtoAlbum = new DtoAlbum(a.getTitulo(), a.getAnio(), a.getRutaImagen(),
                     a.getArtista().getNickname(), null, null);
             dtoAlbums.add(dtoAlbum);
         }
@@ -895,9 +894,9 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public DTOTema consultaTemaPorTitulo(String temaSeleccionada) {
+    public DtoTema consultaTemaPorTitulo(String temaSeleccionada) {
         Tema t = cPersist.findTemaPorTitulo(temaSeleccionada);
-        DTOTema tDTO = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
+        DtoTema tDTO = new DtoTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
         return tDTO;
     }
 
@@ -1034,12 +1033,12 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOAlbum> obtenerTodosLosAlbums() {
+    public List<DtoAlbum> obtenerTodosLosAlbums() {
         List<Album> albums = cPersist.obtenerTodosLosAlbumsCompletos();
-        List<DTOAlbum> dtoAlbums = new ArrayList<>();
+        List<DtoAlbum> dtoAlbums = new ArrayList<>();
 
         for (Album alb : albums) {
-            DTOAlbum dtoAlbum = new DTOAlbum();
+            DtoAlbum dtoAlbum = new DtoAlbum();
             dtoAlbum.setTitulo(alb.getTitulo());
             dtoAlbum.setAnio(alb.getAnio());
             dtoAlbum.setRutaImagen(alb.getRutaImagen());
@@ -1051,9 +1050,9 @@ public class ControllerMusica implements IControllerMusica {
             }
             dtoAlbum.setGeneros(generosString);
 
-            Set<DTOTema> temasDto = new HashSet<>();
+            Set<DtoTema> temasDto = new HashSet<>();
             for (Tema tema : alb.getTemas()) {
-                DTOTema dtoTema = new DTOTema();
+                DtoTema dtoTema = new DtoTema();
                 dtoTema.setNombre(tema.getNombre());
                 dtoTema.setDuracion(tema.getDuracion());
                 dtoTema.setEnlace(tema.getEnlace());
@@ -1068,7 +1067,7 @@ public class ControllerMusica implements IControllerMusica {
         return dtoAlbums;
     }
 
-    public List<DTOLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado) {
+    public List<DtoLista> obtenerListaPorGeneroDTOLISTA(String generoSeleccionado) {
         return cPersist.obtenerListaPorGeneroDATALISTA(generoSeleccionado);
     }
 
@@ -1078,12 +1077,12 @@ public class ControllerMusica implements IControllerMusica {
     }
 
     @Override
-    public List<DTOTema> temasDelAlbum(String titulo) {
+    public List<DtoTema> temasDelAlbum(String titulo) {
         List<Tema> temas = cPersist.temasDelAlbum(titulo);
-        List<DTOTema> listDTOTemas = new ArrayList<>();
+        List<DtoTema> listDTOTemas = new ArrayList<>();
 
         for (Tema t : temas) {
-            DTOTema dtoTema = new DTOTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
+            DtoTema dtoTema = new DtoTema(t.getNombre(), t.getDuracion(), t.getEnlace(), t.getPosicion());
             listDTOTemas.add(dtoTema);
         }
         return listDTOTemas;
@@ -1110,7 +1109,7 @@ public class ControllerMusica implements IControllerMusica {
     }
     
     @Override
-    public List<DTOLista> obtenerListaPorCliPRIVADAS(String Cliente) {
+    public List<DtoLista> obtenerListaPorCliPRIVADAS(String Cliente) {
         return cPersist.obtenerListaPorClientePRIVADAS(Cliente);
 
     }
@@ -1164,7 +1163,7 @@ public class ControllerMusica implements IControllerMusica {
         }
     }
 
-    public boolean sumaDescarga(DTOTema t) {
+    public boolean sumaDescarga(DtoTema t) {
         List<Tema> temos = cPersist.findTemitas();
         for (Tema tem : temos) {
             if (tem.getNombre().equalsIgnoreCase(t.getNombre()) && tem.getAlbum().getTitulo().equalsIgnoreCase(t.getAlbum())) {
@@ -1174,7 +1173,7 @@ public class ControllerMusica implements IControllerMusica {
         return false;
     }    
        
-       public boolean sumaReproduccion(DTOTema t){ 
+       public boolean sumaReproduccion(DtoTema t){ 
            List<Tema> temos = cPersist.findTemitas();        
            for(Tema tem : temos){
                if(tem.getNombre().equalsIgnoreCase(t.getNombre())&&tem.getAlbum().getTitulo().equalsIgnoreCase(t.getAlbum())){
@@ -1185,12 +1184,12 @@ public class ControllerMusica implements IControllerMusica {
           return false;
        }
        
-       public List<DTOTema> promedioTemas() {
+       public List<DtoTema> promedioTemas() {
     // Obtener la lista de temas
     List<Tema> temas = cPersist.findTemitas();
 
     // Crear una lista para los DTOs
-    List<DTOTema> dtoTemas = new ArrayList<>();
+    List<DtoTema> dtoTemas = new ArrayList<>();
 
     // Calcular el puntaje para cada tema y crear los DTOs
     for (Tema tema : temas) {
@@ -1204,7 +1203,7 @@ public class ControllerMusica implements IControllerMusica {
         double puntaje = descargas * 0.2 + reproducciones * 0.3 + listasCon * 0.2 + favoritosCon * 0.3;
 
         // Crear un DTO con la información del tema y el puntaje
-        DTOTema dtoTema = new DTOTema(tema.getId(), tema.getNombre(), tema.getDuracion(),tema.getEnlace(),tema.getPosicion() ,puntaje);
+        DtoTema dtoTema = new DtoTema(tema.getId(), tema.getNombre(), tema.getDuracion(),tema.getEnlace(),tema.getPosicion() ,puntaje);
 
         // Agregar el DTO a la lista
         dtoTemas.add(dtoTema);
@@ -1217,4 +1216,24 @@ public class ControllerMusica implements IControllerMusica {
     return dtoTemas;
 }
        
+    
+    public List<DtoAlbum> buscarAlbums(String query){
+        ManejadorLista manLi = new ManejadorLista();
+        return manLi.buscarAlbums(query);
+    }
+
+    public List<DtoLista> buscarListas(String query){
+            ManejadorLista manLi = new ManejadorLista();
+        return manLi.buscarListas(query);
+    }
+
+    public List<DtoTema> buscarTemas(String query){
+            ManejadorLista manLi = new ManejadorLista();
+        return manLi.buscarTemas(query);
+    }
+    
+    public String obtengoAlbumDelTema(String tema){
+        ManejadorLista manLi = new ManejadorLista();
+        return manLi.obtengoAlbumDelTema(tema);
+    }
 }

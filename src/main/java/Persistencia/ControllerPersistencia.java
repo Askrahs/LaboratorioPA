@@ -114,7 +114,7 @@ public class ControllerPersistencia {
         return listJpa.findLista(listId);
     }
     
-    public List<DTOLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) {
+    public List<DtoLista> obtenerListaPorGeneroDATALISTA(String generoSeleccionado) {
         return listJpa.obtenerListaPorGeneroDATALISTA(generoSeleccionado);
     }
     
@@ -128,7 +128,7 @@ public class ControllerPersistencia {
         return listJpa.findListaPorCliente(clienteSeleccionado);
     }
      
-    public List<DTOLista> obtenerListaPorClienteDATA(String clienteSeleccionado) {
+    public List<DtoLista> obtenerListaPorClienteDATA(String clienteSeleccionado) {
         return listJpa.findListaPorClienteDATA(clienteSeleccionado);
     }
     public Lista obtenerListaPorCliente2(String clienteSeleccionado) {
@@ -179,7 +179,7 @@ public class ControllerPersistencia {
         return artJpa.findAllArtistaData();
     }
 
-    public DTOAlbum BuscoAlbumartista(String nombreAlbum,String nombreArtista){
+    public DtoAlbum BuscoAlbumartista(String nombreAlbum,String nombreArtista){
         return albJpa.buscoalbumporArtista(nombreAlbum,nombreArtista);
     }
 
@@ -211,7 +211,7 @@ public class ControllerPersistencia {
         artJpa.darDeBajaArtista(a);
     }
     
-    public List<DTOLista> obtenerListaPorClientePRIVADAS(String clienteSeleccionado) {
+    public List<DtoLista> obtenerListaPorClientePRIVADAS(String clienteSeleccionado) {
         return listJpa.findListaPorClientePRIVADAS(clienteSeleccionado);
     }
 
@@ -220,8 +220,10 @@ public class ControllerPersistencia {
     }
 
     public void darDeBajaAlbumsyTemasCliente(Set<Integer> albumIds) {
-         albJpa.darDeBajaAlbumsCliente(albumIds);
-         temJpa.darDeBajaTemasCliente(albumIds);
+        if(albumIds != null){
+            albJpa.darDeBajaAlbumsCliente(albumIds);
+            temJpa.darDeBajaTemasCliente(albumIds);
+        }
     }
 
     public void darDeBajaTemasDeLista(Set<Integer> albumIds) {

@@ -2,8 +2,8 @@ package Presentacion;
 
 import Logica.IControllerMusica;
 import Logica.IControllerUsuario;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOTema;
+import LogicaDTO.DtoAlbum;
+import LogicaDTO.DtoTema;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -359,16 +359,16 @@ public class ConsultaAlbum extends javax.swing.JFrame {
         limpiarFormulario();
         String albumSeleccionado = jListAlbums.getSelectedValue();
         if (albumSeleccionado != null) {
-            DTOAlbum albDTO = controlMus.consultaAlbumPorTitulo(albumSeleccionado);
+            DtoAlbum albDTO = controlMus.consultaAlbumPorTitulo(albumSeleccionado);
             if (albDTO != null) {
                 jTextFieldNombreA.setText(albDTO.getTitulo());
                 jTextFieldGenerosA.setText(String.join(", ", albDTO.getGeneros()));
                 jTextFieldAnioA.setText(String.valueOf(albDTO.getAnio()));
                 cargarImagen(albDTO.getRutaImagen());              
-                List<DTOTema> listaTemas = new ArrayList<>(albDTO.getTemas());
-                List<DTOTema> listaOrdenada = listaTemas.stream().sorted(Comparator.comparingInt(DTOTema::getPosicion)).collect(Collectors.toList());
+                List<DtoTema> listaTemas = new ArrayList<>(albDTO.getTemas());
+                List<DtoTema> listaOrdenada = listaTemas.stream().sorted(Comparator.comparingInt(DtoTema::getPosicion)).collect(Collectors.toList());
                 DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
-                for (DTOTema tema : listaOrdenada) {
+                for (DtoTema tema : listaOrdenada) {
                     Object[] fila = {tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion()};
                     modeloTabla.addRow(fila);
                 }

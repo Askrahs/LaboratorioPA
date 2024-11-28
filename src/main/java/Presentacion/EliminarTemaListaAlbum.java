@@ -331,7 +331,7 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTemaActionPerformed
-        List<DTOTema> temitas = ctrlM.obtenerTemitasfavCliente(nicknameCLI);
+        List<DtoTema> temitas = ctrlM.obtenerTemitasfavCliente(nicknameCLI);
         DefaultListModel<String> listModel;
         if (jListTemas.getModel() instanceof DefaultListModel) {
             listModel = (DefaultListModel<String>) jListTemas.getModel();
@@ -340,13 +340,13 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
             jListTemas.setModel(listModel);
         }
         listModel.clear();
-        for (DTOTema t : temitas) {
+        for (DtoTema t : temitas) {
             listModel.addElement(t.getNombre());
         }
     }//GEN-LAST:event_jTemaActionPerformed
 
     private void jListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jListaActionPerformed
-        List<DTOLista> listas = ctrlM.obtenerListitasfavCliente(nicknameCLI);
+        List<DtoLista> listas = ctrlM.obtenerListitasfavCliente(nicknameCLI);
         DefaultListModel<String> listModel;
         if (jListListas.getModel() instanceof DefaultListModel) {
             listModel = (DefaultListModel<String>) jListListas.getModel();
@@ -355,13 +355,13 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
             jListListas.setModel(listModel);
         }
         listModel.clear();
-        for (DTOLista l : listas) {
+        for (DtoLista l : listas) {
             listModel.addElement(l.getNombre());
         }
     }//GEN-LAST:event_jListaActionPerformed
 
     private void jAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlbumActionPerformed
-        List<DTOAlbum> albums = ctrlM.obtenerAlbumsfavCliente(nicknameCLI);
+        List<DtoAlbum> albums = ctrlM.obtenerAlbumsfavCliente(nicknameCLI);
         DefaultListModel<String> listModel;
         if (jListAlbums.getModel() instanceof DefaultListModel) {
             listModel = (DefaultListModel<String>) jListAlbums.getModel();
@@ -370,7 +370,7 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
             jListAlbums.setModel(listModel);
         }
         listModel.clear();
-        for (DTOAlbum a : albums) {
+        for (DtoAlbum a : albums) {
             listModel.addElement(a.getTitulo()); // Aquí agregas el título de cada álbum
         }
     }//GEN-LAST:event_jAlbumActionPerformed
@@ -378,7 +378,7 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
     private void jListTemasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListTemasValueChanged
         String temaseleccionado = jListTemas.getSelectedValue();
         if(temaseleccionado != null){
-            DTOTema tema = ctrlM.consultaTemaPorTitulo(temaseleccionado);
+            DtoTema tema = ctrlM.consultaTemaPorTitulo(temaseleccionado);
             if(tema != null){
                 txtNomfav.setText(tema.getNombre());
                 elementoSeleccionado = "tema";
@@ -391,8 +391,8 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
     private void jListAlbumsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListAlbumsValueChanged
         String albumSeleccionado = jListAlbums.getSelectedValue();
     if (albumSeleccionado != null) {
-        // Obtener el DTOAlbum por el título
-        DTOAlbum albDTO = ctrlM.consultaAlbumPorTitulo(albumSeleccionado);
+        // Obtener el DtoAlbum por el título
+        DtoAlbum albDTO = ctrlM.consultaAlbumPorTitulo(albumSeleccionado);
         if (albDTO != null) {
             txtNomfav.setText(albDTO.getTitulo());
             elementoSeleccionado = "album";
@@ -405,7 +405,7 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
     private void jListListasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListListasValueChanged
         String listaselecccionada = jListListas.getSelectedValue();
         if(listaselecccionada != null){
-            DTOLista lista = ctrlM.consultaListaPorTitulo(listaselecccionada);
+            DtoLista lista = ctrlM.consultaListaPorTitulo(listaselecccionada);
             if(lista != null){
                 txtNomfav.setText(lista.getNombre());
                 elementoSeleccionado = "lista";
@@ -442,7 +442,7 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
     try {
         switch (elementoSeleccionado) {
             case "tema":
-                DTOTema tema = ctrlM.consultaTemaPorTitulo(nombreElemento);
+                DtoTema tema = ctrlM.consultaTemaPorTitulo(nombreElemento);
                 if (tema != null) {
                     ctrlU.eliminarTemaDeFavoritos(nicknameCLI, tema);
                     JOptionPane.showMessageDialog(this, "Tema eliminado de los favoritos.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -452,7 +452,7 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
                 break;
 
             case "lista":
-                DTOLista lista = ctrlM.consultaListaPorTitulo(nombreElemento);
+                DtoLista lista = ctrlM.consultaListaPorTitulo(nombreElemento);
                 if (lista != null) {
                     ctrlU.eliminarListaDeFavoritos(nicknameCLI, lista);
                     JOptionPane.showMessageDialog(this, "Lista eliminada de los favoritos.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -462,11 +462,11 @@ public class EliminarTemaListaAlbum extends javax.swing.JFrame {
                 break;
 
             case "album":
-                // Obtener DTOAlbum por título
-                DTOAlbum album = ctrlM.consultaAlbumPorTitulo(nombreElemento);
+                // Obtener DtoAlbum por título
+                DtoAlbum album = ctrlM.consultaAlbumPorTitulo(nombreElemento);
                 if (album != null) {
                     // Verificar si el álbum realmente está en los favoritos del cliente
-                    List<DTOAlbum> albumsFavoritos = ctrlM.obtenerAlbumsfavCliente(nicknameCLI);
+                    List<DtoAlbum> albumsFavoritos = ctrlM.obtenerAlbumsfavCliente(nicknameCLI);
                     boolean albumEncontrado = albumsFavoritos.stream().anyMatch(a -> a.getTitulo().equals(album.getTitulo()) && a.getArtista().equals(album.getArtista()));
 
                     if (albumEncontrado) {
