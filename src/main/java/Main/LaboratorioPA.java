@@ -12,7 +12,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class LaboratorioPA {
-    public static final String CARPETA_IMAGEN = "";
+    
+    //linux imagenes
+    //public static final String CARPETA_IMAGEN = "/home/tecnologo/Escritorio/Espotifybd/imagenes/";
+    
+    //windows jesus imagenes
+    public static final String CARPETA_IMAGEN = "C:/Users/gasto/OneDrive/Escritorio/recursos/";
+     
+    //linux audios
+    //public static final String CARPETA_IMAGEN = "/home/tecnologo/Escritorio/Espotifybd/audios/";
+    
+    //windows audios
+    public static final String CARPETA_AUDIOS = "C:/Users/gasto/OneDrive/Escritorio/recursos/"; 
+    
     private JFrame principal;
     private IControllerUsuario ctrlU;
     private IControllerMusica ctrlM;

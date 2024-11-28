@@ -4,6 +4,7 @@ package Presentacion;
 import Excepciones.GeneroNoExiste;
 import Excepciones.ListaYaExisteException;
 import Logica.IControllerMusica;
+import static Main.LaboratorioPA.CARPETA_IMAGEN;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -236,7 +237,7 @@ public class AltaListaReproduccion extends javax.swing.JFrame {
                 Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
                 jLabelImagen.setIcon(new ImageIcon(image));       
                 //TODO AJUSTAR RUTAS
-                String carpetaDestino = "src/recursos/imagenes/";
+                String carpetaDestino = CARPETA_IMAGEN;
                 rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText()  + ".jpg";
                 //String carpetaDestino = "C:/Users/Santiago/Desktop/yoquese/LaboratorioWeb/build/web/FOTOLISTA/";
                 //rutadestino = carpetaDestino + "FotoLista_" + "_" + jTextFieldNombreLista.getText() + ".jpg";

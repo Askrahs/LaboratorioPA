@@ -3,8 +3,9 @@ package Presentacion;
 import Main.LaboratorioPA;
 import Excepciones.*;
 import Logica.IControllerMusica;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOTema;
+import LogicaDTO.DtoAlbum;
+import LogicaDTO.DtoTema;
+import static Main.LaboratorioPA.CARPETA_IMAGEN;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -30,11 +31,11 @@ public class AltaAlbum extends javax.swing.JFrame {
     private File selectedFile = null;
     private String rutaDestino = null;
     private int ubicacion = 1;
-    private Set<DTOTema> temasDTO = new HashSet<>();
+    private Set<DtoTema> temasDTO = new HashSet<>();
     private DefaultTreeModel modelo;
     private DefaultListModel<String> listModel;
     private DefaultListModel<String> modeloLT;
-    private DTOAlbum albumDTO;
+    private DtoAlbum albumDTO;
     
     public AltaAlbum(IControllerMusica icm, JFrame principal) {
         controlMus = icm;
@@ -339,7 +340,7 @@ public class AltaAlbum extends javax.swing.JFrame {
         
         if (checkFormulario()) {
             if(!controlMus.existeAlbum(nicknameArtista,titulo)){               
-                albumDTO = new DTOAlbum(titulo,anio, rutaDestino, nicknameArtista, generos, null);     
+                albumDTO = new DtoAlbum(titulo,anio, rutaDestino, nicknameArtista, generos, null);     
             habilitarFormTemas();
             }else{
                 JOptionPane.showMessageDialog(this, "El artista ya tiene un album con ese titulo.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -367,7 +368,7 @@ public class AltaAlbum extends javax.swing.JFrame {
                 Image image = icon.getImage().getScaledInstance(jLabelImagen.getWidth(), jLabelImagen.getHeight(), Image.SCALE_SMOOTH);
                 jLabelImagen.setIcon(new ImageIcon(image));       
                 //Carpeta
-                String carpetaDestino = "src/recursos/imagenes/";
+                String carpetaDestino = CARPETA_IMAGEN;
                 rutaDestino = carpetaDestino + "FotoAlb_" + jTextFieldNombreArtista.getText() + "_" + jTextFieldNombreAlbum.getText()  + ".jpg";
                 File destino = new File(rutaDestino);
                 File directorio = new File(carpetaDestino);
@@ -402,9 +403,9 @@ public class AltaAlbum extends javax.swing.JFrame {
         String duracion = this.jTextFieldDuracionT.getText();
         String enlace = this.jTextFieldLinkT.getText();
         if(checkFormularioTema()){
-            DTOTema nuevoTema = new DTOTema(nombre,duracion,enlace,ubicacion);
+            DtoTema nuevoTema = new DtoTema(nombre,duracion,enlace,ubicacion);
             boolean existe = false;
-            for(DTOTema tema : temasDTO){
+            for(DtoTema tema : temasDTO){
                 if(tema.getNombre().equalsIgnoreCase(nombre)){
                     existe = true;
                     break;

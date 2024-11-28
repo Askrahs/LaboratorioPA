@@ -3,7 +3,7 @@ package Presentacion;
 import Excepciones.GenroYaExiste;
 import javax.swing.JOptionPane;
 import Logica.IControllerMusica;
-import LogicaDTO.DTOGenero;
+import LogicaDTO.DtoGenero;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -45,8 +45,8 @@ public class AltaGenero extends javax.swing.JFrame {
 
             Arbol.setModel(modelo);
         
-        List <DTOGenero> datogen = controlMus.Datageneros();
-        DTOGenero dtogen;
+        List <DtoGenero> datogen = controlMus.Datageneros();
+        DtoGenero dtogen;
 
         for(int i = 0; i<datogen.size();i++){
             dtogen = datogen.get(i);

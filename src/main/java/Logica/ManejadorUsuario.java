@@ -1,8 +1,8 @@
 package Logica;
 
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
+import LogicaDTO.DtoAlbum;
+import LogicaDTO.DtoLista;
+import LogicaDTO.DtoTema;
 import Logica.Suscripcion.EstadoSuscripcion;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +18,21 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import Logica.RegistroAcceso;
+import static Logica.Suscripcion.TipoSuscripcion.ANUAL;
+import static Logica.Suscripcion.TipoSuscripcion.MENSUAL;
+import static Logica.Suscripcion.TipoSuscripcion.SEMANAL;
+import LogicaDTO.DtoSuscripcion;
+import static Main.LaboratorioPA.CARPETA_IMAGEN;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.InputStream;
 
 public class ManejadorUsuario {
 
@@ -94,7 +109,7 @@ public class ManejadorUsuario {
     }
 
     public void AltaArtista(String nickname, String nombre, String apellido, String email, String imagen, String fechaNac, Collection<Usuario> siguiendo, Collection<Usuario> seguidores, String biografia, String website, String contraseña) {
-        Artista a = new Artista(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores, biografia, website, contraseña,true);
+        Artista a = new Artista(nickname, nombre, apellido, email, imagen, fechaNac, siguiendo, seguidores, biografia, website, contraseña, true);
         try {
             t.begin();
             em.persist(a);
@@ -178,20 +193,17 @@ public class ManejadorUsuario {
             //si sale mal rollback
             t.rollback();
         }
-
     }
 
     public void addListafavoritos(Cliente c, Lista lista) {
-        c.agregarListaFavorita(lista);
-        try {
-            t.begin();
-            em.merge(c);
-            t.commit();
-        } catch (Exception e) {
-            //si sale mal rollback
-            t.rollback();
-        }
+        Cliente cum = this.obtenerCliente(c.getNickname());
 
+        if(cum!=null){
+        cum.agregarListaFavorita(lista);
+            t.begin();
+            em.merge(cum);
+            t.commit();
+        }
     }
 
     public void addAlbumfavoritos(Cliente c, Album album) {
@@ -237,7 +249,7 @@ public class ManejadorUsuario {
         }
     }
 
-    public List<DTOLista> obtenerListasCliDATA(String nickname) {
+    public List<DtoLista> obtenerListasCliDATA(String nickname) {
         // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
         String jpql = "SELECT li FROM Cliente c JOIN c.listasFavoritas li WHERE c.nickname = :nickname";
         List<Lista> ListasFavoritos = em.createQuery(jpql, Lista.class)
@@ -245,7 +257,7 @@ public class ManejadorUsuario {
                 .getResultList();
 
         // Inicializa la lista para almacenar los DTOs
-        List<DTOLista> listasDto = new ArrayList<>();
+        List<DtoLista> listasDto = new ArrayList<>();
 
         // Itera sobre los álbumes obtenidos
         for (Lista lis : ListasFavoritos) {
@@ -260,14 +272,14 @@ public class ManejadorUsuario {
             } else {
                 artistaNickname = "Desconocido";
             }
-            // Crea un nuevo DTOAlbum y lo agrega a la lista
-            listasDto.add(new DTOLista(titulo, rutaImagen, artistaNickname));
+            // Crea un nuevo DtoAlbum y lo agrega a la lista
+            listasDto.add(new DtoLista(titulo, rutaImagen, artistaNickname));
         }
 
         return listasDto;
     }
 
-    public List<DTOAlbum> obtenerAlbumsCliDATA(String clienteNickname) {
+    public List<DtoAlbum> obtenerAlbumsCliDATA(String clienteNickname) {
         // JPQL para obtener los álbumes favoritos del cliente y los nicknames de sus artistas
         String jpql = "SELECT af FROM Cliente c JOIN c.albumsFavoritos af JOIN af.artista a WHERE c.nickname = :nickname";
         List<Album> albumsFavoritos = em.createQuery(jpql, Album.class)
@@ -275,7 +287,7 @@ public class ManejadorUsuario {
                 .getResultList();
 
         // Inicializa la lista para almacenar los DTOs
-        List<DTOAlbum> albumsDto = new ArrayList<>();
+        List<DtoAlbum> albumsDto = new ArrayList<>();
 
         // Itera sobre los álbumes obtenidos
         for (Album album : albumsFavoritos) {
@@ -285,14 +297,14 @@ public class ManejadorUsuario {
             String rutaImagen = album.getRutaImagen();
             String artistaNickname = album.getArtista() != null ? album.getArtista().getNickname() : "Desconocido";
 
-            // Crea un nuevo DTOAlbum y lo agrega a la lista
-            albumsDto.add(new DTOAlbum(titulo, anio, rutaImagen, artistaNickname));
+            // Crea un nuevo DtoAlbum y lo agrega a la lista
+            albumsDto.add(new DtoAlbum(titulo, anio, rutaImagen, artistaNickname));
         }
 
         return albumsDto;
     }
 
-    public List<DTOTema> obtenerTemasCliDATA(String nickname) {
+    public List<DtoTema> obtenerTemasCliDATA(String nickname) {
         // JPQL para obtener los temas favoritos del cliente
         String jpql = "SELECT t FROM Cliente c JOIN c.temasFavoritos t WHERE c.nickname = :nickname";
 
@@ -302,16 +314,16 @@ public class ManejadorUsuario {
                 .getResultList();
 
         // Inicializa la lista para almacenar los DTOs
-        List<DTOTema> nombreTemasdto = new ArrayList<>(); // Asegúrate de inicializarla
+        List<DtoTema> nombreTemasdto = new ArrayList<>(); // Asegúrate de inicializarla
         String nombreAlbum;
         String nombreartista;
         // Itera sobre los temas obtenidos
         for (Tema tem : nombreTemas) {
-            // Crea un nuevo DTOTema y lo agrega a la lista
+            // Crea un nuevo DtoTema y lo agrega a la lista
             nombreAlbum = tem.getAlbum().getTitulo();
             nombreartista = tem.getAlbum().getArtista().getNickname();
 
-            nombreTemasdto.add(new DTOTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), nombreAlbum, nombreartista));
+            nombreTemasdto.add(new DtoTema(tem.getNombre(), tem.getDuracion(), tem.getEnlace(), nombreAlbum, nombreartista));
         }
 
         return nombreTemasdto; // Devuelve la lista de DTOs
@@ -416,7 +428,7 @@ public class ManejadorUsuario {
 
     public void ModificarSuscripcion(String nickname, String fecha, String estadoStr, String tipoStr) {
         EntityTransaction tx = null;
-
+        Cliente c = obtenerCliente(nickname);
         try {
             // Iniciar la transacción
             tx = em.getTransaction();
@@ -448,6 +460,29 @@ public class ManejadorUsuario {
 
             System.out.println("Filas actualizadas: " + filasActualizadas);
 
+            //enviar mail de actualizacion.
+            // Crear el cuerpo del correo
+            String cuerpoCorreo = "\n"
+                    + "\n "
+                    + "\n Estimado/a " + nickname + ","
+                    + "\n Su suscripcion en Espotify ha sido actualizada y se encuentra en estado " + tipoStr + "."
+                    + "\n "
+                    + "\n Detalles de la Suscripcion:"
+                    + "\n "
+                    + "\n Tipo: " + tipoStr + ""
+                    + "\n Precio: U$S " + String.format("%.2f", obtenerPrecio(tipo)) + ""
+                    + "\n Fecha de Actualizacion: " + fechaFormato + ""
+                    + "\n "
+                    + "\n Gracias por preferirnos."
+                    + "\n Saludos,Espotify"
+                    + "\n "
+                    + "\n ";
+
+            String asunto = "[Espotify] Actualizacion de su Suscripcion";
+
+            // Enviar el correo
+            EmailUtil.enviarCorreo(c.getEmail(), asunto, cuerpoCorreo);
+
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
                 tx.rollback(); // Hacer rollback si ocurre un error
@@ -472,12 +507,31 @@ public class ManejadorUsuario {
             t.begin();
             em.persist(s);
             t.commit();
+            // Crear el cuerpo del correo
+            String cuerpoCorreo = "\n"
+                    + "\n"
+                    + "\n Estimado/a " + c.getNombre() + ","
+                    + "\n Su suscripcion en Espotify ha sido creada y se encuentra en estado Pendiente."
+                    + "\n"
+                    + "\n Detalles de la Suscripcion:"
+                    + "\n"
+                    + "\n Tipo: " + tipoSuscripcion + ""
+                    + "\n Precio: U$S " + String.format("%.2f", obtenerPrecio(tipoSuscripcion)) + ""
+                    + "\n Fecha de creacion: " + fechaFormateada + ""
+                    + "\n "
+                    + "\n Gracias por preferirnos."
+                    + "\n Saludos,Espotify"
+                    + "\n "
+                    + "\n ";
+
+            String asunto = "[Espotify] Nueva Suscripcion";
+            EmailUtil.enviarCorreo(c.getEmail(), asunto, cuerpoCorreo);
         } catch (Exception e) {
             //si sale mal rollback
             t.rollback();
         }
     }
-  
+
     public List<RegistroAcceso> obtenerTodosLosRegistros() {
         List<RegistroAcceso> registros;
         String jpql = "SELECT r FROM RegistroAcceso r ORDER BY r.fechaAcceso DESC"; // Ordenar por fecha de acceso, del más reciente al más antiguo
@@ -485,7 +539,7 @@ public class ManejadorUsuario {
         return registros;
     }
 
-    void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario){
+    public void crearRegistro(String ipUsuario, String urlAcceso, String browserUsuario, String soUsuario) {
         EntityManager em = emf.createEntityManager();
 
         try {
@@ -496,7 +550,7 @@ public class ManejadorUsuario {
             registro.setUrlAcceso(urlAcceso);
             registro.setBrowserUsuario(browserUsuario);
             registro.setSoUsuario(soUsuario);
-            
+
             // Obtener la fecha actual en formato dd/MM/yyyy
             LocalDate fechaActual = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -515,4 +569,163 @@ public class ManejadorUsuario {
             em.close();
         }
     }
+
+    private double obtenerPrecio(Suscripcion.TipoSuscripcion tipo) {
+        double precio = 0;
+        switch (tipo) {
+            case SEMANAL:
+                precio = 3.99;
+                break;
+            case MENSUAL:
+                precio = 14.99;
+                break;
+
+            case ANUAL:
+                precio = 159.99;
+                break;
+            default:
+        }
+        return precio;
+    }
+
+    public String obtenerEstadoSus(String nickname) {
+
+        Suscripcion s = obtenerSuscripcion(nickname);
+        if (s != null) {
+            return s.getEstado().toString();
+        }
+        return null;
+    }
+
+    public Boolean ClienteTieneSuscripcion(String nickname) {
+        Suscripcion s = obtenerSuscripcion(nickname);
+        return s != null;
+    }
+
+    public DtoSuscripcion obtenerDTOSuscripcion(String nickname) {
+        Suscripcion s = obtenerSuscripcion(nickname);
+        if (s != null) {
+            DtoSuscripcion DTOS = new DtoSuscripcion(s.getEstado().toString(), s.getTipo().toString(), s.getClienteNickname(), s.getFecha());
+            return DTOS;
+        } else {
+            return null;
+        }
+    }
+
+    public void guardarImagenDesdeWeb(byte[] imagenBytes, String nick) {
+        String rutaDestino = null;
+
+        if (imagenBytes == null || imagenBytes.length == 0) {
+            System.out.println("No imagen.");
+            return;
+        }
+
+        try {
+            // Definir la ruta destino
+            rutaDestino = CARPETA_IMAGEN + "FotoUsr_" + nick + ".jpg";
+
+            // Crear directorio si no existe
+            File directorio = new File(CARPETA_IMAGEN);
+            if (!directorio.exists()) {
+                directorio.mkdirs();
+            }
+
+            // Crear archivo destino
+            File archivoDestino = new File(rutaDestino);
+
+            // Guardar el archivo desde el arreglo de bytes
+            try (FileOutputStream outputStream = new FileOutputStream(archivoDestino)) {
+                outputStream.write(imagenBytes);
+            }
+        } catch (IOException ex) {
+            rutaDestino = null; // En caso de error, devolver null
+            System.err.println("Error al guardar la imagen: " + ex.getMessage());
+        }
+    }
+
+    public void guardarImagenDesdeWebLista(byte[] imagenBytes, String nick, String Lista) {
+        String rutaDestino = null;
+
+        if (imagenBytes == null || imagenBytes.length == 0) {
+            System.out.println("No imagen.");
+            return;
+        }
+
+        try {
+            // Definir la ruta destino
+            rutaDestino = CARPETA_IMAGEN + "FotoLista_" + nick + "_" + Lista + ".jpg";
+
+            // Crear directorio si no existe
+            File directorio = new File(CARPETA_IMAGEN);
+            if (!directorio.exists()) {
+                directorio.mkdirs();
+            }
+
+            // Crear archivo destino
+            File archivoDestino = new File(rutaDestino);
+
+            // Guardar el archivo desde el arreglo de bytes
+            try (FileOutputStream outputStream = new FileOutputStream(archivoDestino)) {
+                outputStream.write(imagenBytes);
+            }
+        } catch (IOException ex) {
+            rutaDestino = null; // En caso de error, devolver null
+            System.err.println("Error al guardar la imagen: " + ex.getMessage());
+        }
+    }
+
+    //CARGAR IMAGEN EN EL WEB.
+    public byte[] cargarImagenCliWeb(String ruta) {
+        File archivoImagen = new File(ruta); // Crear un archivo con la ruta especificada
+
+        if (!archivoImagen.exists()) {
+            System.out.println("La imagen no existe en la ruta especificada: " + ruta);
+            return null;
+        }
+
+        try (FileInputStream inputStream = new FileInputStream(archivoImagen); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            byte[] buffer = new byte[1024];
+            int bytesLeidos;
+
+            // Leer el archivo y escribir los datos en el ByteArrayOutputStream
+            while ((bytesLeidos = inputStream.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesLeidos);
+            }
+
+            // Retornar el contenido como un array de bytes
+            return baos.toByteArray();
+        } catch (IOException ex) {
+            System.err.println("Error al cargar la imagen: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+    public byte[] obtenerMp3(String ruta){
+        System.out.println("Ruta recibida en obtenerMp3: " + ruta);
+        File archivoImagen = new File(ruta); // Crear un archivo con la ruta especificada
+
+        if (!archivoImagen.exists()) {
+            System.out.println("El audio no existe en la ruta especificada:" + ruta);
+            return null;
+        }
+
+        try (FileInputStream inputStream = new FileInputStream(archivoImagen); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            byte[] buffer = new byte[1024];
+            int bytesLeidos;
+
+            // Leer el archivo y escribir los datos en el ByteArrayOutputStream
+            while ((bytesLeidos = inputStream.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesLeidos);
+            }
+
+            // Retornar el contenido como un array de bytes
+            return baos.toByteArray();
+        } catch (IOException ex) {
+            System.err.println("Error al cargar la imagen: " + ex.getMessage());
+            return null;
+        }
+    }
+
 }

@@ -3,10 +3,10 @@ package Presentacion;
 
 import Excepciones.NoExisteLista;
 import Logica.IControllerMusica;
-import LogicaDTO.DTOAlbum;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
-import LogicaDTO.DTOUsuario;
+import LogicaDTO.DtoAlbum;
+import LogicaDTO.DtoLista;
+import LogicaDTO.DtoTema;
+import LogicaDTO.DtoUsuario;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +60,7 @@ private JFrame principal;
     }
     
     public void CargarListasconduenios() throws NoExisteLista{
-         List <DTOLista> listass = ctrlM.Obtengolistasconduenio();
+         List <DtoLista> listass = ctrlM.Obtengolistasconduenio();
          ListaListas.clearSelection();
         if (!(ListaListas.getModel() instanceof DefaultListModel)) {
                         ListaListas.setModel(new DefaultListModel<>());
@@ -68,7 +68,7 @@ private JFrame principal;
                     DefaultListModel<String> temaLista = (DefaultListModel<String>) ListaListas.getModel();
                     temaLista.clear();
                     ListaListas.clearSelection();
-                    for(DTOLista lis : listass){
+                    for(DtoLista lis : listass){
                         String loquemuestro = lis.getNombre();
                         temaLista.addElement(loquemuestro);
                     }
@@ -77,7 +77,7 @@ private JFrame principal;
     
     
     public void CargarListas() throws NoExisteLista{
-        List <DTOLista> listass = ctrlM.Obtengolistassinduenio();
+        List <DtoLista> listass = ctrlM.Obtengolistassinduenio();
         ListaListas.clearSelection();
         if (!(ListaListas.getModel() instanceof DefaultListModel)) {
                         ListaListas.setModel(new DefaultListModel<>());
@@ -85,7 +85,7 @@ private JFrame principal;
                     DefaultListModel<String> temaLista = (DefaultListModel<String>) ListaListas.getModel();
                     temaLista.clear();
                     ListaListas.clearSelection();
-                    for(DTOLista lis : listass){
+                    for(DtoLista lis : listass){
                         String loquemuestro = lis.getNombre();
                         temaLista.addElement(loquemuestro);
                     }
@@ -95,7 +95,7 @@ private JFrame principal;
     public void CargarAlbumes(){
         
         
-            List<DTOAlbum> albDTO = ctrlM.ObtengoAlbums();
+            List<DtoAlbum> albDTO = ctrlM.ObtengoAlbums();
             
                 if (!(AlbumList.getModel() instanceof DefaultListModel)) {
                        AlbumList.setModel(new DefaultListModel<>());
@@ -105,7 +105,7 @@ private JFrame principal;
                 DefaultListModel<String> temaListModel = (DefaultListModel<String>) AlbumList.getModel();
                 temaListModel.clear();
                 AlbumList.clearSelection();
-                for (DTOAlbum albun : albDTO) {
+                for (DtoAlbum albun : albDTO) {
                     String st = albun.getTitulo();
                     temaListModel.addElement(st);
                 }
@@ -458,9 +458,9 @@ private JFrame principal;
                     
                     return;
                 }
-                List <DTOTema> temas = ctrlM.TemasdeListas(nombrelista);
+                List <DtoTema> temas = ctrlM.TemasdeListas(nombrelista);
                 
-                for(DTOTema tema : temas){
+                for(DtoTema tema : temas){
                     modeloLista.addElement(tema.getNombre());
                     
                 }
@@ -479,14 +479,14 @@ private JFrame principal;
                     
                     DefaultListModel<String> modeloLista = new DefaultListModel<>();
                     DefaultListModel<String> modeloLista2 = new DefaultListModel<>();
-                    List <DTOLista> laslistas;
+                    List <DtoLista> laslistas;
                     
                     
                     laslistas = ctrlM.Obtengolistasconduenio();
                     
                     
-                    DTOLista lis;
-                    DTOUsuario duenio;
+                    DtoLista lis;
+                    DtoUsuario duenio;
                     
                     String nombrelisto = ListaListas.getSelectedValue();
                     
@@ -497,8 +497,8 @@ private JFrame principal;
                     
                     
                     txtNombreLista.setText(nombrelisto);
-                    List <DTOTema> temas = ctrlM.TemasdeListas(nombrelisto);
-                    for(DTOTema tema : temas){
+                    List <DtoTema> temas = ctrlM.TemasdeListas(nombrelisto);
+                    for(DtoTema tema : temas){
                         
                         modeloLista.addElement(tema.getNombre());
                     }
@@ -530,14 +530,14 @@ private JFrame principal;
                     
                     DefaultListModel<String> modeloLista = new DefaultListModel<>();
                     DefaultListModel<String> modeloLista2 = new DefaultListModel<>();
-                    List <DTOLista> laslistas;
+                    List <DtoLista> laslistas;
                     
                     
                     laslistas = ctrlM.Obtengolistasconduenio();
                     
                     
-                    DTOLista lis;
-                    DTOUsuario duenio;
+                    DtoLista lis;
+                    DtoUsuario duenio;
                     
                     String nombrelisto = ListaListas.getSelectedValue();
                     
@@ -548,8 +548,8 @@ private JFrame principal;
                     if(primeraseleccion==true){
                         
                         txtNombreLista.setText(nombrelisto);
-                        List <DTOTema> temas = ctrlM.TemasdeListas(nombrelisto);
-                        for(DTOTema tema : temas){
+                        List <DtoTema> temas = ctrlM.TemasdeListas(nombrelisto);
+                        for(DtoTema tema : temas){
                             
                             modeloLista.addElement(tema.getNombre());
                         }
@@ -562,8 +562,8 @@ private JFrame principal;
                     }else{
                         //JOptionPane.showMessageDialog(null,"Entre al dos pa");
                         txtListaDelTema.setText(nombrelisto);
-                        List <DTOTema> temas = ctrlM.TemasdeListas(nombrelisto);
-                        for(DTOTema tema : temas){
+                        List <DtoTema> temas = ctrlM.TemasdeListas(nombrelisto);
+                        for(DtoTema tema : temas){
                             modeloLista2.addElement(tema.getNombre());
                         }
                         ListTemasAlbum.clearSelection();
@@ -615,8 +615,8 @@ private JFrame principal;
                  JOptionPane.showMessageDialog(null,"Elija un album");
                 return;                
                 }
-                List <DTOTema> temas = ctrlM.ObtengoTemasdeAlbum(nombreAlbum);
-                for(DTOTema tema : temas){
+                List <DtoTema> temas = ctrlM.ObtengoTemasdeAlbum(nombreAlbum);
+                for(DtoTema tema : temas){
                     modeloLista.addElement(tema.getNombre());
                 }
                 ListTemasAlbum.setModel(modeloLista);

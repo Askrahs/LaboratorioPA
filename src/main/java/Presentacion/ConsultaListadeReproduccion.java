@@ -2,8 +2,8 @@ package Presentacion;
 //lolo
 import Logica.IControllerMusica;
 import Logica.IControllerUsuario;
-import LogicaDTO.DTOLista;
-import LogicaDTO.DTOTema;
+import LogicaDTO.DtoLista;
+import LogicaDTO.DtoTema;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -299,7 +299,7 @@ public class ConsultaListadeReproduccion extends javax.swing.JFrame {
 
     private void jListListasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListListasValueChanged
     String listaSeleccionado = jListListas.getSelectedValue();
-    DTOLista listDTO;;
+    DtoLista listDTO;;
 
     if (listaSeleccionado != null) {
         // Obtener la lista seleccionada desde el controlador
@@ -328,7 +328,7 @@ public class ConsultaListadeReproduccion extends javax.swing.JFrame {
 
         // Añadir cada tema a la lista
         if (listDTO.getTemas() != null && !listDTO.getTemas().isEmpty()) {
-            for (DTOTema tema : listDTO.getTemas()) {
+            for (DtoTema tema : listDTO.getTemas()) {
                 String st = String.format("%s | %s | %s | %s", tema.getNombre(), tema.getDuracion(), tema.getEnlace(), tema.getPosicion());
                 temaListModel.addElement(st);
             }

@@ -1,7 +1,7 @@
 package Persistencia;
 
 import Logica.Album;
-import LogicaDTO.DTOAlbum;
+import LogicaDTO.DtoAlbum;
 import Logica.Tema;
 import java.util.HashSet;
 import java.util.List;
@@ -206,7 +206,7 @@ public class AlbumJpaController {
             }
     }   
     
-   public DTOAlbum buscoalbumporArtista(String nombrealbum, String nombreartista) {
+   public DtoAlbum buscoalbumporArtista(String nombrealbum, String nombreartista) {
     try {
         EntityManager em = getEntityManager();
         Album album = em.createQuery(
@@ -216,8 +216,8 @@ public class AlbumJpaController {
             .setParameter("nombreartista", nombreartista)
             .getSingleResult();
         String Artista = album.getArtista().getNickname();
-        // Transformar el álbum encontrado en un DTOAlbum y devolverlo
-        DTOAlbum dtoAlbum = new DTOAlbum(album.getTitulo(),album.getAnio(),album.getRutaImagen(),Artista);
+        // Transformar el álbum encontrado en un DtoAlbum y devolverlo
+        DtoAlbum dtoAlbum = new DtoAlbum(album.getTitulo(),album.getAnio(),album.getRutaImagen(),Artista);
         
 
         return dtoAlbum;
